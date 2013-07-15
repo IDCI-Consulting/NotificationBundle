@@ -39,7 +39,15 @@ public function registerBundles()
 }
 ```
 
-TODO: Declarer la route
+TODO: to test the bundle, you should declare a route as follow : 
+
+```php
+// app/config/routing.yml
+
+notification:
+    resource: "../../vendor/idci/notification-bundle/IDCI/Bundle/NotificationBundle/Controller/"
+    type:     annotation
+```
 
 Now the Bundle is installed.
 
