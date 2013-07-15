@@ -1,0 +1,4 @@
+services:
+    notification_manager:
+        class: IDCI\Bundle\NotificationBundle\Service\Manager
+        arguments: [@validator]

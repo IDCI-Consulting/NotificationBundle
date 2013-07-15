@@ -9,7 +9,6 @@
 
 namespace IDCI\Bundle\NotificationBundle\Entity;
 
-use IDCI\Bundle\NotificationBundle\Model\NotificationInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="IDCI\Bundle\NotificationBundle\Repository\NotificationRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class NotificationEntity implements NotificationInterface
+class Notification
 {
     /**
      * @var integer
