@@ -12,14 +12,14 @@ namespace IDCI\Bundle\NotificationBundle\Model;
 
 
 class TwitterNotification implements NotificationInterface
-{    
+{
     protected $to;
     protected $message;
 
     public function convertToNotification()
     {
     }
-    
+
     /**
      * SetTo
      *
@@ -43,7 +43,7 @@ class TwitterNotification implements NotificationInterface
         return $this->to;
     }
 
-     /**
+    /**
      * Set message
      *
      * @param string $message
@@ -55,6 +55,7 @@ class TwitterNotification implements NotificationInterface
 
         return $this;
     }
+
     /**
      * Get message
      *

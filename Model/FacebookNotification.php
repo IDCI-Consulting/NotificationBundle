@@ -14,7 +14,7 @@ class FacebookNotification implements NotificationInterface
 {
     protected $to;
     protected $message;
-    
+
     public function convertToNotification()
     {
     }
@@ -54,6 +54,7 @@ class FacebookNotification implements NotificationInterface
 
         return $this;
     }
+
     /**
      * Get message
      *

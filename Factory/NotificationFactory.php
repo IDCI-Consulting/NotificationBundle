@@ -41,7 +41,7 @@ class NotificationFactory
             $setter = sprintf('set%s', self::camelize($field));
             if (!$rc->hasMethod($setter)) {
                 throw new UnavailableNotificationParameter(sprintf(
-                    'Unknown field %s for %s object', 
+                    'Unknown field %s for %s object',
                     $field,
                     $class
                 ));

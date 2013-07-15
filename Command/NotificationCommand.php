@@ -26,7 +26,7 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {                
-            $notifications = new NotificationEntity();                       
+            $notifications = new NotificationEntity();
             var_dump($notifications->getId());
     }
 }

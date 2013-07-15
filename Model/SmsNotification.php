@@ -54,6 +54,7 @@ class SmsNotification implements NotificationInterface
 
         return $this;
     }
+
     /**
      * Get message
      *

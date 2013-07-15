@@ -59,6 +59,6 @@ class Manager
         $this->checkNotificationData($type, $data);
 
         return NotificationFactory::create($type, $data);
-    }        
+    }
 }
 

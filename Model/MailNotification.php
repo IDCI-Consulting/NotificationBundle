@@ -24,7 +24,6 @@ class MailNotification implements NotificationInterface
     public function convertToNotification()
     {
     }
-    
 
     /**
      * Set firstName
@@ -61,6 +60,7 @@ class MailNotification implements NotificationInterface
 
         return $this;
     }
+
     /**
      * Get lastName
      *
@@ -70,8 +70,6 @@ class MailNotification implements NotificationInterface
     {
         return $this->lastName;
     }
-
-
 
     /**
      * Set address
@@ -108,6 +106,7 @@ class MailNotification implements NotificationInterface
 
         return $this;
     }
+
     /**
      * Get postalCode
      *
@@ -118,7 +117,6 @@ class MailNotification implements NotificationInterface
         return $this->postalCode;
     }
 
-    
     /**
      * Set city
      *
@@ -154,6 +152,7 @@ class MailNotification implements NotificationInterface
 
         return $this;
     }
+
     /**
      * Get country
      *
@@ -176,6 +175,7 @@ class MailNotification implements NotificationInterface
 
         return $this;
     }
+
     /**
      * Get message
      *

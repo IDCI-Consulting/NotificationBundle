@@ -10,6 +10,8 @@
 
 namespace IDCI\Bundle\NotificationBundle\Model;
 
+use IDCI\Bundle\NotificationBundle\Entity\Notification;
+
 class EmailNotification implements NotificationInterface
 {
     protected $to;
@@ -17,9 +19,26 @@ class EmailNotification implements NotificationInterface
     protected $bcc;
     protected $message;
     protected $attachement;
-    
+
     public function convertToNotification()
     {
+        $rc = new \ReflectionClass($this);
+        $notification = new Notification();
+        $notification
+            ->setType($rc->getShortName())
+            ->setFrom('tessi')
+            ->setTo(json_encode(array(
+                'to' => $this->getTo(),
+                'cc' => $this->getCc(),
+                'bcc' => $this->getBcc()
+            )))
+            ->setContent(json_encode(array(
+                'message' => $this->getMessage(),
+                'attachement' => $this->getAttachement()
+            )))
+        ;
+
+        return $notification;
     }
 
     /**
@@ -113,7 +132,7 @@ class EmailNotification implements NotificationInterface
     {
         return $this->message;
     }
-    
+
     /**
      * Set attachement
      *
@@ -136,6 +155,4 @@ class EmailNotification implements NotificationInterface
     {
         return $this->attachement;
     }
-
-
 }

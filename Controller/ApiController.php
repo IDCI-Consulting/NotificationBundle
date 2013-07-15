@@ -46,6 +46,6 @@ class ApiController extends Controller
             $response->setStatusCode(500);
         }
         
-        return $response;       
+        return $response;
     }
 }

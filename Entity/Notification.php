@@ -28,19 +28,19 @@ class Notification
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=128, nullable=false)
-     */    
+     */
     protected $type;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="from", type="string", length=128, nullable=false)
-     */    
+     */
     protected $from;
 
     /**
@@ -52,16 +52,16 @@ class Notification
 
     /**
      * @var \DateTime
-     *     
+     *
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
-     */    
+     */
     protected $createdAt;
-    
+
     /**
      * @var \DateTime
-     *     
+     *
      * @ORM\Column(name="updated_at", type="datetime", nullable=false)
-     */    
+     */
     protected $updatedAt;
 
     /**
@@ -77,11 +77,11 @@ class Notification
      * @ORM\Column(name="content", type="json_array", nullable=true)
      */
     protected $content;
-    
+
     /**
      * @var string
      *
-     @ORM\Column(name="source", type="string", length=255, nullable=true)
+     * @ORM\Column(name="source", type="string", length=255, nullable=true)
      */
     protected $source;
 
@@ -92,6 +92,7 @@ class Notification
     {
         $this->setCreatedAt(new \DateTime('now'));
         $this->setUpdatedAt(new \DateTime('now'));
+        $this->setStatus('NEW');
     }
 
     /**
@@ -114,7 +115,7 @@ class Notification
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -130,14 +131,14 @@ class Notification
     public function setType($type)
     {
         $this->type = $type;
-    
+
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -153,14 +154,14 @@ class Notification
     public function setFrom($from)
     {
         $this->from = $from;
-    
+
         return $this;
     }
 
     /**
      * Get from
      *
-     * @return string 
+     * @return string
      */
     public function getFrom()
     {
@@ -176,14 +177,14 @@ class Notification
     public function setTo($to)
     {
         $this->to = $to;
-    
+
         return $this;
     }
 
     /**
      * Get to
      *
-     * @return array 
+     * @return array
      */
     public function getTo()
     {
@@ -199,7 +200,7 @@ class Notification
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
@@ -222,14 +223,14 @@ class Notification
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -245,7 +246,7 @@ class Notification
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
 
@@ -268,14 +269,14 @@ class Notification
     public function setContent($content)
     {
         $this->content = $content;
-    
+
         return $this;
     }
 
     /**
      * Get content
      *
-     * @return array 
+     * @return array
      */
     public function getContent()
     {
@@ -291,14 +292,14 @@ class Notification
     public function setSource($source)
     {
         $this->source = $source;
-    
+
         return $this;
     }
 
     /**
      * Get source
      *
-     * @return string 
+     * @return string
      */
     public function getSource()
     {
