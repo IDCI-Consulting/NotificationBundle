@@ -9,11 +9,13 @@
 
 namespace IDCI\Bundle\NotificationBundle\Model;
 
-use IDCI\Bundle\NotificationBundle\Entity\NotificationEntity;
 
-
-class FacebookNotification extends NotificationEntity
+class FacebookNotification implements NotificationInterface
 {
     protected $to;
     protected $message;
+    
+    public function convertToNotification()
+    {
+    }
 }

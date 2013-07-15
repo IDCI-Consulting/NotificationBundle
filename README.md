@@ -39,5 +39,7 @@ public function registerBundles()
 }
 ```
 
+TODO: Declarer la route
+
 Now the Bundle is installed.
 
