@@ -39,7 +39,7 @@ public function registerBundles()
 }
 ```
 
-TODO: to test the bundle, you should declare a route as follow : 
+To test the bundle, you should declare a route as follow : 
 
 ```php
 // app/config/routing.yml
