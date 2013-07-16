@@ -10,14 +10,32 @@
 
 namespace IDCI\Bundle\NotificationBundle\Model;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-class TwitterNotification implements NotificationInterface
+class TwitterNotification extends AbstractNotification
 {
+    /**
+     * @Assert\NotBlank()
+     */
     protected $to;
+
+    /**
+     * @Assert\NotBlank()
+     */
     protected $message;
 
+    /**
+     * @see AbstractNotification
+     */
     public function convertToNotification()
     {
+        $notification = parent::convertToNotification()
+            ->setTo($this->getTo())
+            ->setContent($this->getMessage())
+        ;
+
+        return $notification;
     }
 
     /**

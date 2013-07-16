@@ -11,31 +11,51 @@
 namespace IDCI\Bundle\NotificationBundle\Model;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-class EmailNotification implements NotificationInterface
+class EmailNotification extends AbstractNotification
 {
-    protected $to;
-    protected $cc;
-    protected $bcc;
-    protected $message;
-    protected $attachement;
 
+    /**
+     * @Assert\Email()
+     * @Assert\NotBlank()
+     */
+    protected $to;
+
+    /**
+     */
+    protected $cc;
+
+    /**
+     */
+    protected $bcc;
+
+    /**
+     * @Assert\NotBlank()
+     */
+    protected $message;
+
+    /**
+     *
+     */
+    protected $attachements;
+
+    /**
+     * @see AbstractNotification
+     */
     public function convertToNotification()
     {
-        $rc = new \ReflectionClass($this);
-        $notification = new Notification();
-        $notification
-            ->setType($rc->getShortName())
-            ->setFrom('tessi')
-            ->setTo(json_encode(array(
+        $notification = parent::convertToNotification()
+            ->setTo(array(
                 'to' => $this->getTo(),
                 'cc' => $this->getCc(),
                 'bcc' => $this->getBcc()
-            )))
-            ->setContent(json_encode(array(
+            ))
+            ->setContent(array(
                 'message' => $this->getMessage(),
-                'attachement' => $this->getAttachement()
-            )))
+                'attachements' => $this->getAttachements()
+            ))
         ;
 
         return $notification;
@@ -134,25 +154,25 @@ class EmailNotification implements NotificationInterface
     }
 
     /**
-     * Set attachement
+     * Set attachements
      *
-     * @param string $attachement
+     * @param string $attachements
      * @return EmailNotification
      */
-    public function setAttachement($attachement)
+    public function setAttachements($attachements)
     {
-        $this->attachement = $attachement;
+        $this->attachements = $attachements;
 
         return $this;
     }
 
     /**
-     * Get attachement
+     * Get attachements
      *
      * @return string 
      */
-    public function getAttachement()
+    public function getAttachements()
     {
-        return $this->attachement;
+        return $this->attachements;
     }
 }

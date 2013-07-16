@@ -10,21 +10,70 @@
 
 namespace IDCI\Bundle\NotificationBundle\Model;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-class MailNotification implements NotificationInterface
-{    
+
+class MailNotification extends AbstractNotification
+{
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Regex("/^\w+/")
+     */
     protected $firstName;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Regex("/^\w+/")
+     */
     protected $lastName;
+
+    /**
+     * @Assert\NotBlank()
+     */
     protected $address;
+
+    /**
+     * @Assert\NotBlank()
+     */
     protected $postalCode;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Regex("/^\w+/")
+     */
     protected $city;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Country
+     */
     protected $country;
+
+    /**
+     * @Assert\NotBlank()
+     */
     protected $message;
 
+    /**
+     * @see AbstractNotification
+     */
     public function convertToNotification()
     {
-    }
+        $notification = parent::convertToNotification()
+            ->setTo(array(
+                'firstName'  => $this->getFirstName(),
+                'lastNate'   => $this->getLastName(),
+                'address'    => $this->getAddress(),
+                'postalCode' => $this->getPostalCode(),
+                'city'       => $this->getCity(),
+                'country'    => $this->getCountry()
+            ))
+            ->setContent($this->getMessage())
+        ;
 
+        return $notification;
+    }
     /**
      * Set firstName
      *

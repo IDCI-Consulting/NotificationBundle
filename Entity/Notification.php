@@ -39,14 +39,14 @@ class Notification
     /**
      * @var string
      *
-     * @ORM\Column(name="from", type="string", length=128, nullable=false)
+     * @ORM\Column(name="_from", type="string", length=128, nullable=false)
      */
     protected $from;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="to", type="json_array", length=128, nullable=false)
+     * @ORM\Column(name="_to", type="json_array", length=128, nullable=false)
      */
     protected $to;
 

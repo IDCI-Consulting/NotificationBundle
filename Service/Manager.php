@@ -35,9 +35,11 @@ class Manager
     }
 
     /**
-     * isValidNotificationData
+     * createFromArray
+     *
+     * @return NotificationInterface
      */
-    public function checkNotificationData($type, $data)
+    public function createFromArray($type, $data)
     {
         $notification = NotificationFactory::create($type, $data);
         $errorList = $this->getValidator()->validate($notification);
@@ -46,19 +48,7 @@ class Manager
             throw new UnavailableNotificationData(print_r($errorList, true));
         }
 
-        return true;
-    }
-
-    /**
-     * createFromArray
-     *
-     * @return NotificationInterface
-     */
-    public function createFromArray($type, $data)
-    {
-        $this->checkNotificationData($type, $data);
-
-        return NotificationFactory::create($type, $data);
+        return $notification;
     }
 }
 

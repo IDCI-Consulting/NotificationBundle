@@ -10,15 +10,34 @@
 
 namespace IDCI\Bundle\NotificationBundle\Model;
 
-class SmsNotification implements NotificationInterface
-{    
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+class SmsNotification extends AbstractNotification
+{
+    /**
+     * @Assert\NotBlank()
+     */
     protected $to;
+
+    /**
+     * @Assert\NotBlank()
+     */
     protected $message;
 
+    /**
+     * @see AbstractNotification
+     */
     public function convertToNotification()
     {
+        $notification = parent::convertToNotification()
+            ->setTo($this->getTo())
+            ->setContent($this->getMessage())
+        ;
+
+        return $notification;
     }
-    
+
     /**
      * SetTo
      *

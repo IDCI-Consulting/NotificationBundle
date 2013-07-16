@@ -13,8 +13,8 @@ use IDCI\Bundle\NotificationBundle\Entity\Notification;
 class ApiController extends Controller
 {
     /**
-     * Allow to notify
-     * @Route("/notify", requirements={"_method" = "POST"}, name="notification_api_notify")
+     * Add a Notification
+     * @Route("/notifications/add", requirements={"_method" = "POST"}, name="notification_api_add")
      */
     public function notifyAction(Request $request)
     {
@@ -45,7 +45,7 @@ class ApiController extends Controller
             $response->setContent($e->getMessage());
             $response->setStatusCode(500);
         }
-        
+
         return $response;
     }
 }
