@@ -62,24 +62,9 @@ The following routes are available:
 Create a notification:
 ----------------------
 
-  Author Name         First Book to Read       Genre
-  ----------------    ----------------------   ---------
-  Larry Niven         The Mode in God's Eye    SF
-  James Lovegrove     Worldstorm               Fantasy
-  China Mieville      Perdido Stree Station    Fantasy
-
-
-| **Route**      | /notifications/add                                                                                                                                                  |
-|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Method**     | POST                                                                                                                                                                |
-|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Parameters** | typeA=[{dataA1, dataA2, ..., dataAN}]&                                                                                                                              |
-:                : typeB=[{dataB1, dataB2, ..., dataBN}]                                                                                                                               |
-:                :                                                                                                                                                                     |
-:                : ex:                                                                                                                                                                 |
-:                :   email=[{"to": "toto@titi.fr", "cc": ["titi@toto.fr", "tutu@titi.fr"], "bcc": "", "message": "the message to be send", "attachements": []}]&                       |
-:                :   sms=[{"to": ["0612345678", "0610111213"], "message": "this is a sms"}, {"to": "0698765432", "message": "this is an other sms"}]&                                  |
-:                :   mail=[{"first_name": "fName", "last_name": "lName", "address": "adress", "postal_code": "75001", "city": "Paris", "country": "FR", "message": "Mail message"}]    |
+| Route              | Method | Parameters
+|====================|========|===========
+| /notifications/add | POST   | typeA=[{dataA1, dataA2, ..., dataAN}]&typeB=[{dataB1, dataB2, ..., dataBN}]  ex:  email=[{"to": "toto@titi.fr", "cc": ["titi@toto.fr", "tutu@titi.fr"], "bcc": "", "message": "the message to be send", "attachements": []}]&sms=[{"to": ["0612345678", "0610111213"], "message": "this is a sms"}, {"to": "0698765432", "message": "this is an other sms"}]&mail=[{"first_name": "fName", "last_name": "lName", "address": "adress", "postal_code": "75001", "city": "Paris", "country": "FR", "message": "Mail message"}]
 
 
 How to extends this bundle
