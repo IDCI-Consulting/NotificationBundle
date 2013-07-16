@@ -62,6 +62,13 @@ The following routes are available:
 Create a notification:
 ----------------------
 
+  Author Name         First Book to Read       Genre
+  ----------------    ----------------------   ---------
+  Larry Niven         The Mode in God's Eye    SF
+  James Lovegrove     Worldstorm               Fantasy
+  China Mieville      Perdido Stree Station    Fantasy
+
+
 | **Route**      | /notifications/add                                                                                                                                                  |
 |----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Method**     | POST                                                                                                                                                                |
