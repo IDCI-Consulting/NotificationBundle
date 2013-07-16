@@ -33,7 +33,7 @@ Enable the bundle in your application kernel:
 public function registerBundles()
 {
     $bundles = array(
-        // ...
+        //
         new IDCI\Bundle\NotificationBundle\IDCINotificationBundle(),
     );
 }
@@ -50,4 +50,52 @@ notification:
 ```
 
 Now the Bundle is installed.
+
+
+How to use the REST API
+=======================
+
+This bundle provides a REST API which can be called by an other application.
+
+The following routes are available:
+
+Create a notification:
+----------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|            |
+| Route      | /notifications/add
+|            |
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|            |
+| Method     | POST
+|            |
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Parameters | typeA=[{dataA1, dataA2, ..., dataAN}]&
+|            | typeB=[{dataB1, dataB2, ..., dataBN}]
+|            |
+|            | ex: 
+|            |
+|            |  email=[{"to": "toto@titi.fr", "cc": ["titi@toto.fr", "tutu@titi.fr"], "bcc": "", "message": "the message to be send", "attachements": []}]&
+|            |  sms=[{"to": ["0612345678", "0610111213"], "message": "this is a sms"}, {"to": "0698765432", "message": "this is an other sms"}]&
+|            |  mail=[{"first_name": "fName", "last_name": "lName", "address": "adress", "postal_code": "75001", "city": "Paris", "country": "FR", "message": "Mail message"}]
+|            |
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+How to extends this bundle
+==========================
+
+if you wish to create your own notification you have to create a notification object
+which must extend AbstractNotification as for example :
+
+```php
+// Facebook notification example
+
+class FacebookNotification extends AbstractNotification
+{
+    //......
+}
+```
+
 
