@@ -52,10 +52,14 @@ class SmsNotification extends AbstractNotification
      */
     public function fromNotification(Notification $notificationEntity)
     {
+        $this
+            ->setTo($notificationEntity->getTo())
+            ->setMessage($notificationEntity->getContent())
+        ;
     }
 
     /**
-     * SetTo
+     * Set To
      *
      * @param string $to
      * @return SmsNotification
@@ -70,7 +74,7 @@ class SmsNotification extends AbstractNotification
     /**
      * Get to
      *
-     * @return string 
+     * @return string
      */
     public function getTo()
     {
@@ -93,7 +97,7 @@ class SmsNotification extends AbstractNotification
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
     public function getMessage()
     {

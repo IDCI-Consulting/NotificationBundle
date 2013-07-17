@@ -1,7 +1,8 @@
 <?php
 
 /**
- * 
+ *
+* @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
  *

@@ -22,7 +22,6 @@ class Notification
 {
     /**
      * @var integer
-     *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -31,56 +30,48 @@ class Notification
 
     /**
      * @var string
-     *
      * @ORM\Column(name="type", type="string", length=128, nullable=false)
      */
     protected $type;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="_from", type="string", length=128, nullable=false)
      */
     protected $from;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="_to", type="json_array", length=128, nullable=false)
      */
     protected $to;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
     protected $createdAt;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="updated_at", type="datetime", nullable=false)
      */
     protected $updatedAt;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="status", type="string", length=64, nullable=false)
      */
     protected $status;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="content", type="json_array", nullable=true)
      */
     protected $content;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="source", type="string", length=255, nullable=true)
      */
     protected $source;
@@ -97,7 +88,6 @@ class Notification
 
     /**
      * onUpdate
-     *
      * @ORM\PreUpdate()
      */
     public function onUpdate()
@@ -114,7 +104,6 @@ class Notification
 
     /**
      * Get id
-     *
      * @return integer
      */
     public function getId()
@@ -253,7 +242,7 @@ class Notification
     /**
      * Get status
      *
-     * @return string 
+     * @return string
      */
     public function getStatus()
     {

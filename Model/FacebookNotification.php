@@ -2,6 +2,7 @@
 
 /**
  * 
+ * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @license: GPL
  *
@@ -51,6 +52,13 @@ class FacebookNotification extends AbstractNotification
      */
     public function fromNotification(Notification $notificationEntity)
     {
+        $to      = $notificationEntity->getTo();
+        $content = $notificationEntity->getContent();
+
+        $this
+            ->setTo($to['to'])
+            ->setMessage($content['message'])
+        ;
     }
 
     /**
@@ -69,7 +77,7 @@ class FacebookNotification extends AbstractNotification
     /**
      * Get to
      *
-     * @return string 
+     * @return string
      */
     public function getTo()
     {
@@ -92,7 +100,7 @@ class FacebookNotification extends AbstractNotification
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
     public function getMessage()
     {

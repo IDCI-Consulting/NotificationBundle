@@ -79,7 +79,7 @@ class EmailNotification extends AbstractNotification
      */
     public function fromNotification(Notification $notificationEntity)
     {
-        $to = $notificationEntity->getTo();
+        $to      = $notificationEntity->getTo();
         $content = $notificationEntity->getContent();
 
         $this
@@ -108,7 +108,7 @@ class EmailNotification extends AbstractNotification
     /**
      * Get to
      *
-     * @return string 
+     * @return string
      */
     public function getTo()
     {
@@ -131,7 +131,7 @@ class EmailNotification extends AbstractNotification
     /**
      * Get cc
      *
-     * @return string 
+     * @return string
      */
     public function getCc()
     {
@@ -154,7 +154,7 @@ class EmailNotification extends AbstractNotification
     /**
      * Get bcc
      *
-     * @return string 
+     * @return string
      */
     public function getBcc()
     {
@@ -177,7 +177,7 @@ class EmailNotification extends AbstractNotification
     /**
      * Get subject
      *
-     * @return string 
+     * @return string
      */
     public function getSubject()
     {
@@ -200,7 +200,7 @@ class EmailNotification extends AbstractNotification
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
     public function getMessage()
     {
@@ -223,7 +223,7 @@ class EmailNotification extends AbstractNotification
     /**
      * Get attachements
      *
-     * @return string 
+     * @return string
      */
     public function getAttachements()
     {

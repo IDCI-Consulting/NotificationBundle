@@ -71,11 +71,11 @@ class MailNotification extends AbstractNotification
         $notification = parent::toNotification()
             ->setTo(array(
                 'firstName'  => $this->getFirstName(),
-                'lastNate'   => $this->getLastName(),
+                'lastName'   => $this->getLastName(),
                 'address'    => $this->getAddress(),
                 'postalCode' => $this->getPostalCode(),
                 'city'       => $this->getCity(),
-                'country'    => $this->getCountry()
+                'country'    => $this->getCountry(),
             ))
             ->setContent($this->getMessage())
         ;
@@ -88,12 +88,23 @@ class MailNotification extends AbstractNotification
      */
     public function fromNotification(Notification $notificationEntity)
     {
+        $to      = $notificationEntity->getTo();
+
+        $this
+            ->setFirstName($to['firstName'])
+            ->setLastName($to['lastName'])
+            ->setAddress($to['address'])
+            ->setPostalCode($to['postalCode'])
+            ->setCity($to['city'])
+            ->setCountry($to['country'])
+            ->setMessage($notificationEntity->getContent())
+        ;
     }
 
     /**
      * Set firstName
      *
-     * @param string $to
+     * @param string $firstName
      * @return MailNotification
      */
     public function setFirstName($firstName)
@@ -106,7 +117,7 @@ class MailNotification extends AbstractNotification
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -129,7 +140,7 @@ class MailNotification extends AbstractNotification
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -139,7 +150,7 @@ class MailNotification extends AbstractNotification
     /**
      * Set address
      *
-     * @param string $to
+     * @param string $address
      * @return MailNotification
      */
     public function setAddress($address)
@@ -152,7 +163,7 @@ class MailNotification extends AbstractNotification
     /**
      * Get address
      *
-     * @return string 
+     * @return string
      */
     public function getAddress()
     {
@@ -175,7 +186,7 @@ class MailNotification extends AbstractNotification
     /**
      * Get postalCode
      *
-     * @return string 
+     * @return string
      */
     public function getPostalCode()
     {
@@ -198,7 +209,7 @@ class MailNotification extends AbstractNotification
     /**
      * Get city
      *
-     * @return string 
+     * @return string
      */
     public function getCity()
     {
@@ -221,7 +232,7 @@ class MailNotification extends AbstractNotification
     /**
      * Get country
      *
-     * @return string 
+     * @return string
      */
     public function getCountry()
     {
@@ -244,7 +255,7 @@ class MailNotification extends AbstractNotification
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
     public function getMessage()
     {

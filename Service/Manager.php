@@ -33,7 +33,7 @@ class Manager
     }
 
     /**
-     * getValidator
+     * Get validator
      *
      * @return Symfony\Component\Validator\Validator
      */
@@ -43,7 +43,7 @@ class Manager
     }
 
     /**
-     * getEntityManager
+     * Get Eentity mManager
      *
      * @return Doctrine\ORM\EntityManager
      */
@@ -53,9 +53,7 @@ class Manager
     }
 
     /**
-     * clearNotifiers
-     *
-     * @return array
+     * Clear notifiers
      */
     public function clearNotifiers()
     {
@@ -63,7 +61,7 @@ class Manager
     }
 
     /**
-     * getNotifiers
+     * Get notifiers
      *
      * @return array
      */
@@ -73,9 +71,9 @@ class Manager
     }
 
     /**
-     * addNotifiers
+     * Add notifier
      *
-     * @params NotifierInterface $notifier
+     * @param NotifierInterface $notifier
      */
     public function addNotifier(NotifierInterface $notifier)
     {
@@ -85,9 +83,9 @@ class Manager
     }
 
     /**
-     * getNotifier
-     * 
-     * @params string $notifierServiceName
+     * Get notifier
+     *
+     * @param string $notifierServiceName
      * @return NotifierInterface
      */
     public function getNotifier($notifierServiceName)
@@ -127,16 +125,15 @@ class Manager
     }
 
     /**
-     * processNotifications
-     *
-     * @return
+     * Process notifications
+     * Associate notifications with the right notifiers
      */
     public function processNotifications()
     {
         $notifications = $this
             ->getEntityManager()
             ->getRepository('IDCINotificationBundle:Notification')
-            ->getNotificationByStatus('NEW')
+            ->getNotificationsByStatus('NEW')
         ;
 
         foreach($notifications as $notificationEntity) {
@@ -146,8 +143,26 @@ class Manager
             $notifier = $this->getNotifier($notification->getNotifierServiceName());
             $notifier->addNotification($notification);
         }
+    }
 
-        var_dump(count($this->getNotifiers())); die;
+    /**
+     * Process notifiers
+     * Send notifications associated with notifiers
+     */
+    public function processNotifiers()
+    {
+        foreach($this->getNotifiers() as $notifier) {
+            $notifier->process();
+        }
+    }
+
+    /**
+     * Send
+     */
+    public function send()
+    {
+        $this->processNotifications();
+        $this->processNotifiers();
     }
 }
 

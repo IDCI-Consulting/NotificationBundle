@@ -52,10 +52,17 @@ class TwitterNotification extends AbstractNotification
      */
     public function fromNotification(Notification $notificationEntity)
     {
+        $to      = $notificationEntity->getTo();
+        $content = $notificationEntity->getContent();
+
+        $this
+            ->setTo($to['to'])
+            ->setMessage($content['message'])
+        ;
     }
 
     /**
-     * SetTo
+     * Set To
      *
      * @param string $to
      * @return TwitterNotification
@@ -70,7 +77,7 @@ class TwitterNotification extends AbstractNotification
     /**
      * Get to
      *
-     * @return string 
+     * @return string
      */
     public function getTo()
     {
@@ -93,7 +100,7 @@ class TwitterNotification extends AbstractNotification
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
     public function getMessage()
     {

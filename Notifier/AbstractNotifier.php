@@ -14,7 +14,7 @@ use IDCI\Bundle\NotificationBundle\Model\NotificationInterface;
 
 abstract class AbstractNotifier implements NotifierInterface
 {
-    protected $notifications;
+    protected $notifications = array();
 
     /**
      * @see NotifierInterface

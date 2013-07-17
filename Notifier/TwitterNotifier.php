@@ -19,5 +19,6 @@ class TwitterNotifier extends AbstractNotifier
      */
     public function send(NotificationInterface $notification)
     {
+        var_dump($notification);
     }
 }
