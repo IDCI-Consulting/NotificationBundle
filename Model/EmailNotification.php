@@ -34,6 +34,11 @@ class EmailNotification extends AbstractNotification
     /**
      * @Assert\NotBlank()
      */
+    protected $subject;
+
+    /**
+     * @Assert\NotBlank()
+     */
     protected $message;
 
     /**
@@ -53,6 +58,7 @@ class EmailNotification extends AbstractNotification
                 'bcc' => $this->getBcc()
             ))
             ->setContent(array(
+                'subject' => $this->getSubject(),
                 'message' => $this->getMessage(),
                 'attachements' => $this->getAttachements()
             ))
@@ -128,6 +134,29 @@ class EmailNotification extends AbstractNotification
     public function getBcc()
     {
         return $this->bcc;
+    }
+
+    /**
+     * Set subject
+     *
+     * @param string $subject
+     * @return EmailNotification
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * Get subject
+     *
+     * @return string 
+     */
+    public function getSubject()
+    {
+        return $this->subject;
     }
 
     /**
