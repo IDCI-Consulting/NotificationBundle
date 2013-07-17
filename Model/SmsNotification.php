@@ -10,6 +10,7 @@
 
 namespace IDCI\Bundle\NotificationBundle\Model;
 
+use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -26,16 +27,31 @@ class SmsNotification extends AbstractNotification
     protected $message;
 
     /**
-     * @see AbstractNotification
+     * @see NotificationInterface
      */
-    public function convertToNotification()
+    public function getNotifierServiceName()
     {
-        $notification = parent::convertToNotification()
+        return "sms_notifier";
+    }
+
+    /**
+     * @see NotificationInterface
+     */
+    public function toNotification()
+    {
+        $notification = parent::toNotification()
             ->setTo($this->getTo())
             ->setContent($this->getMessage())
         ;
 
         return $notification;
+    }
+
+    /**
+     * @see NotificationInterface
+     */
+    public function fromNotification(Notification $notificationEntity)
+    {
     }
 
     /**

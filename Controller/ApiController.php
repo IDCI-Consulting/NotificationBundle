@@ -7,8 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IDCI\Bundle\NotificationBundle\Exception\UnavailableNotificationData;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
+use IDCI\Bundle\NotificationBundle\Exception\UnavailableNotificationDataException;
 
 class ApiController extends Controller
 {
@@ -21,8 +21,6 @@ class ApiController extends Controller
         $response = new Response();
         $requestNotifications = $request->request->all();
 
-        var_dump($requestNotifications);
-
         $em = $this->getDoctrine()->getManager();
         try {
             foreach($requestNotifications as $type => $notificationsFeed) {
@@ -30,15 +28,15 @@ class ApiController extends Controller
                 foreach($notificationsData as $notificationData) {
                     $notificationInterface = $this
                         ->get('notification_manager')
-                        ->createFromArray($type, $notificationData)
+                        ->create($type, $notificationData)
                     ;
 
-                    $em->persist($notificationInterface->convertToNotification());
+                    $em->persist($notificationInterface->toNotification());
                 }
             }
             $em->flush();
-            $response->setStatusCode(204);
-        } catch (UnavailableNotificationData $e) {
+            $response->setStatusCode(200);
+        } catch (UnavailableNotificationDataException $e) {
             $response->setContent($e->getMessage());
             $response->setStatusCode(400);
         } catch (\Exception $e) {

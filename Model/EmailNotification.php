@@ -16,7 +16,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 class EmailNotification extends AbstractNotification
 {
-
     /**
      * @Assert\Email()
      * @Assert\NotBlank()
@@ -47,11 +46,19 @@ class EmailNotification extends AbstractNotification
     protected $attachements;
 
     /**
-     * @see AbstractNotification
+     * @see NotificationInterface
      */
-    public function convertToNotification()
+    public function getNotifierServiceName()
     {
-        $notification = parent::convertToNotification()
+        return "email_notifier";
+    }
+
+    /**
+     * @see NotificationInterface
+     */
+    public function toNotification()
+    {
+        $notification = parent::toNotification()
             ->setTo(array(
                 'to' => $this->getTo(),
                 'cc' => $this->getCc(),
@@ -65,6 +72,24 @@ class EmailNotification extends AbstractNotification
         ;
 
         return $notification;
+    }
+
+    /**
+     * @see NotificationInterface
+     */
+    public function fromNotification(Notification $notificationEntity)
+    {
+        $to = $notificationEntity->getTo();
+        $content = $notificationEntity->getContent();
+
+        $this
+            ->setTo($to['to'])
+            ->setCc($to['cc'])
+            ->setBcc($to['bcc'])
+            ->setSubject($content['subject'])
+            ->setMessage($content['message'])
+            ->setAttachements($content['attachements'])
+        ;
     }
 
     /**

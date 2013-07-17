@@ -10,7 +10,7 @@
 
 namespace IDCI\Bundle\NotificationBundle\Exception;
 
-class UnavailableNotificationData extends \Exception
+class UndefinedNotifierException extends \Exception
 {
 }
 

@@ -9,9 +9,9 @@
 
 namespace IDCI\Bundle\NotificationBundle\Model;
 
+use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
 
 class FacebookNotification extends AbstractNotification
 {
@@ -26,9 +26,17 @@ class FacebookNotification extends AbstractNotification
     protected $message;
 
     /**
-     * @see AbstractNotification
+     * @see NotificationInterface
      */
-    public function convertToNotification()
+    public function getNotifierServiceName()
+    {
+        return "facebook_notifier";
+    }
+
+    /**
+     * @see NotificationInterface
+     */
+    public function toNotification()
     {
         $notification = parent::convertToNotification()
             ->setTo($this->getTo())
@@ -36,6 +44,13 @@ class FacebookNotification extends AbstractNotification
         ;
 
         return $notification;
+    }
+
+    /**
+     * @see NotificationInterface
+     */
+    public function fromNotification(Notification $notificationEntity)
+    {
     }
 
     /**

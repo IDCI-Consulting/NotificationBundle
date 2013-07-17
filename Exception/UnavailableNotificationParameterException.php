@@ -10,7 +10,7 @@
 
 namespace IDCI\Bundle\NotificationBundle\Exception;
 
-class UnavailableNotificationParameter extends \Exception
+class UnavailableNotificationParameterException extends \Exception
 {
 }
 

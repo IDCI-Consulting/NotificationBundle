@@ -9,38 +9,61 @@
 
 namespace IDCI\Bundle\NotificationBundle\Factory;
 
+use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Model\NotificationInterface;
-use IDCI\Bundle\NotificationBundle\Exception\UnavailableNotificationParameter;
+use IDCI\Bundle\NotificationBundle\Exception\UnavailableNotificationParameterException;
+use IDCI\Bundle\NotificationBundle\Util\Inflector;
 
-class NotificationFactory
+abstract class NotificationFactory
 {
-	private function __construct()
+    /**
+     * Create
+     *
+     * @param string $type
+     * @return NotificationInterface
+     */
+    static private function create($type)
     {
+        $class = sprintf(
+            '%s\%sNotification',
+            'IDCI\Bundle\NotificationBundle\Model',
+            Inflector::camelize($type)
+        );
 
+        return new $class();
     }
 
     /**
-     * Create
+     * Create from array
+     *
+     * @param string $type
+     * @param Notification $notification
+     * @return NotificationInterface
+     */
+    static public function createFromObject($type, Notification $notificationEntity)
+    {
+        $notification = self::create($type);
+        $notification->fromNotification($notificationEntity);
+
+        return $notification;
+    }
+
+    /**
+     * Create from array
      *
      * @param string $type
      * @param array $parameters
      * @return NotificationInterface
      */
-    static public function create($type, $parameters)
+    static public function createFromArray($type, $parameters)
     {
-        $class = sprintf(
-            '%s\%sNotification',
-            'IDCI\Bundle\NotificationBundle\Model',
-            self::camelize($type)
-        );
-
-        $notification = new $class();
+        $notification = self::create($type);
         $rc = new \ReflectionClass($notification);
 
         foreach($parameters as $field => $value) {
-            $setter = sprintf('set%s', self::camelize($field));
+            $setter = sprintf('set%s', Inflector::camelize($field));
             if (!$rc->hasMethod($setter)) {
-                throw new UnavailableNotificationParameter(sprintf(
+                throw new UnavailableNotificationParameterException(sprintf(
                     'Unknown field %s for %s object',
                     $field,
                     $class
@@ -51,10 +74,5 @@ class NotificationFactory
         }
 
         return $notification;
-    }
-
-    static public function camelize($word)
-    {
-        return str_replace(' ', '', ucwords(preg_replace('/[^A-Z^a-z^0-9]+/', ' ', $word)));
     }
 }

@@ -15,11 +15,9 @@ use IDCI\Bundle\NotificationBundle\Entity\Notification;
 abstract class AbstractNotification implements NotificationInterface
 {
     /**
-     * Convert to Notification
-     *
-     * @return Notification
+     * @see NotificationInterface
      */
-    public function convertToNotification()
+    public function toNotification()
     {
         $rc = new \ReflectionClass($this);
         $notification = new Notification();

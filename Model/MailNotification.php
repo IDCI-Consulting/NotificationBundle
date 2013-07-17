@@ -10,9 +10,9 @@
 
 namespace IDCI\Bundle\NotificationBundle\Model;
 
+use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
 
 class MailNotification extends AbstractNotification
 {
@@ -56,11 +56,19 @@ class MailNotification extends AbstractNotification
     protected $message;
 
     /**
-     * @see AbstractNotification
+     * @see NotificationInterface
      */
-    public function convertToNotification()
+    public function getNotifierServiceName()
     {
-        $notification = parent::convertToNotification()
+        return "mail_notifier";
+    }
+
+    /**
+     * @see NotificationInterface
+     */
+    public function toNotification()
+    {
+        $notification = parent::toNotification()
             ->setTo(array(
                 'firstName'  => $this->getFirstName(),
                 'lastNate'   => $this->getLastName(),
@@ -74,6 +82,14 @@ class MailNotification extends AbstractNotification
 
         return $notification;
     }
+
+    /**
+     * @see NotificationInterface
+     */
+    public function fromNotification(Notification $notificationEntity)
+    {
+    }
+
     /**
      * Set firstName
      *

@@ -10,9 +10,28 @@
 
 namespace IDCI\Bundle\NotificationBundle\Model;
 
-use IDCI\Bundle\NotificationBundle\Entity\NotificationEntity;
+use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 interface NotificationInterface
 {
-    public function convertToNotification();
+    /**
+     * Get notifier service name
+     *
+     * @return string
+     */
+    public function getNotifierServiceName();
+
+    /**
+     * Convert to a notification object
+     *
+     * @return Notification
+     */
+    public function toNotification();
+
+    /**
+     * Import data from a notification object
+     *
+     * @param Notification $notification
+     */
+    public function fromNotification(Notification $notificationEntity);
 }
