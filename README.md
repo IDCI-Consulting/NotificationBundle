@@ -55,7 +55,7 @@ Now the Bundle is installed.
 How to use the REST API
 =======================
 
-This bundle provides a REST API which can be called by an other application.
+This bundle provides a REST API which can be called by another application.
 
 The following routes are available:
 
@@ -75,11 +75,11 @@ Parameters examples:
 
 
 
-How to extends this bundle
+How to extend this bundle
 ==========================
 
 if you wish to create your own notification you have to create a notification object
-which must extend AbstractNotification as for example :
+which must extend AbstractNotification, see the example below :
 
 ```php
 // Facebook notification example

@@ -13,14 +13,15 @@ use Doctrine\ORM\EntityRepository;
 class NotificationRepository extends EntityRepository
 {
     /**
-     * Get Notification by status
+     * Get Notifications by status
      *
      * @param string $status
      * @return Notification
      */
     public function getNotificationsByStatus($status)
     {
-        $result = $this->createQueryBuilder("n")
+        $result = $this
+            ->createQueryBuilder("n")
             ->where('n.status = :status')
             ->setParameter('status', $status)
             ->getQuery()
@@ -31,7 +32,7 @@ class NotificationRepository extends EntityRepository
     }
 
     /**
-     * Get Notification by type
+     * Get Notifications by type
      *
      * @param string $type
      * @return Notification
@@ -40,18 +41,17 @@ class NotificationRepository extends EntityRepository
     {
         $result = $this
             ->createQueryBuilder("n")
-            ->select('n')
-            ->where('n.id = :id')
-            ->setParameter('id', $type)
+            ->where('n.type = :type')
+            ->setParameter('type', $type)
             ->getQuery()
-            ->getArrayResult()
+            ->getResult()
         ;
 
         return empty($result) ? array() : $result;
     }
 
     /**
-     * Get Notification by source
+     * Get Notifications by source
      *
      * @param string $source
      * @return Notification
@@ -60,18 +60,17 @@ class NotificationRepository extends EntityRepository
     {
         $result = $this
             ->createQueryBuilder("n")
-            ->select('n')
-            ->where('n.id = :id')
-            ->setParameter('id', $source)
+            ->where('n.source = :source')
+            ->setParameter('source', $source)
             ->getQuery()
-            ->getArrayResult()
+            ->getResult()
         ;
 
         return empty($result) ? array() : $result;
     }
     
     /**
-     * Get Notification between two created_at dates
+     * Get Notifications between two created_at dates
      *
      * @return Notification
      */
@@ -80,9 +79,7 @@ class NotificationRepository extends EntityRepository
         $dateNow = new DateTime();
         $result = $this
             ->createQueryBuilder("n")
-            ->select('n')
             ->where('n.id = :id')
-            ->andWhere('')
             ->getQuery()
             ->getArrayResult()
         ;
@@ -91,16 +88,15 @@ class NotificationRepository extends EntityRepository
     }
 
     /**
-     * Get Notification between two updated_at dates
+     * Get Notifications between two updated_at dates
      *
      * @return Notification
      */
-    public function getNotificationsBetweenTwoUpdateDates()
+    public function getNotificationsBetweenTwoUpdatedDates()
     {
         $dateNow = new DateTime();
         $result = $this
              ->createQueryBuilder("n")
-             ->select('n')
              ->where('n.id = :id')
              ->getQuery()
              ->getArrayResult()

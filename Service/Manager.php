@@ -43,7 +43,7 @@ class Manager
     }
 
     /**
-     * Get Eentity mManager
+     * Get Eentity Manager
      *
      * @return Doctrine\ORM\EntityManager
      */

@@ -21,7 +21,7 @@ class NotificationCommand extends ContainerAwareCommand
             ->setName('tms:notification:send')
             ->setDescription('Send notification from spool')
             ->setHelp(<<<EOT
-                The <info>%command.name%</info> command send all notifications.
+                The <info>%command.name%</info> command sends all notifications.
 EOT
             )
         ;
