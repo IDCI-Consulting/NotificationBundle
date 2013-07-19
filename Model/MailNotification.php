@@ -88,6 +88,8 @@ class MailNotification extends AbstractNotification
      */
     public function fromNotification(Notification $notificationEntity)
     {
+        parent::fromNotification($notificationEntity);
+
         $to      = $notificationEntity->getTo();
 
         $this

@@ -52,6 +52,8 @@ class FacebookNotification extends AbstractNotification
      */
     public function fromNotification(Notification $notificationEntity)
     {
+        parent::fromNotification($notificationEntity);
+
         $to      = $notificationEntity->getTo();
         $content = $notificationEntity->getContent();
 

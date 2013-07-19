@@ -36,7 +36,7 @@ class Notification
 
     /**
      * @var string
-     * @ORM\Column(name="_from", type="string", length=128, nullable=false)
+     * @ORM\Column(name="_from", type="string", length=128, nullable=true)
      */
     protected $from;
 
@@ -75,6 +75,12 @@ class Notification
      * @ORM\Column(name="source", type="string", length=255, nullable=true)
      */
     protected $source;
+
+    /**
+     * @var string
+     * @ORM\Column(name="log", type="text", nullable=true)
+     */
+    protected $log;
 
     /**
      * @ORM\PrePersist()
@@ -293,5 +299,28 @@ class Notification
     public function getSource()
     {
         return $this->source;
+    }
+
+    /**
+     * Set log
+     *
+     * @param string $log
+     * @return NotificationEntity
+     */
+    public function setLog($log)
+    {
+        $this->log = $log;
+
+        return $this;
+    }
+
+    /**
+     * Get log
+     *
+     * @return string
+     */
+    public function getLog()
+    {
+        return $this->log;
     }
 }

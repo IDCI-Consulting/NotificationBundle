@@ -40,7 +40,7 @@ class EmailNotifier extends AbstractNotifier
     public function send(NotificationInterface $notification)
     {
         var_dump($notification);
-/*
+
         $message = \Swift_Message::newInstance()
             ->setSubject($notification->getSubject())
             ->setFrom($notification->getFrom())
@@ -49,6 +49,6 @@ class EmailNotifier extends AbstractNotifier
         ;
 
         $this->getMailer()->send($message);
-*/
+
     }
 }

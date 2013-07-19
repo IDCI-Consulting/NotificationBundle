@@ -52,6 +52,8 @@ class SmsNotification extends AbstractNotification
      */
     public function fromNotification(Notification $notificationEntity)
     {
+        parent::fromNotification($notificationEntity);
+
         $this
             ->setTo($notificationEntity->getTo())
             ->setMessage($notificationEntity->getContent())

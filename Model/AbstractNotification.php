@@ -14,6 +14,30 @@ use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 abstract class AbstractNotification implements NotificationInterface
 {
+    protected $from;
+
+    public function getFrom()
+    {
+        return $this->from;
+    }
+
+    public function setFrom($from)
+    {
+        $this->from = $from;
+
+        return $this;
+    }
+
+    /**
+     * @see NotificationInterface
+     */
+    public function fromNotification(Notification $notificationEntity)
+    {
+        $this
+            ->setFrom($notificationEntity->getFrom())
+        ;
+    }
+
     /**
      * @see NotificationInterface
      */
@@ -23,7 +47,7 @@ abstract class AbstractNotification implements NotificationInterface
         $notification = new Notification();
         $notification
             ->setType($rc->getShortName())
-            ->setFrom('tessi')
+            ->setFrom('no-reply@tessi.fr')
         ;
 
         return $notification;

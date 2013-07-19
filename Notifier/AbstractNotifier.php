@@ -30,7 +30,12 @@ abstract class AbstractNotifier implements NotifierInterface
     public function process()
     {
         foreach($this->getNotifications() as $notification) {
-            $this->send($notification);
+            try {
+                $this->send($notification);
+            } catch (\Exception $e) {
+                // TODO
+            }
+            // TODO: Change status to OK
         }
     }
 
