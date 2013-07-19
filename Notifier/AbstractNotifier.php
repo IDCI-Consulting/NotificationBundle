@@ -36,6 +36,7 @@ abstract class AbstractNotifier implements NotifierInterface
                 // TODO
             }
             // TODO: Change status to OK
+            $notification->setStatus($STATUS_DONE);
         }
     }
 
