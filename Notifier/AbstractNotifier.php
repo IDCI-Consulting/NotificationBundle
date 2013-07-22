@@ -10,18 +10,35 @@
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
-use IDCI\Bundle\NotificationBundle\Model\NotificationInterface;
+use IDCI\Bundle\NotificationBundle\Proxy\NotificationInterface;
+use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 abstract class AbstractNotifier implements NotifierInterface
 {
-    protected $notifications = array();
+    protected $proxyNotifications = array();
+    protected $entityManager;
+
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    /**
+     * Get Entity Manager
+     *
+     * @return Doctrine\ORM\EntityManagers
+     */
+    public function getEntityManager()
+    {
+        return $this->entityManager;
+    }
 
     /**
      * @see NotifierInterface
      */
-    public function addNotification(NotificationInterface $notification)
+    public function addProxyNotification(NotificationInterface $proxyNotification)
     {
-        $this->notifications[] = $notification;
+        $this->proxyNotifications[] = $proxyNotification;
     }
 
     /**
@@ -29,31 +46,33 @@ abstract class AbstractNotifier implements NotifierInterface
      */
     public function process()
     {
-        foreach($this->getNotifications() as $notification) {
+        foreach($this->getProxyNotifications() as $proxyNotification) {
             try {
-                $this->send($notification);
+                $this->send($proxyNotification);
             } catch (\Exception $e) {
                 // TODO
             }
-            // TODO: Change status to OK
-            $notification->setStatus($STATUS_DONE);
+            $notification = $proxyNotification->getNotification();
+            $notification->setStatus(Notification::STATUS_DONE);
+            $this->getEntityManager()->persist($notification);
+            $this->getEntityManager()->flush();
         }
     }
 
     /**
      * Get notifications
      *
-     * @return notifications
+     * @return array
      */
-    public function getNotifications()
+    public function getProxyNotifications()
     {
-        return $this->notifications;
+        return $this->proxyNotifications;
     }
 
     /**
      * Send notifications
      *
-     * @param NotificationInterface $notification
+     * @param NotificationInterface $proxyNotification
      */
-    abstract public function send(NotificationInterface $notification);
+    abstract public function send(NotificationInterface $proxyNotification);
 }

@@ -10,15 +10,25 @@
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
-use IDCI\Bundle\NotificationBundle\Model\NotificationInterface;
+use IDCI\Bundle\NotificationBundle\Proxy\NotificationInterface;
 
 class SmsNotifier extends AbstractNotifier
 {
     /**
+     * Constructor
+     *
      * @see AbstractNotifier
      */
-    public function send(NotificationInterface $notification)
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
     {
-        var_dump($notification);
+        parent::__construct($entityManager);
+    }
+
+    /**
+     * @see AbstractNotifier
+     */
+    public function send(NotificationInterface $proxyNotification)
+    {
+        var_dump($proxyNotification);
     }
 }

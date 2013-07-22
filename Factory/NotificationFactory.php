@@ -11,23 +11,23 @@
 namespace IDCI\Bundle\NotificationBundle\Factory;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
-use IDCI\Bundle\NotificationBundle\Model\NotificationInterface;
+use IDCI\Bundle\NotificationBundle\Proxy\NotificationInterface;
 use IDCI\Bundle\NotificationBundle\Exception\UnavailableNotificationParameterException;
 use IDCI\Bundle\NotificationBundle\Util\Inflector;
 
 abstract class NotificationFactory
 {
     /**
-     * Create
+     * Create Proxy
      *
      * @param string $type
      * @return NotificationInterface
      */
-    static private function create($type)
+    static private function createProxy($type)
     {
         $class = sprintf(
-            '%s\%sNotification',
-            'IDCI\Bundle\NotificationBundle\Model',
+            '%s\%sProxyNotification',
+            'IDCI\Bundle\NotificationBundle\Proxy',
             Inflector::camelize($type)
         );
 
@@ -35,31 +35,31 @@ abstract class NotificationFactory
     }
 
     /**
-     * Create from array
+     * Create Proxy from array
      *
      * @param string $type
      * @param Notification $notification
      * @return NotificationInterface
      */
-    static public function createFromObject($type, Notification $notificationEntity)
+    static public function createProxyFromObject($type, Notification $notification)
     {
-        $notification = self::create($type);
-        $notification->fromNotification($notificationEntity);
+        $proxyNotification = self::createProxy($type);
+        $proxyNotification->setNotification($notification);
 
-        return $notification;
+        return $proxyNotification;
     }
 
     /**
-     * Create from array
+     * Create Proxy from array
      *
      * @param string $type
      * @param array $parameters
      * @return NotificationInterface
      */
-    static public function createFromArray($type, $parameters)
+    static public function createProxyFromArray($type, $parameters)
     {
-        $notification = self::create($type);
-        $rc = new \ReflectionClass($notification);
+        $proxyNotification = self::createProxy($type);
+        $rc = new \ReflectionClass($proxyNotification);
 
         foreach($parameters as $field => $value) {
             $setter = sprintf('set%s', Inflector::camelize($field));
@@ -71,9 +71,9 @@ abstract class NotificationFactory
                 ));
             }
 
-            $notification->$setter($value);
+            $proxyNotification->$setter($value);
         }
 
-        return $notification;
+        return $proxyNotification;
     }
 }

@@ -107,21 +107,21 @@ class Manager
      */
     public function create($type, $data)
     {
-        $notification = null;
+        $notificationProxy = null;
 
         if ($data instanceof Notification) {
-            $notification = NotificationFactory::createFromObject($type, $data);
+            $notificationProxy = NotificationFactory::createProxyFromObject($type, $data);
         } else {
-            $notification = NotificationFactory::createFromArray($type, $data);
+            $notificationProxy = NotificationFactory::createProxyFromArray($type, $data);
         }
 
-        $errorList = $this->getValidator()->validate($notification);
+        $errorList = $this->getValidator()->validate($notificationProxy);
 
         if (count($errorList) > 0) {
             throw new UnavailableNotificationDataException(print_r($errorList, true));
         }
 
-        return $notification;
+        return $notificationProxy;
     }
 
     /**
@@ -133,15 +133,15 @@ class Manager
         $notifications = $this
             ->getEntityManager()
             ->getRepository('IDCINotificationBundle:Notification')
-            ->getNotificationsByStatus('NEW')
+            ->getNotificationsByStatus(Notification::STATUS_NEW)
         ;
 
-        foreach($notifications as $notificationEntity) {
-            $type = Inflector::underscore(str_replace('Notification', '', $notificationEntity->getType()));
-            $notification = $this->create($type, $notificationEntity);
+        foreach($notifications as $notification) {
+            $type = Inflector::underscore(str_replace('Notification', '', $notification->getType()));
+            $notificationProxy = $this->create($type, $notification);
 
-            $notifier = $this->getNotifier($notification->getNotifierServiceName());
-            $notifier->addNotification($notification);
+            $notifier = $this->getNotifier($notificationProxy->getNotifierServiceName());
+            $notifier->addProxyNotification($notificationProxy);
         }
     }
 

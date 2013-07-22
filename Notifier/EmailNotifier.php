@@ -10,19 +10,21 @@
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
-use IDCI\Bundle\NotificationBundle\Model\NotificationInterface;
+use IDCI\Bundle\NotificationBundle\Proxy\NotificationInterface;
 
 class EmailNotifier extends AbstractNotifier
 {
     protected $mailer;
 
     /**
-     * constructor
+     * Constructor
      *
+     * @see AbstractNotifier
      * @param Swift_Mailer $mailer
      */
-    public function __construct(\Swift_Mailer $mailer)
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager, \Swift_Mailer $mailer)
     {
+        parent::__construct($entityManager);
         $this->mailer = $mailer;
     }
 
@@ -37,18 +39,17 @@ class EmailNotifier extends AbstractNotifier
     /**
      * @see AbstractNotifier
      */
-    public function send(NotificationInterface $notification)
+    public function send(NotificationInterface $proxyNotification)
     {
-        var_dump($notification);
+        var_dump($proxyNotification);
 
         $message = \Swift_Message::newInstance()
-            ->setSubject($notification->getSubject())
-            ->setFrom($notification->getFrom())
-            ->setTo($notification->getTo())
-            ->setBody($notification->getMessage())
+            ->setSubject($proxyNotification->getSubject())
+            ->setFrom($proxyNotification->getFrom())
+            ->setTo($proxyNotification->getTo())
+            ->setBody($proxyNotification->getMessage())
         ;
 
         $this->getMailer()->send($message);
-
     }
 }

@@ -27,12 +27,12 @@ class ApiController extends Controller
             foreach($requestNotifications as $type => $notificationsFeed) {
                 $notificationsData = json_decode($notificationsFeed, true);
                 foreach($notificationsData as $notificationData) {
-                    $notificationInterface = $this
+                    $proxyNotification = $this
                         ->get('notification_manager')
                         ->create($type, $notificationData)
                     ;
 
-                    $em->persist($notificationInterface->toNotification());
+                    $em->persist($proxyNotification->getNotification());
                 }
             }
             $em->flush();

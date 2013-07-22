@@ -3,29 +3,29 @@ services:
         class: IDCI\Bundle\NotificationBundle\Service\Manager
         arguments: [@validator, @doctrine.orm.entity_manager]
         calls:
-            - [ addNotifier, [@email_notifier]]
-            - [ addNotifier, [@facebook_notifier]]
-            - [ addNotifier, [@mail_notifier]]
-            - [ addNotifier, [@sms_notifier]]
-            - [ addNotifier, [@twitter_notifier]]
+            - [addNotifier, [@email_notifier]]
+            - [addNotifier, [@facebook_notifier]]
+            - [addNotifier, [@mail_notifier]]
+            - [addNotifier, [@sms_notifier]]
+            - [addNotifier, [@twitter_notifier]]
 
     email_notifier:
         class: IDCI\Bundle\NotificationBundle\Notifier\EmailNotifier
-        arguments: [@mailer]
+        arguments: [@doctrine.orm.entity_manager, @mailer]
 
     facebook_notifier:
         class: IDCI\Bundle\NotificationBundle\Notifier\FacebookNotifier
-        arguments: []
+        arguments: [@doctrine.orm.entity_manager]
 
     mail_notifier:
         class: IDCI\Bundle\NotificationBundle\Notifier\MailNotifier
-        arguments: []
+        arguments: [@doctrine.orm.entity_manager]
 
     sms_notifier:
         class: IDCI\Bundle\NotificationBundle\Notifier\SmsNotifier
-        arguments: []
+        arguments: [@doctrine.orm.entity_manager]
 
     twitter_notifier:
         class: IDCI\Bundle\NotificationBundle\Notifier\TwitterNotifier
-        arguments: []
+        arguments: [@doctrine.orm.entity_manager]
 

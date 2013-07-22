@@ -10,16 +10,16 @@
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
-use IDCI\Bundle\NotificationBundle\Model\NotificationInterface;
+use IDCI\Bundle\NotificationBundle\Proxy\NotificationInterface;
 
 interface NotifierInterface
 {
     /**
-     * Add notification
+     * Add proxy notification
      *
-     * @param Notification $notification
+     * @param NotificationInterface $proxyNotification
      */
-    public function addNotification(NotificationInterface $notification);
+    public function addProxyNotification(NotificationInterface $proxyNotification);
 
     /**
      * Send notifications

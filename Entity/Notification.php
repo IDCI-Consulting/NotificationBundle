@@ -21,10 +21,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Notification
 {
-    public const $STATUS_NEW = "NEW";
-    public const $STATUS_DONE = "DONE";
-    public const $STATUS_ERROR = "ERROR";
-    public const $STATUS_PENDING = "PENDING";
+    const STATUS_NEW = "NEW";
+    const STATUS_DONE = "DONE";
+    const STATUS_ERROR = "ERROR";
+    const STATUS_PENDING = "PENDING";
 
     /**
      * @var integer
@@ -95,7 +95,7 @@ class Notification
     {
         $this->setCreatedAt(new \DateTime('now'));
         $this->setUpdatedAt(new \DateTime('now'));
-        $this->setStatus($STATUS_NEW);
+        $this->setStatus(parent::STATUS_NEW);
     }
 
     /**
