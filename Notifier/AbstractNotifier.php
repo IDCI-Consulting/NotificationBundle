@@ -17,6 +17,7 @@ abstract class AbstractNotifier implements NotifierInterface
 {
     protected $proxyNotifications = array();
     protected $entityManager;
+    protected $processLog = array();
 
     public function __construct(\Doctrine\ORM\EntityManager $entityManager)
     {
@@ -34,6 +35,40 @@ abstract class AbstractNotifier implements NotifierInterface
     }
 
     /**
+     * Reset process log
+     *
+     * @return array
+     */
+    public function resetProcessLog()
+    {
+        $this->processLog = array();
+    }
+
+    /**
+     * Log proce processed notification
+     *
+     * @param Notification $notification
+     */
+    public function logProcessedNotification(Notification $notification)
+    {
+        if (!isset($this->processLog[$notification->getStatus()])) {
+            $this->processLog[$notification->getStatus()] = 0;
+        }
+
+        $this->processLog[$notification->getStatus()] += 1;
+    }
+
+    /**
+     * Get process log
+     *
+     * @return string
+     */
+    public function getProcessLog()
+    {
+        return $this->processLog;
+    }
+
+    /**
      * @see NotifierInterface
      */
     public function addProxyNotification(NotificationInterface $proxyNotification)
@@ -46,17 +81,24 @@ abstract class AbstractNotifier implements NotifierInterface
      */
     public function process()
     {
+        $this->resetProcessLog();
+
         foreach($this->getProxyNotifications() as $proxyNotification) {
+            $notification = $proxyNotification->getNotification();
+
             try {
                 $this->send($proxyNotification);
+                $notification->setStatus(Notification::STATUS_DONE);
             } catch (\Exception $e) {
-                // TODO
+                $notification->setStatus(Notification::STATUS_ERROR);
+                $notification->setLog($e->getMessage());
             }
-            $notification = $proxyNotification->getNotification();
-            $notification->setStatus(Notification::STATUS_DONE);
+
+            $this->logProcessedNotification($notification);
             $this->getEntityManager()->persist($notification);
-            $this->getEntityManager()->flush();
         }
+
+        $this->getEntityManager()->flush();
     }
 
     /**

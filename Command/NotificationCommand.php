@@ -36,11 +36,34 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-            $this
+            $logs = $this
                 ->getContainer()
                 ->get('notification_manager')
                 ->send()
             ;
+
+            $total = 0;
+            $totalErrors = 0;
+
+            $output->writeln("Notifications logs");
+            foreach($logs as $notifierServiceName => $infos) {
+                if (!empty($infos)) {
+                    $output->writeln(sprintf('[%s]', $notifierServiceName));
+                    foreach($infos as $status => $count) {
+                        $output->writeln(sprintf('[%s] : %d', $status, $count));
+                        $total++;
+                        if ($status == Notification::STATUS_ERROR) {
+                            $totalErrors++;
+                        }
+                    }
+                }
+            }
+
+            $output->writeln(sprintf('%d notification(s) processed, %d error(s)',
+                $total,
+                $totalErrors
+            ));
+
         } catch (\Exception $e) {
             $output->writeln($e->getMessage());
         }

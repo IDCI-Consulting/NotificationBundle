@@ -41,11 +41,9 @@ class EmailNotifier extends AbstractNotifier
      */
     public function send(NotificationInterface $proxyNotification)
     {
-        var_dump($proxyNotification);
-
         $message = \Swift_Message::newInstance()
             ->setSubject($proxyNotification->getSubject())
-            ->setFrom($proxyNotification->getFrom())
+            ->setFrom($this->getMailer()->getTransport()->getUsername())
             ->setTo($proxyNotification->getTo())
             ->setBody($proxyNotification->getMessage())
         ;

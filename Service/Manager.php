@@ -148,21 +148,31 @@ class Manager
     /**
      * Process notifiers
      * Send notifications associated with notifiers
+     *
+     * @return array log informations
      */
     public function processNotifiers()
     {
-        foreach($this->getNotifiers() as $notifier) {
+        $logs = array();
+
+        foreach($this->getNotifiers() as $name => $notifier) {
             $notifier->process();
+            $logs[$name] = $notifier->getProcessLog();
         }
+
+        return $logs;
     }
 
     /**
      * Send
+     *
+     * @return array log informations
      */
     public function send()
     {
         $this->processNotifications();
-        $this->processNotifiers();
+
+        return $this->processNotifiers();
     }
 }
 
