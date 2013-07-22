@@ -95,7 +95,7 @@ class Notification
     {
         $this->setCreatedAt(new \DateTime('now'));
         $this->setUpdatedAt(new \DateTime('now'));
-        $this->setStatus(parent::STATUS_NEW);
+        $this->setStatus(Notification::STATUS_NEW);
     }
 
     /**
