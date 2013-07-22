@@ -84,7 +84,7 @@ which must extend AbstractNotification, see the example below :
 ```php
 // Facebook notification example
 
-class FacebookNotification extends AbstractNotification
+class FacebookProxyNotification extends AbstractProxyNotification
 {
     //......
 }
