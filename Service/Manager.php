@@ -25,7 +25,7 @@ class Manager
     /**
      * Constructor
      */
-    public function __construct($validator, $entityManager)
+    public function __construct($validator, \Doctrine\ORM\EntityManager $entityManager)
     {
         $this->validator = $validator;
         $this->entityManager = $entityManager;

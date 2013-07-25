@@ -2,7 +2,7 @@
     "name": "idci/notification-bundle",
     "type": "symfony-bundle",
     "description": "Symfony NotificationBundle",
-    "keywords": ["notification", "email", "sms", "twitter", "facebook", "mail", "webservice"],
+    "keywords": ["notification", "email", "sms", "twitter", "facebook", "mail", "webservice", , "api", "rest", "server"],
     "license": "GPL-3.0+",
     "authors": [
         {
