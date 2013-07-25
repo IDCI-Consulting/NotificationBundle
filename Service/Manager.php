@@ -24,8 +24,11 @@ class Manager
 
     /**
      * Constructor
+     *
+     * @param Symfony\Component\Validator\Validator $validator
+     * @param \Doctrine\ORM\EntityManager $entityManager
      */
-    public function __construct($validator, \Doctrine\ORM\EntityManager $entityManager)
+    public function __construct(Symfony\Component\Validator\Validator $validator, \Doctrine\ORM\EntityManager $entityManager)
     {
         $this->validator = $validator;
         $this->entityManager = $entityManager;
