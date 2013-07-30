@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * 
+ * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
+ * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
+ * @license: GPL
+ *
+ */
+
 namespace IDCI\Bundle\NotificationBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -21,7 +29,8 @@ class NotificationCommand extends ContainerAwareCommand
             ->setName('tms:notification:send')
             ->setDescription('Send notification from spool')
             ->setHelp(<<<EOT
-                The <info>%command.name%</info> command sends all notifications.
+The <info>%command.name%</info> command sends all notifications and show in the console a detail of notifications sent.
+Here is an example of usage of this command <info>php app/console tms:notification:send</info>
 EOT
             )
         ;
