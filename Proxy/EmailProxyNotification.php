@@ -17,7 +17,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class EmailProxyNotification extends AbstractProxyNotification
 {
     /**
-     * @Assert\Email()
      * @Assert\NotBlank()
      */
     protected $to;
