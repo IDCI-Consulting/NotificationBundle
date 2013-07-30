@@ -69,7 +69,7 @@ Create a notification:
 
 Parameters examples:
 
-    email=[{"to": "toto@titi.fr", "cc": ["titi@toto.fr", "tutu@titi.fr"], "bcc": "", "message": "the message to be send", "attachements": []}]&
+    email=[{"to": "toto@titi.fr", "cc": ["titi@toto.fr", "tutu@titi.fr"], "bcc": "", "subject": "A subject message", "message": "the message to be send", "attachements": []}]&
     sms=[{"to": ["0612345678", "0610111213"], "message": "this is a sms"}, {"to": "0698765432", "message": "this is an other sms"}]&
     mail=[{"first_name": "fName", "last_name": "lName", "address": "adress", "postal_code": "75001", "city": "Paris", "country": "FR", "message": "Mail message"}]
 
@@ -78,8 +78,9 @@ Parameters examples:
 How to extend this bundle
 ==========================
 
-if you wish to create your own notification you have to create a notification object
-which must extend AbstractNotification, see the example below :
+Work in progress
+
+//if you wish to create your own notification
 
 ```php
 // Facebook notification example
