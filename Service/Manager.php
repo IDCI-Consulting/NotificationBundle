@@ -28,7 +28,7 @@ class Manager
      * @param Symfony\Component\Validator\Validator $validator
      * @param \Doctrine\ORM\EntityManager $entityManager
      */
-    public function __construct(Symfony\Component\Validator\Validator $validator, \Doctrine\ORM\EntityManager $entityManager)
+    public function __construct(\Symfony\Component\Validator\Validator $validator, \Doctrine\ORM\EntityManager $entityManager)
     {
         $this->validator = $validator;
         $this->entityManager = $entityManager;
@@ -46,7 +46,7 @@ class Manager
     }
 
     /**
-     * Get Eentity Manager
+     * Get Entity Manager
      *
      * @return Doctrine\ORM\EntityManager
      */
