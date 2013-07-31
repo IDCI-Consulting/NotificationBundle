@@ -47,7 +47,7 @@ class Notification
     protected $from;
 
     /**
-     * @var string
+     * @var array
      * @ORM\Column(name="_to", type="json_array", length=128, nullable=false)
      */
     protected $to;
@@ -71,7 +71,7 @@ class Notification
     protected $status;
 
     /**
-     * @var string
+     * @var array
      * @ORM\Column(name="content", type="json_array", nullable=true)
      */
     protected $content;
