@@ -19,6 +19,9 @@ abstract class AbstractNotifier implements NotifierInterface
     protected $entityManager;
     protected $processLog = array();
 
+    /**
+     * Constructor
+     */
     public function __construct(\Doctrine\ORM\EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -27,7 +30,7 @@ abstract class AbstractNotifier implements NotifierInterface
     /**
      * Get Entity Manager
      *
-     * @return Doctrine\ORM\EntityManagers
+     * @return Doctrine\ORM\EntityManager
      */
     public function getEntityManager()
     {

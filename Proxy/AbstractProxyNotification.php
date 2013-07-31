@@ -122,7 +122,7 @@ abstract class AbstractProxyNotification implements NotificationInterface
     /**
      * Get created at
      *
-     * @return string
+     * @return DateTime
      */
     public function getCreatedAt()
     {
@@ -132,8 +132,8 @@ abstract class AbstractProxyNotification implements NotificationInterface
     /**
      * Set created at
      *
-     * @return string
-     * @param string $createdAt 
+     * @return DateTime
+     * @param DateTime $createdAt 
      */
     public function setCreatedAt($createdAt)
     {
@@ -145,7 +145,7 @@ abstract class AbstractProxyNotification implements NotificationInterface
     /**
      * Get updated at
      *
-     * @return string
+     * @return DateTime
      */
     public function getUpdatedAt()
     {
@@ -155,8 +155,8 @@ abstract class AbstractProxyNotification implements NotificationInterface
     /**
      * Set updated at
      *
-     * @return string
-     * @param string $updatedAt 
+     * @return DateTime
+     * @param DateTime $updatedAt 
      */
     public function setUpdatedAt($updatedAt)
     {

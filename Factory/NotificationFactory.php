@@ -18,23 +18,6 @@ use IDCI\Bundle\NotificationBundle\Util\Inflector;
 abstract class NotificationFactory
 {
     /**
-     * Create Proxy
-     *
-     * @param string $type
-     * @return NotificationInterface
-     */
-    static private function createProxy($type)
-    {
-        $class = sprintf(
-            '%s\%sProxyNotification',
-            'IDCI\Bundle\NotificationBundle\Proxy',
-            Inflector::camelize($type)
-        );
-
-        return new $class();
-    }
-
-    /**
      * Create Proxy from array
      *
      * @param string $type
@@ -75,5 +58,22 @@ abstract class NotificationFactory
         }
 
         return $proxyNotification;
+    }
+
+    /**
+     * Create Proxy
+     *
+     * @param string $type
+     * @return NotificationInterface
+     */
+    static private function createProxy($type)
+    {
+        $class = sprintf(
+            '%s\%sProxyNotification',
+            'IDCI\Bundle\NotificationBundle\Proxy',
+            Inflector::camelize($type)
+        );
+
+        return new $class();
     }
 }

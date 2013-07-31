@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * 
+ * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
+ * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
+ * @license: GPL
+ *
+ */
+
 namespace IDCI\Bundle\NotificationBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -13,22 +21,76 @@ use Doctrine\ORM\EntityRepository;
 class NotificationRepository extends EntityRepository
 {
     /**
-     * Get Notifications by status
+     * Get Notifications by status query builder
      *
      * @param string $status
-     * @return Notification
+     * @return QueryBuilder
      */
-    public function getNotificationsByStatus($status)
+    public function getNotificationsByStatusQueryBuilder($status)
     {
-        $result = $this
+        $qb = $this
             ->createQueryBuilder("n")
             ->where('n.status = :status')
             ->setParameter('status', $status)
-            ->getQuery()
-            ->getResult()
         ;
 
-        return empty($result) ? array() : $result;
+        return $qb;
+    }
+
+    /**
+     * Get Notifications by status query
+     *
+     * @param string $status
+     * @return Query
+     */
+    public function getNotificationsByStatusQuery($status)
+    {
+        $qb = $this->getNotificationsByStatusQueryBuilder($status);
+
+        return is_null($qb) ? $qb : $qb->getQuery();
+    }
+
+    /**
+     * Get Notifications by status
+     *
+     * @param string $status
+     * @return array
+     */
+    public function getNotificationsByStatus($status)
+    {
+        $q = $this->getNotificationsByStatusQuery($status);
+
+        return is_null($q) ? array() : $q->getResult();
+    }
+
+    /**
+     * Get Notifications by type query builder
+     *
+     * @param string $type
+     * @return Notification
+     */
+    public function getNotificationsByTypeQueryBuilder($type)
+    {
+        $qb = $this
+            ->createQueryBuilder("n")
+            ->where('n.type = :type')
+            ->setParameter('type', $type)
+        ;
+
+        return $qb;
+    }
+
+    /**
+     * Get Notifications by type query
+     *
+     * @param string $type
+     * @return Notification
+     */
+    public function getNotificationsByTypeQuery($type)
+    {
+        $qb = $this->getNotificationsByTypeQueryBuilder($type);
+
+        return is_null($qb) ? $qb : $qb->getQuery();
     }
 
     /**
@@ -39,15 +101,41 @@ class NotificationRepository extends EntityRepository
      */
     public function getNotificationsByType($type)
     {
-        $result = $this
-            ->createQueryBuilder("n")
-            ->where('n.type = :type')
-            ->setParameter('type', $type)
-            ->getQuery()
-            ->getResult()
+        $q = $this->getNotificationsByTypeQuery($type);
+
+        return is_null($q) ? array() : $q->getResult();
         ;
 
-        return empty($result) ? array() : $result;
+    }
+
+    /**
+     * Get Notifications by source query builder
+     *
+     * @param string $source
+     * @return Notification
+     */
+    public function getNotificationsBySourceQueryBuilder($source)
+    {
+        $qb = $this
+            ->createQueryBuilder("n")
+            ->where('n.source = :source')
+            ->setParameter('source', $source)
+        ;
+
+        return $qb;
+    }
+
+    /**
+     * Get Notifications by source query
+     *
+     * @param string $source
+     * @return Notification
+     */
+    public function getNotificationsBySourceQuery($source)
+    {
+        $qb = $this->getNotificationsBySourceQueryBuilder($source);
+
+        return is_null($qb) ? $qb : $qb->getQuery();
     }
 
     /**
@@ -58,50 +146,57 @@ class NotificationRepository extends EntityRepository
      */
     public function getNotificationsBySource($source)
     {
-        $result = $this
-            ->createQueryBuilder("n")
-            ->where('n.source = :source')
-            ->setParameter('source', $source)
-            ->getQuery()
-            ->getResult()
-        ;
+        $q = $this->getNotificationsBySourceQuery($source);
 
-        return empty($result) ? array() : $result;
+        return is_null($q) ? array() : $q->getResult();
     }
-    
+
     /**
-     * Get Notifications between two created_at dates
-     *
-     * @return Notification
+     * Get Notifications between two dates query builder
+     */
+    public function getNotificationsBetweenTwoDatesQueryBuilder()
+    {
+        //TODO
+    }
+
+    /**
+     * Get Notifications between two dates query
+     */
+    public function getNotificationsBetweenTwoDatesQuery()
+    {
+        //TODO
+    }
+
+    /**
+     * Get Notifications between two dates
      */
     public function getNotificationsBetweenTwoDates()
     {
-        $dateNow = new DateTime();
-        $result = $this
-            ->createQueryBuilder("n")
-            ->where('n.id = :id')
-            ->getQuery()
-            ->getArrayResult()
-        ;
+        //TODO
+    }
 
-        return empty($result) ? array() : $result;
+    /**
+     * Get Notifications between two updated_at dates query builder
+     */
+    public function getNotificationsBetweenTwoUpdatedAtDatesQueryBuilder()
+    {
+        //TODO
+    }
+
+    /**
+     * Get Notifications between two updated_at dates query
+     */
+    public function getNotificationsBetweenTwoUpdatedAtDatesQuery()
+    {
+        //TODO
     }
 
     /**
      * Get Notifications between two updated_at dates
-     *
-     * @return Notification
      */
-    public function getNotificationsBetweenTwoUpdatedDates()
+    public function getNotificationsBetweenTwoUpdatedAtDates()
     {
-        $dateNow = new DateTime();
-        $result = $this
-             ->createQueryBuilder("n")
-             ->where('n.id = :id')
-             ->getQuery()
-             ->getArrayResult()
-        ;
-
-        return empty($result) ? array() : $result;
+        //TODO
     }
+
 }
