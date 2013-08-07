@@ -24,6 +24,7 @@ class ApiController extends Controller
      * Add a Notification
      *
      * @Route("/notifications/add", requirements={"_method" = "POST"}, name="notification_api_add")
+     * @param Request $request
      */
     public function notifyAction(Request $request)
     {
