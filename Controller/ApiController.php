@@ -31,6 +31,15 @@ class ApiController extends Controller
         $response = new Response();
         $requestNotifications = $request->request->all();
 
+        // The default source name value is based on the request client IP
+        $sourceName = sprintf('[%s]', $request->getClientIp());
+
+        // Retrieve the source name if is send
+        if(isset($requestNotifications['source_name'])) {
+            $sourceName = sprintf('%s %s', $sourceName, $requestNotifications['source_name']);
+            unset($requestNotifications['source_name']);
+        }
+
         $em = $this->getDoctrine()->getManager();
         try {
             foreach($requestNotifications as $type => $notificationsFeed) {
@@ -38,7 +47,7 @@ class ApiController extends Controller
                 foreach($notificationsData as $notificationData) {
                     $proxyNotification = $this
                         ->get('notification_manager')
-                        ->create($type, $notificationData)
+                        ->create($type, $notificationData, $sourceName)
                     ;
 
                     $em->persist($proxyNotification->getNotification());

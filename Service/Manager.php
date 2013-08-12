@@ -105,12 +105,18 @@ class Manager
      *
      * @param string $type
      * @param Notification|array $data
+     * @param string|null $sourceName
      * @throw UnavailableNotificationDataException
      * @return NotificationInterface
      */
-    public function create($type, $data)
+    public function create($type, $data, $sourceName = null)
     {
         $notificationProxy = null;
+
+        // Add the source name to the notification parameters if setted
+        if($sourceName) {
+            $data = array_merge($data, array('source' => $sourceName));
+        }
 
         if ($data instanceof Notification) {
             $notificationProxy = NotificationFactory::createProxyFromObject($type, $data);
