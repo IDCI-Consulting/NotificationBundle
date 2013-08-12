@@ -74,8 +74,8 @@ Parameters examples:
     mail=[{"first_name": "fName", "last_name": "lName", "address": "adress", "postal_code": "75001", "city": "Paris", "country": "FR", "message": "Mail message"}]
     source_name="my_notification_source"
 
-The source name parameter is optional, it's just used to associated a notification with a source name.
-By default the given API set the notification client IP address in this field.
+The source name parameter is optional, it's just used to associate a notification with a source name.
+By default the given API sets the notification client IP address in this field.
 
 Create a notification with a Symfony2 application:
 --------------------------------------------------
