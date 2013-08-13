@@ -86,7 +86,7 @@ In order to simplify the usage of this Notification Bundle, you can use [IDCINot
 Advanced Server
 ---------------
 
-If you wish to use an advanced Http Api server, we suggest you [DaApiServerBundle](https://github.com/Gnuckorg/DaApiServerBundle.git).
+If you wish to use an advanced Http Api server, we suggest you the [DaApiServerBundle](https://github.com/Gnuckorg/DaApiServerBundle.git).
 Follow the documentation to install it.
 
 
