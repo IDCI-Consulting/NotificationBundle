@@ -94,7 +94,7 @@ class Manager
     public function getNotifier($notifierServiceName)
     {
         if (!isset($this->notifiers[$notifierServiceName])) {
-            throw new UndefinedNotifierException();
+            throw new UndefinedNotifierException($notifierServiceName);
         }
 
         return $this->notifiers[$notifierServiceName];
@@ -127,7 +127,7 @@ class Manager
         $errorList = $this->getValidator()->validate($notificationProxy);
 
         if (count($errorList) > 0) {
-            throw new UnavailableNotificationDataException(print_r($errorList, true));
+            throw new UnavailableNotificationDataException($errorList);
         }
 
         return $notificationProxy;

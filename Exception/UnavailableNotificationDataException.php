@@ -12,5 +12,14 @@ namespace IDCI\Bundle\NotificationBundle\Exception;
 
 class UnavailableNotificationDataException extends \Exception
 {
+    /**
+     * Constructor
+     *
+     * @param array $errorList
+     */
+    public function __construct($errorList)
+    {
+        parent::__construct(print_r($errorList, true), 0, null);
+    }
 }
 

@@ -47,11 +47,7 @@ abstract class NotificationFactory
         foreach($parameters as $field => $value) {
             $setter = sprintf('set%s', Inflector::camelize($field));
             if (!$rc->hasMethod($setter)) {
-                throw new UnavailableNotificationParameterException(sprintf(
-                    'Unknown field %s for %s object',
-                    $field,
-                    $class
-                ));
+                throw new UnavailableNotificationParameterException($field, $class);
             }
 
             $proxyNotification->$setter($value);
