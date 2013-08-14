@@ -83,10 +83,16 @@ Create a notification with a Symfony2 application:
 In order to simplify the usage of this Notification Bundle, you can use [IDCINotificationApiClientBundle](https://github.com/IDCI-Consulting/NotificationApiClientBundle.git)
 
 
+Advanced Server
+---------------
+
+If you wish to use an advanced Http Api server, we suggest you the [DaApiServerBundle](https://github.com/Gnuckorg/DaApiServerBundle.git).
+Follow the documentation to install it.
+
+
 How to extend this bundle
 ==========================
 
 If you wish to create your own notification type
 
 // Work in progress
-
