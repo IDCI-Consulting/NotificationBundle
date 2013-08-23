@@ -25,11 +25,11 @@
                 <td><a href="{{ path('_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.type }}</td>
                 <td>{{ entity.from }}</td>
-                <td>{{ entity.to }}</td>
+                <td>{% for to in entity.to %} {{ to | join('-') }} {% endfor %}</td>
                 <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.status }}</td>
-                <td>{{ entity.content }}</td>
+                <td>{% for k,v in entity.content %} {{ k }}:{{ v }} {% endfor %}</td>
                 <td>{{ entity.source }}</td>
                 <td>{{ entity.log }}</td>
                 <td>
