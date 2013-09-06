@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="notification")
  * @ORM\Entity(repositoryClass="IDCI\Bundle\NotificationBundle\Repository\NotificationRepository")
- * @ORM\HasLifecycleCallbacks
+ * @ORM\HasLifecycleCallbacks()
  */
 class Notification
 {
@@ -89,6 +89,8 @@ class Notification
     protected $log;
 
     /**
+     * On create
+     *
      * @ORM\PrePersist()
      */
     public function onCreate()
@@ -99,7 +101,8 @@ class Notification
     }
 
     /**
-     * onUpdate
+     * On update
+     *
      * @ORM\PreUpdate()
      */
     public function onUpdate()
@@ -116,6 +119,7 @@ class Notification
 
     /**
      * Get id
+     *
      * @return integer
      */
     public function getId()
