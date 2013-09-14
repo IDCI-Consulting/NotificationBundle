@@ -2,7 +2,6 @@
 
 namespace IDCI\Bundle\NotificationBundle\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -12,15 +11,14 @@ use IDCI\Bundle\NotificationBundle\Entity\Notification;
 /**
  * Notification controller.
  *
- * @Route("/")
+ * @Route("/notification")
  */
 class AdminController extends Controller
 {
-
     /**
      * Lists all Notification entities.
      *
-     * @Route("/", name="")
+     * @Route("/")
      * @Method("GET")
      * @Template()
      */
@@ -38,7 +36,7 @@ class AdminController extends Controller
     /**
      * Finds and displays a Notification entity.
      *
-     * @Route("/{id}", name="_show")
+     * @Route("/{id}")
      * @Method("GET")
      * @Template()
      */
@@ -53,7 +51,7 @@ class AdminController extends Controller
         }
 
         return array(
-            'entity'      => $entity,
+            'entity' => $entity,
         );
     }
 }

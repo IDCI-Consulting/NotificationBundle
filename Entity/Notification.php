@@ -15,8 +15,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Notification
  *
- * @ORM\Table(name="notification")
  * @ORM\Entity(repositoryClass="IDCI\Bundle\NotificationBundle\Repository\NotificationRepository")
+ * @ORM\Table(name="notification", indexes={
+ *    @ORM\Index(name="notification_status", columns={"status"}),
+ *    @ORM\Index(name="notification_source", columns={"source"})
+ * })
  * @ORM\HasLifecycleCallbacks()
  */
 class Notification
@@ -28,7 +31,7 @@ class Notification
 
     /**
      * @var integer
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -36,7 +39,7 @@ class Notification
 
     /**
      * @var string
-     * @ORM\Column(name="type", type="string", length=128, nullable=false)
+     * @ORM\Column(type="string", length=128, nullable=false)
      */
     protected $type;
 
@@ -66,25 +69,25 @@ class Notification
 
     /**
      * @var string
-     * @ORM\Column(name="status", type="string", length=64, nullable=false)
+     * @ORM\Column(type="string", length=64, nullable=false)
      */
     protected $status;
 
     /**
      * @var array
-     * @ORM\Column(name="content", type="json_array", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      */
     protected $content;
 
     /**
      * @var string
-     * @ORM\Column(name="source", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $source;
 
     /**
      * @var string
-     * @ORM\Column(name="log", type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $log;
 

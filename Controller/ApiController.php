@@ -52,7 +52,7 @@ class ApiController extends Controller
                 $notificationsData = json_decode($notificationsFeed, true);
                 foreach($notificationsData as $notificationData) {
                     $proxyNotification = $this
-                        ->get('notification_manager')
+                        ->get('idci_notification.manager')
                         ->create($type, $notificationData, $sourceName)
                     ;
 

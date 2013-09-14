@@ -47,7 +47,7 @@ EOT
         try {
             $logs = $this
                 ->getContainer()
-                ->get('notification_manager')
+                ->get('idci_notification.manager')
                 ->send()
             ;
 
