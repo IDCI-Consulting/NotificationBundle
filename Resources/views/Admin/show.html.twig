@@ -19,7 +19,7 @@
             </tr>
             <tr>
                 <th>To</th>
-                <td>{{ entity.to }}</td>
+                <td>{% for to in entity.to %} {{ to | join('-') }} {% endfor %}</td>
             </tr>
             <tr>
                 <th>Createdat</th>
@@ -35,7 +35,7 @@
             </tr>
             <tr>
                 <th>Content</th>
-                <td>{{ entity.content }}</td>
+                <td>{% for k,v in entity.content %} {{ k }}:{{ v }} {% endfor %}</td>
             </tr>
             <tr>
                 <th>Source</th>
@@ -50,7 +50,7 @@
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('') }}">
+        <a href="{{ path('idci_notification_admin_index') }}">
             Back to the list
         </a>
     </li>
