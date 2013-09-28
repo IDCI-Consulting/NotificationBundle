@@ -26,7 +26,7 @@ class NotificationCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('tms:notification:send')
+            ->setName('idci:notification:send')
             ->setDescription('Send notification from spool')
             ->setHelp(<<<EOT
 The <info>%command.name%</info> command sends all notifications and show in the console a detail of notifications sent.
