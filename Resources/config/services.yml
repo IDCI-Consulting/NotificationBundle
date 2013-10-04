@@ -12,20 +12,19 @@ services:
     idci_notification.notifier.email:
         class: IDCI\Bundle\NotificationBundle\Notifier\EmailNotifier
         arguments: [@doctrine.orm.entity_manager, @mailer]
-
     idci_notification.notifier.facebook:
         class: IDCI\Bundle\NotificationBundle\Notifier\FacebookNotifier
         arguments: [@doctrine.orm.entity_manager]
-
     idci_notification.notifier.mail:
         class: IDCI\Bundle\NotificationBundle\Notifier\MailNotifier
         arguments: [@doctrine.orm.entity_manager]
-
     idci_notification.notifier.sms:
         class: IDCI\Bundle\NotificationBundle\Notifier\SmsNotifier
         arguments: [@doctrine.orm.entity_manager]
-
     idci_notification.notifier.twitter:
         class: IDCI\Bundle\NotificationBundle\Notifier\TwitterNotifier
         arguments: [@doctrine.orm.entity_manager]
 
+    idci_notification.manager:
+        class: IDCI\Bundle\NotificationBundle\Manager\NotificationManager
+        arguments: [@doctrine.orm.entity_manager, @event_dispatcher]
