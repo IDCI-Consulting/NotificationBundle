@@ -43,7 +43,8 @@ class EmailNotifier extends AbstractNotifier
     {
         $message = \Swift_Message::newInstance()
             ->setSubject($proxyNotification->getSubject())
-            ->setFrom($this->getMailer()->getTransport()->getUsername())
+            // To fix
+            ->setFrom('no-reply@tessi.fr')
             ->setTo($proxyNotification->getTo())
             ->setBody($proxyNotification->getMessage())
         ;
