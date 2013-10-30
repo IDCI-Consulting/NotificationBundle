@@ -15,12 +15,15 @@ use IDCI\Bundle\NotificationBundle\Factory\NotificationFactory;
 use IDCI\Bundle\NotificationBundle\Notifier\NotifierInterface;
 use IDCI\Bundle\NotificationBundle\Exception\UnavailableNotificationDataException;
 use IDCI\Bundle\NotificationBundle\Util\Inflector;
+use IDCI\Bundle\NotificationBundle\Event\NotificationEvent;
+use IDCI\Bundle\NotificationBundle\Event\NotificationEvents;
 
 class Manager
 {
     protected $notifiers;
     protected $validator;
     protected $entityManager;
+    protected $eventDispatcher;
 
     /**
      * Constructor
@@ -28,10 +31,11 @@ class Manager
      * @param Symfony\Component\Validator\Validator $validator
      * @param \Doctrine\ORM\EntityManager $entityManager
      */
-    public function __construct(\Symfony\Component\Validator\Validator $validator, \Doctrine\ORM\EntityManager $entityManager)
+    public function __construct(\Symfony\Component\Validator\Validator $validator, \Doctrine\ORM\EntityManager $entityManager, $eventDispatcher)
     {
         $this->validator = $validator;
         $this->entityManager = $entityManager;
+        $this->eventDispatcher = $eventDispatcher;
         $this->clearNotifiers();
     }
 
@@ -40,7 +44,7 @@ class Manager
      *
      * @return Symfony\Component\Validator\Validator
      */
-    public function getValidator()
+    protected function getValidator()
     {
         return $this->validator;
     }
@@ -50,9 +54,76 @@ class Manager
      *
      * @return Doctrine\ORM\EntityManager
      */
-    public function getEntityManager()
+    protected function getEntityManager()
     {
         return $this->entityManager;
+    }
+
+    /**
+     * Get EventDispatcher
+     *
+     * @return ContainerAwareEventDispatcher
+     */
+    protected function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
+    }
+
+    /**
+     * Get Repository
+     *
+     * @return \Doctrine\ORM\EntityManager\EntityRepository
+     */
+    public function getRepository()
+    {
+        return $this->getEntityManager()->getRepository("IDCINotificationBundle:Notification");
+    }
+
+    /**
+     * Magic call
+     * Triger to repository methods call
+     */
+    public function __call($method, $args)
+    {
+        return call_user_func_array(array($this->getRepository(), $method), $args);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update($entity)
+    {
+        $this->getEventDispatcher()->dispatch(
+            NotificationEvents::PRE_UPDATE,
+            new NotificationEvent($entity)
+        );
+
+        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
+
+        $this->getEventDispatcher()->dispatch(
+            NotificationEvents::POST_UPDATE,
+            new NotificationEvent($entity)
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete($entity)
+    {
+        $this->getEventDispatcher()->dispatch(
+            NotificationEvents::PRE_DELETE,
+            new NotificationEvent($entity)
+        );
+
+        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->flush();
+
+        $this->getEventDispatcher()->dispatch(
+            NotificationEvents::POST_DELETE,
+            new NotificationEvent($entity)
+        );
     }
 
     /**

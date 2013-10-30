@@ -1,7 +1,7 @@
 services:
     idci_notification.manager:
         class: IDCI\Bundle\NotificationBundle\Service\Manager
-        arguments: [@validator, @doctrine.orm.entity_manager]
+        arguments: [@validator, @doctrine.orm.entity_manager, @event_dispatcher]
         calls:
             - [addNotifier, [@idci_notification.notifier.email]]
             - [addNotifier, [@idci_notification.notifier.facebook]]
@@ -24,7 +24,3 @@ services:
     idci_notification.notifier.twitter:
         class: IDCI\Bundle\NotificationBundle\Notifier\TwitterNotifier
         arguments: [@doctrine.orm.entity_manager]
-
-#    idci_notification.manager:
-#        class: IDCI\Bundle\NotificationBundle\Manager\NotificationManager
-#        arguments: [@doctrine.orm.entity_manager, @event_dispatcher]

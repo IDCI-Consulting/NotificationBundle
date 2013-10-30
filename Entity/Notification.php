@@ -92,6 +92,21 @@ class Notification
     protected $log;
 
     /**
+     * Get status list
+     *
+     * @return array
+     */
+    public static function getStatusList()
+    {
+        return array(
+            self::STATUS_NEW => self::STATUS_NEW,
+            self::STATUS_DONE => self::STATUS_DONE,
+            self::STATUS_ERROR => self::STATUS_ERROR,
+            self::STATUS_PENDING => self::STATUS_PENDING
+        );
+    }
+
+    /**
      * On create
      *
      * @ORM\PrePersist()
@@ -100,7 +115,6 @@ class Notification
     {
         $this->setCreatedAt(new \DateTime('now'));
         $this->setUpdatedAt(new \DateTime('now'));
-        $this->setStatus(Notification::STATUS_NEW);
     }
 
     /**
@@ -114,10 +128,24 @@ class Notification
     }
 
     /**
+     * toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('[%d] %s',
+            $this->getId(),
+            $this->getType()
+        );
+    }
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->setStatus(Notification::STATUS_NEW);
     }
 
     /**
