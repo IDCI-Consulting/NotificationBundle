@@ -25,6 +25,6 @@ services:
         class: IDCI\Bundle\NotificationBundle\Notifier\TwitterNotifier
         arguments: [@doctrine.orm.entity_manager]
 
-    idci_notification.manager:
-        class: IDCI\Bundle\NotificationBundle\Manager\NotificationManager
-        arguments: [@doctrine.orm.entity_manager, @event_dispatcher]
+#    idci_notification.manager:
+#        class: IDCI\Bundle\NotificationBundle\Manager\NotificationManager
+#        arguments: [@doctrine.orm.entity_manager, @event_dispatcher]
