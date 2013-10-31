@@ -3,6 +3,11 @@ services:
         class: IDCI\Bundle\NotificationBundle\Manager\NotificationManager
         arguments: [@validator, @doctrine.orm.entity_manager, @event_dispatcher]
 
+    idci_notification.form.type.notifier_choice:
+        class: IDCI\Bundle\NotificationBundle\Form\Type\NotifierChoiceType
+        arguments: [%idci_notification.notifiers%]
+        tags:
+            - { name: form.type, alias: notifier_choice }
 
     ## Notifiers
 
@@ -12,26 +17,26 @@ services:
         tags:
             - { name: idci_notification.notifier, alias: email }
 
-    idci_notification.notifier.facebook:
-        class: IDCI\Bundle\NotificationBundle\Notifier\FacebookNotifier
-        arguments: []
-        tags:
-            - { name: idci_notification.notifier, alias: facebook }
+#    idci_notification.notifier.facebook:
+#        class: IDCI\Bundle\NotificationBundle\Notifier\FacebookNotifier
+#        arguments: []
+#        tags:
+#            - { name: idci_notification.notifier, alias: facebook }
 
-    idci_notification.notifier.mail:
-        class: IDCI\Bundle\NotificationBundle\Notifier\MailNotifier
-        arguments: []
-        tags:
-            - { name: idci_notification.notifier, alias: mail }
+#    idci_notification.notifier.mail:
+#        class: IDCI\Bundle\NotificationBundle\Notifier\MailNotifier
+#        arguments: []
+#        tags:
+#            - { name: idci_notification.notifier, alias: mail }
 
-    idci_notification.notifier.sms:
-        class: IDCI\Bundle\NotificationBundle\Notifier\SmsNotifier
-        arguments: []
-        tags:
-            - { name: idci_notification.notifier, alias: sms }
+#    idci_notification.notifier.sms:
+#        class: IDCI\Bundle\NotificationBundle\Notifier\SmsNotifier
+#        arguments: []
+#        tags:
+#            - { name: idci_notification.notifier, alias: sms }
 
-    idci_notification.notifier.twitter:
-        class: IDCI\Bundle\NotificationBundle\Notifier\TwitterNotifier
-        arguments: []
-        tags:
-            - { name: idci_notification.notifier, alias: twitter }
+#    idci_notification.notifier.twitter:
+#        class: IDCI\Bundle\NotificationBundle\Notifier\TwitterNotifier
+#        arguments: []
+#        tags:
+#            - { name: idci_notification.notifier, alias: twitter }

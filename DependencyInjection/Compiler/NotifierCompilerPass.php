@@ -23,16 +23,19 @@ class NotifierCompilerPass implements CompilerPassInterface
         }
 
         $definition = $container->getDefinition('idci_notification.manager');
-
         $taggedServices = $container->findTaggedServiceIds('idci_notification.notifier');
-
+        $notifiers = array();
         foreach ($taggedServices as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
                 $definition->addMethodCall(
                     'addNotifier',
                     array(new Reference($id), $attributes["alias"])
                 );
+
+                $notifiers[$attributes["alias"]] = $attributes["alias"];
             }
         }
+
+        $container->setParameter('idci_notification.notifiers', $notifiers);
     }
 }
