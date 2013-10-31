@@ -51,6 +51,8 @@ class EmailNotifier extends AbstractNotifier
             // To fix
             ->setFrom('noreplyclient@tessi.fr')
             ->setTo($to['to'])
+            ->setCc($to['cc'])
+            ->setBcc($to['bcc'])
             ->setBody($content['message'])
         ;
 
@@ -60,18 +62,24 @@ class EmailNotifier extends AbstractNotifier
     /**
      * {@inheritdoc}
      */
-    public function dataValidationMap()
+    public function getToFields()
     {
         return array(
-            'to' => array(
-                'to'  => new Assert\Email(),
-                'cc'  => new Assert\Email(),
-                'bcc' => new Assert\Email()
-            ),
-            'content' => array(
-                'subject' => new Assert\NotBlank(),
-                'message' => new Assert\NotBlank()
-            )
+            'to'  => array('text', array('required' => true)),
+            'cc'  => array('text', array('required' => false)),
+            'bcc' => array('text', array('required' => false)),
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContentFields()
+    {
+        return array(
+            'subject'     => array('text',     array('required' => true)),
+            'message'     => array('textarea', array('required' => false)),
+            'attachments' => array('text',     array('required' => false)),
         );
     }
 }

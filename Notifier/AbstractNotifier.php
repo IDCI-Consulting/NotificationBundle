@@ -17,8 +17,16 @@ abstract class AbstractNotifier implements NotifierInterface
     /**
      * {@inheritdoc}
      */
-    public function dataValidationMap()
+    public function getToFields()
     {
-        return array();
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContentFields()
+    {
+        return false;
     }
 }

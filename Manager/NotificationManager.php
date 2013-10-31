@@ -92,8 +92,34 @@ class NotificationManager
         return call_user_func_array(array($this->getRepository(), $method), $args);
     }
 
+
     /**
-     * {@inheritdoc}
+     * Add
+     * Use the entity manager to add (persist) the given object
+     *
+     * @param object $entity
+     */
+    public function add($entity)
+    {
+        $this->getEventDispatcher()->dispatch(
+            NotificationEvents::PRE_CREATE,
+            new NotificationEvent($entity)
+        );
+
+        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
+
+        $this->getEventDispatcher()->dispatch(
+            NotificationEvents::POST_CREATE,
+            new NotificationEvent($entity)
+        );
+    }
+
+    /**
+     * Update
+     * Use the entity manager to update (persist) the given object
+     *
+     * @param object $entity
      */
     public function update($entity)
     {
@@ -112,7 +138,10 @@ class NotificationManager
     }
 
     /**
-     * {@inheritdoc}
+     * Delete
+     * Use the entity manager to delete (remove) the given object
+     *
+     * @param object $entity
      */
     public function delete($entity)
     {

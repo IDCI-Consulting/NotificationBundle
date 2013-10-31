@@ -23,9 +23,16 @@ interface NotifierInterface
     public function sendNotification(Notification $notification);
 
     /**
-     * Data validation map
+     * Get To Fields
      *
-     * @return array
+     * @return array|false
      */
-    public function dataValidationMap();
+    public function getToFields();
+
+    /**
+     * Get Content Fields
+     *
+     * @return array|false
+     */
+    public function getContentFields();
 }

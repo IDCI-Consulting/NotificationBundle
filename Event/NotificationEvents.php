@@ -12,6 +12,9 @@ final class NotificationEvents
     /**
      * @var string
      */
+    const PRE_CREATE =  'idci_notification.notification.pre_create';
+    const POST_CREATE = 'idci_notification.notification.post_create';
+
     const PRE_UPDATE =  'idci_notification.notification.pre_update';
     const POST_UPDATE = 'idci_notification.notification.post_update';
 

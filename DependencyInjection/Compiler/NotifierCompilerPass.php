@@ -27,12 +27,29 @@ class NotifierCompilerPass implements CompilerPassInterface
         $notifiers = array();
         foreach ($taggedServices as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
+                $notifierReference = new Reference($id);
+                $notifiers[$attributes["alias"]] = $attributes["alias"];
                 $definition->addMethodCall(
                     'addNotifier',
-                    array(new Reference($id), $attributes["alias"])
+                    array($notifierReference, $attributes["alias"])
                 );
 
-                $notifiers[$attributes["alias"]] = $attributes["alias"];
+                $formAlias = sprintf('notification_%s', $attributes["alias"]);
+                $formServiceId = sprintf('idci_notification.form.type.%s', $formAlias);
+                $formDefinition = new DefinitionDecorator('idci_notification.form.type.abstract_notification');
+                $formDefinition->replaceArgument(0, $attributes["alias"]);
+                $formDefinition->replaceArgument(1, $notifierReference);
+                $formDefinition->setAbstract(false);
+                $container->setDefinition($formServiceId, $formDefinition);
+
+                // Declare untagged 'form.type' directly to the form.extension
+                $formExtensionDefinition = $container->getDefinition('form.extension');
+                $types = (null === $formExtensionDefinition->getArgument(1)) ?
+                    array() :
+                    $formExtensionDefinition->getArgument(1)
+                ;
+                $types[$formAlias] = $formServiceId;
+                $formExtensionDefinition->replaceArgument(1, $types);
             }
         }
 
