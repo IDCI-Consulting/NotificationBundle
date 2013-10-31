@@ -69,9 +69,9 @@ Create a notification:
 
 Parameters examples:
 
-    email=[{"to": "toto@titi.fr", "cc": ["titi@toto.fr", "tutu@titi.fr"], "bcc": "", "subject": "A subject message", "message": "the message to be send", "attachements": []}]&
-    sms=[{"to": ["0612345678", "0610111213"], "message": "this is a sms"}, {"to": "0698765432", "message": "this is an other sms"}]&
-    mail=[{"first_name": "fName", "last_name": "lName", "address": "adress", "postal_code": "75001", "city": "Paris", "country": "FR", "message": "Mail message"}]
+    email=[{"to": {"to": "toto@titi.fr", "cc": "titi@toto.fr, tutu@titi.fr", "bcc": null}, "content": {"subject": "A subject message", "message": "the message to be send", "attachements": []}}]&
+    sms=[{"to": "0612345678, 0610111213", "content": "this is a sms"}, {"to": "0698765432", "content": "this is an other sms"}]&
+    mail=[{"to": {"first_name": "fName", "last_name": "lName", "address": "adress", "postal_code": "75001", "city": "Paris", "country": "FR"}, "content": "Mail message"}]
     source_name="my_notification_source"
 
 The source name parameter is optional, it's just used to associate a notification with a source name.
@@ -95,4 +95,50 @@ How to extend this bundle
 
 If you wish to create your own notification type
 
-// Work in progress
+Create a class which extends `IDCI\Bundle\NotificationBundle\Notifier\AbstractNotifier`
+
+```php
+<?php
+
+namespace IDCI\Bundle\NotificationBundle\Notifier;
+
+use IDCI\Bundle\NotificationBundle\Entity\Notification;
+use IDCI\Bundle\NotificationBundle\Notifier\AbstractNotifier;
+
+class MyNotifier extends AbstractNotifier
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function sendNotification(Notification $notification)
+    {
+        // Here the code to send your notification
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getToFields()
+    {
+        // To add custom fields store in to
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContentFields()
+    {
+        // To add custom fields store in content
+    }
+}
+```
+
+Now declare your notifier as service:
+
+```yml
+idci_notification.notifier.mynotifier:
+    class: IDCI\Bundle\NotificationBundle\Notifier\MyNotifier
+    arguments: []
+    tags:
+        - { name: idci_notification.notifier, alias: my_notifier }
+```
