@@ -8,8 +8,11 @@
  *
  */
 
-namespace IDCI\Bundle\NotificationBundle\Service;
+namespace IDCI\Bundle\NotificationBundle\Manager;
 
+use Symfony\Component\Validator\Validator;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Factory\NotificationFactory;
 use IDCI\Bundle\NotificationBundle\Notifier\NotifierInterface;
@@ -18,7 +21,7 @@ use IDCI\Bundle\NotificationBundle\Util\Inflector;
 use IDCI\Bundle\NotificationBundle\Event\NotificationEvent;
 use IDCI\Bundle\NotificationBundle\Event\NotificationEvents;
 
-class Manager
+class NotificationManager
 {
     protected $notifiers;
     protected $validator;
@@ -28,15 +31,16 @@ class Manager
     /**
      * Constructor
      *
-     * @param Symfony\Component\Validator\Validator $validator
-     * @param \Doctrine\ORM\EntityManager $entityManager
+     * @param Validator $validator
+     * @param EntityManager $entityManager
+     * @param EventDispatcher $entityManager
      */
-    public function __construct(\Symfony\Component\Validator\Validator $validator, \Doctrine\ORM\EntityManager $entityManager, $eventDispatcher)
+    public function __construct(Validator $validator, EntityManager $entityManager, EventDispatcher $eventDispatcher)
     {
         $this->validator = $validator;
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
-        $this->clearNotifiers();
+        $this->notifiers = array();
     }
 
     /**
@@ -74,7 +78,7 @@ class Manager
      *
      * @return \Doctrine\ORM\EntityManager\EntityRepository
      */
-    public function getRepository()
+    protected function getRepository()
     {
         return $this->getEntityManager()->getRepository("IDCINotificationBundle:Notification");
     }
@@ -127,14 +131,6 @@ class Manager
     }
 
     /**
-     * Clear notifiers
-     */
-    public function clearNotifiers()
-    {
-        $this->notifiers = array();
-    }
-
-    /**
      * Get notifiers
      *
      * @return array
@@ -148,111 +144,93 @@ class Manager
      * Add notifier
      *
      * @param NotifierInterface $notifier
+     * @param string $alias
      */
-    public function addNotifier(NotifierInterface $notifier)
+    public function addNotifier(NotifierInterface $notifier, $alias)
     {
-        $rc = new \ReflectionClass($notifier);
-        $serviceName = Inflector::underscore($rc->getShortName());
-        $this->notifiers[$serviceName] = $notifier;
+        $this->notifiers[$alias] = $notifier;
     }
 
     /**
      * Get notifier
      *
-     * @param string $notifierServiceName
+     * @param string $alias
      * @return NotifierInterface
      */
-    public function getNotifier($notifierServiceName)
+    public function getNotifier($alias)
     {
-        if (!isset($this->notifiers[$notifierServiceName])) {
-            throw new UndefinedNotifierException($notifierServiceName);
+        if (!isset($this->notifiers[$alias])) {
+            throw new UndefinedNotifierException($alias);
         }
 
-        return $this->notifiers[$notifierServiceName];
+        return $this->notifiers[$alias];
     }
 
     /**
-     * create
+     * Add Notification
      *
      * @param string $type
-     * @param Notification|array $data
+     * @param array $data
      * @param string|null $sourceName
-     * @throw UnavailableNotificationDataException
-     * @return NotificationInterface
      */
-    public function create($type, $data, $sourceName = null)
+    public function addNotification($type, $data, $sourceName = null)
     {
-        $notificationProxy = null;
+        $notifier = $this->getNotifier($type);
+        //$this->checkData($data, $notifier->dataValidationMap());
 
-        // Add the source name to the notification parameters if setted
-        if($sourceName) {
-            $data = array_merge($data, array('source' => $sourceName));
-        }
-
-        if ($data instanceof Notification) {
-            $notificationProxy = NotificationFactory::createProxyFromObject($type, $data);
-        } else {
-            $notificationProxy = NotificationFactory::createProxyFromArray($type, $data);
-        }
-
-        $errorList = $this->getValidator()->validate($notificationProxy);
-
-        if (count($errorList) > 0) {
-            throw new UnavailableNotificationDataException($errorList);
-        }
-
-        return $notificationProxy;
-    }
-
-    /**
-     * Process notifications
-     * Associate notifications with the right notifiers
-     */
-    public function processNotifications()
-    {
-        $notifications = $this
-            ->getEntityManager()
-            ->getRepository('IDCINotificationBundle:Notification')
-            ->getNotificationsByStatus(Notification::STATUS_NEW)
+        $notification = new Notification();
+        $notification
+            ->setType($type)
+            ->setSource(null === $sourceName ? $data['source'] : $sourceName)
+            ->setTo(json_encode($data['to']))
+            ->setContent(json_encode($data['content']))
         ;
 
-        foreach($notifications as $notification) {
-            $type = Inflector::underscore(str_replace('Notification', '', $notification->getType()));
-            $notificationProxy = $this->create($type, $notification);
-
-            $notifier = $this->getNotifier($notificationProxy->getNotifierServiceName());
-            $notifier->addProxyNotification($notificationProxy);
-        }
+        $this->getEntityManager()->persist($notification);
+        $this->getEntityManager()->flush();
     }
 
     /**
-     * Process notifiers
-     * Send notifications associated with notifiers
+     * Check data
      *
-     * @return array log informations
+     * @param array $data
+     * @param array $validationMap
      */
-    public function processNotifiers()
+    public function checkData($data, $validationMap)
     {
-        $logs = array();
-
-        foreach($this->getNotifiers() as $name => $notifier) {
-            $notifier->process();
-            $logs[$name] = $notifier->getProcessLog();
+        $errors = array();
+        foreach ($validationMap as $k => $constraint) {
+            if (is_array($constraint)) {
+                $errors[] = $this->checkData($data[$k], $constraint);
+            } else {
+                $errors[] = $this->getValidator()->validateValue($data[$k], $constraint);
+            }
         }
 
-        return $logs;
+        if (count($errors) > 0) {
+            throw new UnavailableNotificationDataException($errors);
+        }
+
+        return true;
     }
 
     /**
-     * Send
+     * Notify
      *
-     * @return array log informations
+     * @param Notification $notification
      */
-    public function send()
+    public function notify(Notification & $notification)
     {
-        $this->processNotifications();
+        $notifier = $this->getNotifier($notification->getType());
+        try {
+            $notifier->sendNotification($notification);
+            $notification->setStatus(Notification::STATUS_DONE);
+        } catch (\Exception $e) {
+            $notification->setStatus(Notification::STATUS_ERROR);
+            $notification->setLog($e->getMessage());
+        }
 
-        return $this->processNotifiers();
+        $this->getEntityManager()->persist($notification);
+        $this->getEntityManager()->flush();
     }
 }
-

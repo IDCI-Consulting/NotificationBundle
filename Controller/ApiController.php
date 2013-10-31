@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\UnavailableNotificationDataException;
 use IDCI\Bundle\NotificationBundle\Exception\UnavailableNotificationParameterException;
@@ -24,7 +25,8 @@ class ApiController extends Controller
     /**
      * Add a Notification
      *
-     * @Route("/notifications/add", requirements={"_method" = "POST"}, name="notification_api_add")
+     * @Route("/notifications/add", name="notification_api_add")
+     * @Method("POST")
      * @param Request $request
      */
     public function notifyAction(Request $request)
@@ -35,7 +37,7 @@ class ApiController extends Controller
         // The default source name value is based on the request client IP
         $sourceName = sprintf('[%s]', $request->getClientIp());
 
-        // Retrieve the source name if is send
+        // Retrieve the source name if sent
         if(isset($requestNotifications['source_name'])) {
             $sourceName = sprintf('%s %s', $sourceName, $requestNotifications['source_name']);
             unset($requestNotifications['source_name']);
@@ -51,15 +53,12 @@ class ApiController extends Controller
             foreach($requestNotifications as $type => $notificationsFeed) {
                 $notificationsData = json_decode($notificationsFeed, true);
                 foreach($notificationsData as $notificationData) {
-                    $proxyNotification = $this
+                    $this
                         ->get('idci_notification.manager')
-                        ->create($type, $notificationData, $sourceName)
+                        ->addNotification($type, $notificationData, $sourceName)
                     ;
-
-                    $em->persist($proxyNotification->getNotification());
                 }
             }
-            $em->flush();
             $response->setStatusCode(200);
         } catch (UnavailableNotificationDataException $e) {
             $response->setContent($e->getMessage());

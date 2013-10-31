@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Notification
  *
- * @ORM\Entity(repositoryClass="IDCI\Bundle\NotificationBundle\Repository\NotificationRepository")
+ * @ORM\Entity(repositoryClass="IDCI\Bundle\NotificationBundle\Entity\Repository\NotificationRepository")
  * @ORM\Table(name="notification", indexes={
  *    @ORM\Index(name="notification_status", columns={"status"}),
  *    @ORM\Index(name="notification_source", columns={"source"})
@@ -24,10 +24,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Notification
 {
-    const STATUS_NEW = "NEW";
-    const STATUS_DONE = "DONE";
-    const STATUS_ERROR = "ERROR";
-    const STATUS_PENDING = "PENDING";
+    const STATUS_NEW      = "NEW";
+    const STATUS_DONE     = "DONE";
+    const STATUS_ERROR    = "ERROR";
+    const STATUS_PENDING  = "PENDING";
 
     /**
      * @var integer
@@ -50,8 +50,8 @@ class Notification
     protected $from;
 
     /**
-     * @var array
-     * @ORM\Column(name="_to", type="json_array", length=128, nullable=false)
+     * @var string
+     * @ORM\Column(name="_to", type="text", length=128, nullable=false)
      */
     protected $to;
 
@@ -74,8 +74,8 @@ class Notification
     protected $status;
 
     /**
-     * @var array
-     * @ORM\Column(type="json_array", nullable=true)
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $content;
 
@@ -113,8 +113,9 @@ class Notification
      */
     public function onCreate()
     {
-        $this->setCreatedAt(new \DateTime('now'));
-        $this->setUpdatedAt(new \DateTime('now'));
+        $date = new \DateTime('now');
+        $this->setCreatedAt($date);
+        $this->setUpdatedAt($date);
     }
 
     /**
@@ -124,7 +125,8 @@ class Notification
      */
     public function onUpdate()
     {
-        $this->setUpdatedAt(new \DateTime('now'));
+        $date = new \DateTime('now');
+        $this->setUpdatedAt($date);
     }
 
     /**
@@ -207,7 +209,7 @@ class Notification
     /**
      * Set to
      *
-     * @param array $to
+     * @param mixed $to
      * @return NotificationEntity
      */
     public function setTo($to)

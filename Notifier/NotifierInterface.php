@@ -10,19 +10,22 @@
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
-use IDCI\Bundle\NotificationBundle\Proxy\NotificationInterface;
+use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 interface NotifierInterface
 {
     /**
-     * Add proxy notification
+     * Send notification
      *
-     * @param NotificationInterface $proxyNotification
+     * @param Notification $notification
+     * @return boolean
      */
-    public function addProxyNotification(NotificationInterface $proxyNotification);
+    public function sendNotification(Notification $notification);
 
     /**
-     * Send notifications
+     * Data validation map
+     *
+     * @return array
      */
-    public function process();
+    public function dataValidationMap();
 }

@@ -24,13 +24,13 @@ class NotificationType extends AbstractType
         $builder
             ->add('type')
             ->add('from')
-            ->add('to')
+            ->add('to', 'json')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('status', 'choice', array(
                 'choices' => Notification::getStatusList()
             ))
-            ->add('content')
+            ->add('content', 'json')
             ->add('source')
             ->add('log')
         ;

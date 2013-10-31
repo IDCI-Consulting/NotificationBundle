@@ -10,7 +10,8 @@
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
-use IDCI\Bundle\NotificationBundle\Proxy\NotificationInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class EmailNotifier extends AbstractNotifier
 {
@@ -22,33 +23,55 @@ class EmailNotifier extends AbstractNotifier
      * @see AbstractNotifier
      * @param Swift_Mailer $mailer
      */
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager, \Swift_Mailer $mailer)
+    public function __construct(\Swift_Mailer $mailer)
     {
-        parent::__construct($entityManager);
         $this->mailer = $mailer;
     }
 
     /**
-     * get mailer
+     * Get mailer
+     *
+     * @return Swift_Mailer
      */
-    public function getMailer()
+    protected function getMailer()
     {
         return $this->mailer;
     }
 
     /**
-     * @see AbstractNotifier
+     * {@inheritdoc}
      */
-    public function send(NotificationInterface $proxyNotification)
+    public function sendNotification(Notification $notification)
     {
+        $to = json_decode($notification->getTo(), true);
+        $content = json_decode($notification->getContent(), true);
+
         $message = \Swift_Message::newInstance()
-            ->setSubject($proxyNotification->getSubject())
+            ->setSubject($content['subject'])
             // To fix
-            ->setFrom('no-reply@tessi.fr')
-            ->setTo($proxyNotification->getTo())
-            ->setBody($proxyNotification->getMessage())
+            ->setFrom('noreplyclient@tessi.fr')
+            ->setTo($to['to'])
+            ->setBody($content['message'])
         ;
 
         $this->getMailer()->send($message);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function dataValidationMap()
+    {
+        return array(
+            'to' => array(
+                'to'  => new Assert\Email(),
+                'cc'  => new Assert\Email(),
+                'bcc' => new Assert\Email()
+            ),
+            'content' => array(
+                'subject' => new Assert\NotBlank(),
+                'message' => new Assert\NotBlank()
+            )
+        );
     }
 }

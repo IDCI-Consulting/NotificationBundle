@@ -44,38 +44,25 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        try {
-            $logs = $this
-                ->getContainer()
-                ->get('idci_notification.manager')
-                ->send()
-            ;
+        $notificationManager = $this->getContainer()->get('idci_notification.manager');
 
-            $total = 0;
-            $totalErrors = 0;
-
-            $output->writeln("Notifications logs");
-            foreach($logs as $notifierServiceName => $infos) {
-                if (!empty($infos)) {
-                    $output->writeln(sprintf('[%s]', $notifierServiceName));
-                    foreach($infos as $status => $count) {
-                        $output->writeln(sprintf('[%s] : %d', $status, $count));
-                        $total++;
-                        if ($status == Notification::STATUS_ERROR) {
-                            $totalErrors++;
-                        }
-                    }
-                }
+        $countErrors = 0;
+        $notifications = $notificationManager->findBy(array('status' => Notification::STATUS_NEW));
+        $output->writeln(sprintf("<info>Send notifications (%d)</info>", count($notifications)));
+        foreach($notifications as $notification) {
+            $notificationManager->notify($notification);
+            if ($notification->getStatus() == Notification::STATUS_ERROR) {
+                $countErrors++;
+                $output->writeln(sprintf("<error>Notification %s not send</error>", $notification));
+            } else {
+                $output->writeln(sprintf("<comment>Notifications %s sent</comment>", $notification));
             }
-
-            $output->writeln(sprintf('%d notification(s) processed, %d error(s)',
-                $total,
-                $totalErrors
-            ));
-
-        } catch (\Exception $e) {
-            $output->writeln($e->getMessage());
         }
+
+        $output->writeln(sprintf('%d notification(s) processed, %d error(s)',
+            count($notifications),
+            $countErrors
+        ));
     }
 }
 
