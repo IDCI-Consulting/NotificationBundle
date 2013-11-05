@@ -62,9 +62,9 @@ The following routes are available:
 Create a notification:
 ----------------------
 
-| Route              | Method | Parameters
-|--------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| /notifications/add | POST   | typeA=[{dataA1, dataA2, ..., dataAN}]&typeB=[{dataB1, dataB2, ..., dataBN}](&source_name=MySource)
+| Route          | Method | Parameters
+|----------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| /notifications | POST   | typeA=[{dataA1, dataA2, ..., dataAN}]&typeB=[{dataB1, dataB2, ..., dataBN}](&source_name=MySource)
 
 
 Parameters examples:

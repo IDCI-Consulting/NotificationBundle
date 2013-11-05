@@ -25,9 +25,8 @@ class ApiController extends Controller
     /**
      * Add a Notification
      *
-     * @Route("/notifications/add", name="notification_api_add")
+     * @Route("/notifications", name="notification_api_post")
      * @Method("POST")
-     * @param Request $request
      */
     public function notifyAction(Request $request)
     {
@@ -38,7 +37,7 @@ class ApiController extends Controller
         $sourceName = sprintf('[%s]', $request->getClientIp());
 
         // Retrieve the source name if sent
-        if(isset($requestNotifications['source_name'])) {
+        if (isset($requestNotifications['source_name'])) {
             $sourceName = sprintf('%s %s', $sourceName, $requestNotifications['source_name']);
             unset($requestNotifications['source_name']);
         }
@@ -46,13 +45,13 @@ class ApiController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         try {
-            if(empty($requestNotifications)) {
+            if (empty($requestNotifications)) {
                 throw new NotificationParameterException('No parameters given');
             }
 
-            foreach($requestNotifications as $type => $notificationsFeed) {
+            foreach ($requestNotifications as $type => $notificationsFeed) {
                 $notificationsData = json_decode($notificationsFeed, true);
-                foreach($notificationsData as $notificationData) {
+                foreach ($notificationsData as $notificationData) {
                     $this
                         ->get('idci_notification.manager')
                         ->addNotification($type, $notificationData, $sourceName)
