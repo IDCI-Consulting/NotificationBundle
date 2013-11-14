@@ -69,7 +69,7 @@ Create a notification:
 
 Parameters examples:
 
-    email=[{"to": {"to": "toto@titi.fr", "cc": "titi@toto.fr, tutu@titi.fr", "bcc": null}, "content": {"subject": "A subject message", "message": "the message to be send", "attachements": []}}]&
+    email=[{"to": {"to": "toto@titi.fr", "cc": "titi@toto.fr, tutu@titi.fr", "bcc": null}, "content": {"subject": "A subject message", "message": "the message to be send", "htmlMessage": "<h1>Titre</h1><p>Message</p>", "attachements": []}}]&
     sms=[{"to": "0612345678, 0610111213", "content": "this is a sms"}, {"to": "0698765432", "content": "this is an other sms"}]&
     mail=[{"to": {"first_name": "fName", "last_name": "lName", "address": "adress", "postal_code": "75001", "city": "Paris", "country": "FR"}, "content": "Mail message"}]
     source_name="my_notification_source"
