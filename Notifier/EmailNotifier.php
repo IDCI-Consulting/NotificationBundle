@@ -56,6 +56,10 @@ class EmailNotifier extends AbstractNotifier
             ->setBody($content['message'])
         ;
 
+        if ($content['htmlMessage']) {
+            $message->addPart($content['htmlMessage'], 'text/html');
+        }
+
         $this->getMailer()->send($message);
     }
 
@@ -79,6 +83,7 @@ class EmailNotifier extends AbstractNotifier
         return array(
             'subject'     => array('text',     array('required' => true)),
             'message'     => array('textarea', array('required' => false)),
+            'htmlMessage' => array('textarea', array('required' => false)),
             'attachments' => array('text',     array('required' => false)),
         );
     }
