@@ -10,9 +10,9 @@
 
 namespace IDCI\Bundle\NotificationBundle\Manager;
 
-use Symfony\Component\Validator\Validator;
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Validator\ValidatorInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Factory\NotificationFactory;
 use IDCI\Bundle\NotificationBundle\Notifier\NotifierInterface;
@@ -25,28 +25,32 @@ class NotificationManager
 {
     protected $notifiers;
     protected $validator;
-    protected $entityManager;
+    protected $objectManager;
     protected $eventDispatcher;
 
     /**
      * Constructor
      *
-     * @param Validator $validator
-     * @param EntityManager $entityManager
-     * @param EventDispatcher $entityManager
+     * @param ValidatorInterface $validator
+     * @param ObjectManager $objectManager
+     * @param EventDispatcherInterface $entityManager
      */
-    public function __construct(Validator $validator, EntityManager $entityManager, EventDispatcher $eventDispatcher)
+    public function __construct(
+        ValidatorInterface $validator,
+        ObjectManager $objectManager,
+        EventDispatcherInterface $eventDispatcher
+    )
     {
         $this->validator = $validator;
-        $this->entityManager = $entityManager;
+        $this->objectManager = $objectManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->notifiers = array();
     }
 
     /**
-     * Get validator
+     * Get the validator
      *
-     * @return Symfony\Component\Validator\Validator
+     * @return ValidatorInterface
      */
     protected function getValidator()
     {
@@ -54,19 +58,19 @@ class NotificationManager
     }
 
     /**
-     * Get Entity Manager
+     * Get the object manager
      *
-     * @return Doctrine\ORM\EntityManager
+     * @return ObjectManager
      */
-    protected function getEntityManager()
+    protected function getObjectManager()
     {
-        return $this->entityManager;
+        return $this->objectManager;
     }
 
     /**
-     * Get EventDispatcher
+     * Get the event dispatcher
      *
-     * @return ContainerAwareEventDispatcher
+     * @return EventDispatcherInterface
      */
     protected function getEventDispatcher()
     {
@@ -80,7 +84,7 @@ class NotificationManager
      */
     protected function getRepository()
     {
-        return $this->getEntityManager()->getRepository("IDCINotificationBundle:Notification");
+        return $this->getObjectManager()->getRepository("IDCINotificationBundle:Notification");
     }
 
     /**
@@ -95,7 +99,7 @@ class NotificationManager
 
     /**
      * Add
-     * Use the entity manager to add (persist) the given object
+     * Use the object manager to add (persist) the given object
      *
      * @param object $entity
      */
@@ -106,8 +110,8 @@ class NotificationManager
             new NotificationEvent($entity)
         );
 
-        $this->getEntityManager()->persist($entity);
-        $this->getEntityManager()->flush();
+        $this->getObjectManager()->persist($entity);
+        $this->getObjectManager()->flush();
 
         $this->getEventDispatcher()->dispatch(
             NotificationEvents::POST_CREATE,
@@ -117,7 +121,7 @@ class NotificationManager
 
     /**
      * Update
-     * Use the entity manager to update (persist) the given object
+     * Use the object manager to update (persist) the given object
      *
      * @param object $entity
      */
@@ -128,8 +132,8 @@ class NotificationManager
             new NotificationEvent($entity)
         );
 
-        $this->getEntityManager()->persist($entity);
-        $this->getEntityManager()->flush();
+        $this->getObjectManager()->persist($entity);
+        $this->getObjectManager()->flush();
 
         $this->getEventDispatcher()->dispatch(
             NotificationEvents::POST_UPDATE,
@@ -139,7 +143,7 @@ class NotificationManager
 
     /**
      * Delete
-     * Use the entity manager to delete (remove) the given object
+     * Use the object manager to delete (remove) the given object
      *
      * @param object $entity
      */
@@ -150,8 +154,8 @@ class NotificationManager
             new NotificationEvent($entity)
         );
 
-        $this->getEntityManager()->remove($entity);
-        $this->getEntityManager()->flush();
+        $this->getObjectManager()->remove($entity);
+        $this->getObjectManager()->flush();
 
         $this->getEventDispatcher()->dispatch(
             NotificationEvents::POST_DELETE,
@@ -188,6 +192,7 @@ class NotificationManager
      */
     public function getNotifier($alias)
     {
+
         if (!isset($this->notifiers[$alias])) {
             throw new UndefinedNotifierException($alias);
         }
@@ -205,50 +210,28 @@ class NotificationManager
     public function addNotification($type, $data, $sourceName = null)
     {
         $notifier = $this->getNotifier($type);
-        //$this->checkData($data, $notifier->dataValidationMap());
+        $data = $notifier->cleanData($data);
 
         $notification = new Notification();
         $notification
             ->setType($type)
             ->setSource(null === $sourceName ? $data['source'] : $sourceName)
+            ->setFrom(json_encode($data['from']))
             ->setTo(json_encode($data['to']))
             ->setContent(json_encode($data['content']))
         ;
 
-        $this->getEntityManager()->persist($notification);
-        $this->getEntityManager()->flush();
+        $this->getObjectManager()->persist($notification);
+        $this->getObjectManager()->flush();
     }
 
-    /**
-     * Check data
-     *
-     * @param array $data
-     * @param array $validationMap
-     */
-    public function checkData($data, $validationMap)
-    {
-        $errors = array();
-        foreach ($validationMap as $k => $constraint) {
-            if (is_array($constraint)) {
-                $errors[] = $this->checkData($data[$k], $constraint);
-            } else {
-                $errors[] = $this->getValidator()->validateValue($data[$k], $constraint);
-            }
-        }
-
-        if (count($errors) > 0) {
-            throw new UnavailableNotificationDataException($errors);
-        }
-
-        return true;
-    }
 
     /**
      * Notify
      *
      * @param Notification $notification
      */
-    public function notify(Notification & $notification)
+    public function notify(Notification $notification)
     {
         $notifier = $this->getNotifier($notification->getType());
         try {
@@ -259,7 +242,7 @@ class NotificationManager
             $notification->setLog($e->getMessage());
         }
 
-        $this->getEntityManager()->persist($notification);
-        $this->getEntityManager()->flush();
+        $this->getObjectManager()->persist($notification);
+        $this->getObjectManager()->flush();
     }
 }
