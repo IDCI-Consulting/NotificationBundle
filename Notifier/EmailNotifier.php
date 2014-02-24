@@ -87,4 +87,19 @@ class EmailNotifier extends AbstractNotifier
             'attachments' => array('text',     array('required' => false)),
         );
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFromFields()
+    {
+        return array(
+            'login'      => array('text',     array('required' => true)),
+            'password'   => array('password', array('required' => true)),
+            'server'     => array('text',     array('required' => true)),
+            'port'       => array('integer',  array('required' => false)),
+            'encryption' => array('choice',   array('required' => false, 'choices' => array('ssl' => 'ssl', 'tsl' => 'tsl'))),
+            'isSecured'  => array('checkbox', array('required' => false))
+        );
+    }
 }

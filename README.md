@@ -69,7 +69,9 @@ Create a notification:
 
 Parameters examples:
 
-    email=[{"to": {"to": "toto@titi.fr", "cc": "titi@toto.fr, tutu@titi.fr", "bcc": null}, "content": {"subject": "A subject message", "message": "the message to be send", "htmlMessage": "<h1>Titre</h1><p>Message</p>", "attachements": []}}]&
+    email=[{"to": {"to": "toto@titi.fr", "cc": "titi@toto.fr, tutu@titi.fr", "bcc": null},
+    "from": {"login":"test@tessi.com", "password": "password", "server": "smtp.tessi.fr", "port": "465", "encryption": "ssl", "isSecured": "yes"},
+    "content": {"subject": "A subject message", "message": "the message to be send", "htmlMessage": "<h1>Titre</h1><p>Message</p>", "attachments": []}}]&
     sms=[{"to": "0612345678, 0610111213", "content": "this is a sms"}, {"to": "0698765432", "content": "this is an other sms"}]&
     mail=[{"to": {"first_name": "fName", "last_name": "lName", "address": "adress", "postal_code": "75001", "city": "Paris", "country": "FR"}, "content": "Mail message"}]
     source_name="my_notification_source"
@@ -129,6 +131,14 @@ class MyNotifier extends AbstractNotifier
     public function getContentFields()
     {
         // To add custom fields store in content
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFromFields()
+    {
+        // // To add custom fields store in from
     }
 }
 ```
