@@ -31,8 +31,8 @@ class ApiController extends Controller
     public function notifyAction(Request $request)
     {
         $response = new Response();
-        $requestNotifications = $request->request->all();
 
+        $requestNotifications = $request->request->all();
         // The default source name value is based on the request client IP
         $sourceName = sprintf('[%s]', $request->getClientIp());
 
@@ -41,8 +41,6 @@ class ApiController extends Controller
             $sourceName = sprintf('%s %s', $sourceName, $requestNotifications['source_name']);
             unset($requestNotifications['source_name']);
         }
-
-        $em = $this->getDoctrine()->getManager();
 
         try {
             if (empty($requestNotifications)) {
@@ -57,7 +55,9 @@ class ApiController extends Controller
                         ->addNotification($type, $notificationData, $sourceName)
                     ;
                 }
+
             }
+
             $response->setStatusCode(200);
         } catch (UnavailableNotificationDataException $e) {
             $response->setContent($e->getMessage());

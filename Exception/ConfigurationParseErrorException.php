@@ -1,28 +1,27 @@
 <?php
-
 /**
  *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
- * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
+ * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
  *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Exception;
 
-class UndefinedNotifierException extends \Exception
+class ConfigurationParseErrorException extends \Exception
 {
     /**
      * Constructor
      *
-     * @param string $notifierServiceName
+     * @param string $configuration
      */
-    public function __construct($notifierServiceName)
+    public function __construct($configuration)
     {
         parent::__construct(
             sprintf(
-                'No notifier call %s defined',
-                $notifierServiceName
+                'Wrong configuration: %s',
+                $configuration
             ),
             0,
             null

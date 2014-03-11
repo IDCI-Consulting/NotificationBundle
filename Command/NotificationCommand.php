@@ -50,6 +50,8 @@ EOT
         $notifications = $notificationManager->findBy(array('status' => Notification::STATUS_NEW));
         $output->writeln(sprintf("<info>Send notifications (%d)</info>", count($notifications)));
         foreach($notifications as $notification) {
+            //get config of each notification
+            //notify($notification, $config)
             $notificationManager->notify($notification);
             if ($notification->getStatus() == Notification::STATUS_ERROR) {
                 $countErrors++;

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
  *
@@ -18,11 +18,11 @@ class NotifierCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('idci_notification.manager')) {
+        if (!$container->hasDefinition('idci_notification.manager.notification')) {
             return;
         }
 
-        $definition = $container->getDefinition('idci_notification.manager');
+        $definition = $container->getDefinition('idci_notification.manager.notification');
         $taggedServices = $container->findTaggedServiceIds('idci_notification.notifier');
         $notifiers = array();
         foreach ($taggedServices as $id => $tagAttributes) {

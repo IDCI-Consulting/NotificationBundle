@@ -91,6 +91,8 @@ class Notification
      */
     protected $log;
 
+    //protected $provider;
+
     /**
      * Get status list
      *

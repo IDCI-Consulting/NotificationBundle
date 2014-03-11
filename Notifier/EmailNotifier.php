@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @license: GPL
@@ -15,29 +15,6 @@ use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class EmailNotifier extends AbstractNotifier
 {
-    protected $mailer;
-
-    /**
-     * Constructor
-     *
-     * @see AbstractNotifier
-     * @param Swift_Mailer $mailer
-     */
-    public function __construct(\Swift_Mailer $mailer)
-    {
-        $this->mailer = $mailer;
-    }
-
-    /**
-     * Get mailer
-     *
-     * @return Swift_Mailer
-     */
-    protected function getMailer()
-    {
-        return $this->mailer;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -50,6 +27,7 @@ class EmailNotifier extends AbstractNotifier
             ->setSubject($content['subject'])
             // To fix
             ->setFrom('noreplyclient@tessi.fr')
+            //->setFrom($from[array('login', 'password', 'server', 'port', 'encryption', 'isSecured')]);
             ->setTo($to['to'])
             ->setCc($to['cc'])
             ->setBcc($to['bcc'])
@@ -60,8 +38,52 @@ class EmailNotifier extends AbstractNotifier
             $message->addPart($content['htmlMessage'], 'text/html');
         }
 
-        $this->getMailer()->send($message);
+        $mailer = $this->getMailer($this->getConfiguration($notification));
+
+        return $mailer->send($message) > 0;
     }
+
+    /**
+     * get mailer
+     *
+     * @param array $configuration
+     *
+     * @return Swift_Mailer
+     */
+    public function getMailer(array $configuration)
+    {
+        $transport = new \Swift_SmtpTransport();
+
+        $transport
+            ->setHost($configuration['server'])
+            ->setPort($configuration['port'])
+            ->setEncryption($configuration['encryption'])
+            ->setUsername($configuration['login'])
+            ->setPassword($configuration['password'])
+        ;
+
+        return \Swift_Mailer::newInstance($transport);
+    }
+
+    /**
+     * Check content fields of configuration
+     *
+     * @param array $notification
+     *
+     * @return boolean
+     */
+    public function checkFieldsConfiguration(array $notification)
+    {
+        $result = false;
+        foreach ($notification as $field) {
+            if (!$field) {
+                $result = true;
+            }
+        }
+
+        return $result;
+    }
+
 
     /**
      * {@inheritdoc}
@@ -94,12 +116,13 @@ class EmailNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'login'      => array('text',     array('required' => true)),
-            'password'   => array('password', array('required' => true)),
-            'server'     => array('text',     array('required' => true)),
-            'port'       => array('integer',  array('required' => false)),
-            'encryption' => array('choice',   array('required' => false, 'choices' => array('ssl' => 'ssl', 'tsl' => 'tsl'))),
-            'isSecured'  => array('checkbox', array('required' => false))
+            'login'        => array('text',     array('required' => true)),
+            'password'     => array('password', array('required' => true)),
+            'server'       => array('text',     array('required' => true)),
+            'port'         => array('integer',  array('required' => false)),
+            'encryption'   => array('choice',   array('required' => false, 'choices' => array('ssl' => 'ssl', 'tsl' => 'tsl'))),
+            'isSecured'    => array('checkbox', array('required' => false)),
+            'alias' => array('text',     array('required' => true))
         );
     }
 }

@@ -1,7 +1,11 @@
 services:
-    idci_notification.manager:
+    idci_notification.manager.notification:
         class: IDCI\Bundle\NotificationBundle\Manager\NotificationManager
-        arguments: [@validator, @doctrine.orm.entity_manager, @event_dispatcher]
+        arguments: [@doctrine.orm.entity_manager, @event_dispatcher]
+
+    idci_notification.manager.notifierconfiguration:
+        class: IDCI\Bundle\NotificationBundle\Manager\NotifierConfigurationManager
+        arguments: [@doctrine.orm.entity_manager, @event_dispatcher]
 
     idci_notification.form.type.notifier_choice:
         class: IDCI\Bundle\NotificationBundle\Form\Type\NotifierChoiceType
@@ -18,30 +22,30 @@ services:
 
     idci_notification.notifier.email:
         class: IDCI\Bundle\NotificationBundle\Notifier\EmailNotifier
-        arguments: [@mailer]
+        arguments: [@doctrine.orm.entity_manager]
         tags:
             - { name: idci_notification.notifier, alias: email }
 
     idci_notification.notifier.facebook:
         class: IDCI\Bundle\NotificationBundle\Notifier\FacebookNotifier
-        arguments: []
+        arguments: [@doctrine.orm.entity_manager]
         tags:
             - { name: idci_notification.notifier, alias: facebook }
 
     idci_notification.notifier.mail:
         class: IDCI\Bundle\NotificationBundle\Notifier\MailNotifier
-        arguments: []
+        arguments: [@doctrine.orm.entity_manager]
         tags:
             - { name: idci_notification.notifier, alias: mail }
 
     idci_notification.notifier.sms:
         class: IDCI\Bundle\NotificationBundle\Notifier\SmsNotifier
-        arguments: []
+        arguments: [@doctrine.orm.entity_manager]
         tags:
             - { name: idci_notification.notifier, alias: sms }
 
     idci_notification.notifier.twitter:
         class: IDCI\Bundle\NotificationBundle\Notifier\TwitterNotifier
-        arguments: []
+        arguments: [@doctrine.orm.entity_manager]
         tags:
             - { name: idci_notification.notifier, alias: twitter }
