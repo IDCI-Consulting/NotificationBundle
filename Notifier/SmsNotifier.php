@@ -19,7 +19,7 @@ class SmsNotifier extends AbstractNotifier
      */
     public function sendNotification(Notification $notification)
     {
-        die("smsnotifier");
+        throw new \Exception("smsnotifier todo.");
     }
 
     /**

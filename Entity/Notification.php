@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @license: GPL
@@ -247,7 +247,7 @@ class Notification
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -368,4 +368,23 @@ class Notification
     {
         return $this->log;
     }
+
+    /**
+     * Add log
+     *
+     * @param string $log
+     * @return NotificationEntity
+     */
+    public function addLog($log)
+    {
+        $now = new \DateTime('now');
+        $this->setLog(sprintf('%s: %s'.PHP_EOL.PHP_EOL.'%s',
+            $now->format('Y-m-d H:i:s'),
+            $log,
+            $this->getLog()
+        ));
+
+        return $this;
+    }
+
 }

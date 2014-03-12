@@ -181,7 +181,7 @@ class NotificationManager extends AbstractManager
             $notification->setStatus(Notification::STATUS_DONE);
         } catch (\Exception $e) {
             $notification->setStatus(Notification::STATUS_ERROR);
-            $notification->setLog($e->getMessage());
+            $notification->addLog($e->getMessage());
         }
         $this->getObjectManager()->persist($notification);
         $this->getObjectManager()->flush();

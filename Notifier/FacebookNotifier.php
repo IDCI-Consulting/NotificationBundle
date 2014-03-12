@@ -20,7 +20,7 @@ class FacebookNotifier extends AbstractNotifier
      */
     public function sendNotification(Notification $notification)
     {
-        die("facebooknotifier");
+        throw new \Exception("facebooknotifier todo.");
     }
 
     /**

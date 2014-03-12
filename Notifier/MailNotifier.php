@@ -19,7 +19,7 @@ class MailNotifier extends AbstractNotifier
      */
     public function sendNotification(Notification $notification)
     {
-        die("mailnotifier");
+        throw new \Exception("mailnotifier todo.");
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
  *
@@ -27,7 +27,7 @@ class NotificationType extends AbstractType
                 'choices' => Notification::getStatusList()
             ))
             ->add('from')
-            ->add('to', 'text')
+            ->add('to')
             ->add('content', 'textarea')
             ->add('source')
             ->add('log')

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @license: GPL
@@ -44,14 +44,12 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $notificationManager = $this->getContainer()->get('idci_notification.manager');
+        $notificationManager = $this->getContainer()->get('idci_notification.manager.notification');
 
         $countErrors = 0;
         $notifications = $notificationManager->findBy(array('status' => Notification::STATUS_NEW));
         $output->writeln(sprintf("<info>Send notifications (%d)</info>", count($notifications)));
         foreach($notifications as $notification) {
-            //get config of each notification
-            //notify($notification, $config)
             $notificationManager->notify($notification);
             if ($notification->getStatus() == Notification::STATUS_ERROR) {
                 $countErrors++;

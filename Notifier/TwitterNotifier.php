@@ -20,7 +20,7 @@ class TwitterNotifier extends AbstractNotifier
      */
     public function sendNotification(Notification $notification)
     {
-        die("twitternotifier");
+        throw new \Exception("twitternotifier todo.");
     }
 
     /**
