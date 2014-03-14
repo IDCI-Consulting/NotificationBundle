@@ -94,9 +94,13 @@ abstract class AbstractNotifier implements NotifierInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get resolver
+     *
+     * @param array $options
+     *
+     * @return $resolver
      */
-    public function getResolver(array $options)
+    protected function getResolver(array $options)
     {
         $resolver = new OptionsResolver();
         $this->setDefaultOptions($resolver, $options);
@@ -105,9 +109,13 @@ abstract class AbstractNotifier implements NotifierInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get field option
+     *
+     * @param string $field The name of field("to", "from", "content")
+     *
+     * @return array
      */
-    public function getFieldOptions($field)
+    protected function getFieldOptions($field)
     {
         $method = sprintf('get%sFields', ucfirst(strtolower($field)));
 
@@ -139,9 +147,12 @@ abstract class AbstractNotifier implements NotifierInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Configure OptionResolver with default options
+     *
+     * @param OptionsResolver $resolver
+     * @param array           $fieldOptions
      */
-    public function setDefaultOptions(OptionsResolver $resolver, array $fieldOptions)
+    protected function setDefaultOptions(OptionsResolver $resolver, array $fieldOptions)
     {
         foreach ($fieldOptions as $name => $options) {
             $resolver->setOptional(array($name));

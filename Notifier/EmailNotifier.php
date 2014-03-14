@@ -50,7 +50,7 @@ class EmailNotifier extends AbstractNotifier
      *
      * @return Swift_Mailer
      */
-    public function getMailer(array $configuration)
+    protected function getMailer(array $configuration)
     {
         $transport = new \Swift_SmtpTransport();
 

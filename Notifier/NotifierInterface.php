@@ -64,30 +64,4 @@ interface NotifierInterface
      */
     public function cleanData($data);
 
-    /**
-     * Get resolver
-     *
-     * @param array $options
-     *
-     * @return $resolver
-     */
-    public function getResolver(array $options);
-
-    /**
-     * Get field option
-     *
-     * @param string $field The name of field("to", "from", "content")
-     *
-     * @return array
-     */
-    public function getFieldOptions($field);
-
-    /**
-     * Configure OptionResolver with default options
-     *
-     * @param OptionsResolver $resolver
-     * @param array           $fieldOptions
-     */
-    public function setDefaultOptions(OptionsResolver $resolver, array $fieldOptions);
-
 }
