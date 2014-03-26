@@ -3,6 +3,7 @@
 /**
  *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
+ * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
  *
  */
@@ -25,19 +26,29 @@ class NotifierCompilerPass implements CompilerPassInterface
         $definition = $container->getDefinition('idci_notification.manager.notification');
         $taggedServices = $container->findTaggedServiceIds('idci_notification.notifier');
         $notifiers = array();
+        //get configuration of all notifier
+        $notifiersConfig = $container->getParameter('idci_notification.notifiers.config');
         foreach ($taggedServices as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
+                $alias = $attributes["alias"];
                 $notifierReference = new Reference($id);
-                $notifiers[$attributes["alias"]] = $attributes["alias"];
+                $notifiers[$alias] = $alias;
                 $definition->addMethodCall(
                     'addNotifier',
-                    array($notifierReference, $attributes["alias"])
+                    array($notifierReference, $alias)
                 );
 
-                $formAlias = sprintf('notification_%s', $attributes["alias"]);
+                //add the correct configuration to the notifier
+                if(!$container->hasDefinition($id)) {
+                    throw new UndefindedDefinitionException($id);
+                }
+                $notifierDefinition = $container->getDefinition($id);
+                $notifierDefinition->replaceArgument(1, $notifiersConfig[$alias]);
+
+                $formAlias = sprintf('notification_%s', $alias);
                 $formServiceId = sprintf('idci_notification.form.type.%s', $formAlias);
                 $formDefinition = new DefinitionDecorator('idci_notification.form.type.abstract_notification');
-                $formDefinition->replaceArgument(0, $attributes["alias"]);
+                $formDefinition->replaceArgument(0, $alias);
                 $formDefinition->replaceArgument(1, $notifierReference);
                 $formDefinition->setAbstract(false);
                 $container->setDefinition($formServiceId, $formDefinition);

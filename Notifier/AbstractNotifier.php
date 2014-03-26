@@ -4,6 +4,7 @@
  *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
+ * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
  *
  */
@@ -14,19 +15,23 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\NotificationBundle\Util\Inflector;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
+use IDCI\Bundle\NotificationBundle\Exception\ConfigurationParseErrorException;
+use IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierConfigurationException;
 
 abstract class AbstractNotifier implements NotifierInterface
 {
     protected $entityManager;
+    protected $defaultConfiguration;
 
     /**
      * Constructor
      *
      * @param EntityManager $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, $defaultConfiguration)
     {
         $this->entityManager = $entityManager;
+        $this->defaultConfiguration = $defaultConfiguration;
     }
 
     /**
@@ -45,39 +50,74 @@ abstract class AbstractNotifier implements NotifierInterface
     public function getConfiguration(Notification $notification)
     {
         if (null === $notification->getFrom()) {
-            //return the symfony configuration with default values
-            return array();
+            return $this->getFileConfiguration();
         }
 
         $from = json_decode($notification->getFrom(), true);
-
-        if (!$from) {
-             throw new ConfigurationParseErrorException($notification->getFrom());
+        if (null === $from) {
+            throw new ConfigurationParseErrorException($notification->getFrom());
         }
 
         if (isset($from['alias'])) {
-            //return the configuration from provider parameters
-            $em = $this->getEntityManager();
-            $notifierConfiguration = $em
-                ->getRepository('IDCINotificationBundle:NotifierConfiguration')
-                ->findBy(array(
-                    'alias' => $from['alias'],
-                    'type'  => $notification->getType()
-                ))
-            ;
-
-            if (null === $notifierConfiguration) {
-                throw new UndefinedNotifierConfigurationException($from['alias'], $notification->getType());
+            try {
+                $from = $this->getDataBaseConfiguration($from['alias'], $notification->getType());
+            } catch(UndefinedNotifierConfigurationException $e) {
+                $from = $this->getFileConfiguration($from['alias']);
             }
-
-            if ($configuration = json_decode($notifierConfiguration, true)) {
-                return $configuration;
-            }
-
-            throw new ConfigurationParseErrorException($notifierConfiguration);
         }
 
         return $from;
+    }
+
+    /**
+     * Get file configuration
+     *
+     * @param  string $alias
+     * @return array
+     * @throw  UndefinedNotifierConfigurationException
+     */
+    protected function getFileConfiguration($alias = null)
+    {
+        if (null === $alias) {
+            $alias = $this->defaultConfiguration['default_configuration'];
+        }
+
+        if(!isset($this->defaultConfiguration['configurations'][$alias])) {
+            throw new UndefinedNotifierConfigurationException($alias);
+        }
+
+        return $this->defaultConfiguration['configurations'][$alias];
+    }
+
+    /**
+     * Get configuration from database
+     *
+     * @param  string $alias
+     * @param  string $type
+     * @return array
+     * @throw  UndefinedNotifierConfigurationException
+     * @throw  ConfigurationParseErrorException
+     */
+    protected function getDataBaseConfiguration($alias, $type)
+    {
+        $em = $this->getEntityManager();
+        $notifierConfiguration = $em
+            ->getRepository('IDCINotificationBundle:NotifierConfiguration')
+            ->findOneBy(array(
+                'alias' => $alias,
+                'type'  => $type
+            ))
+        ;
+
+        if (null === $notifierConfiguration) {
+            throw new UndefinedNotifierConfigurationException($alias, $type);
+        }
+
+        if ($configuration = json_decode($notifierConfiguration->getConfiguration(), true)) {
+            return $configuration;
+        }
+
+        throw new ConfigurationParseErrorException($notifierConfiguration);
     }
 
     /**
@@ -164,6 +204,5 @@ abstract class AbstractNotifier implements NotifierInterface
                 ));
             }
         }
-
     }
 }

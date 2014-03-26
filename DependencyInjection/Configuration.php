@@ -1,8 +1,9 @@
 <?php
 
 /**
- * 
+ *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
+ * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
  *
  */
@@ -31,6 +32,168 @@ class Configuration implements ConfigurationInterface
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
 
+        $rootNode
+            ->children()
+                ->arrayNode('notifiers')
+                    ->children()
+                        ->append($this->addEmailParametersNode())
+                        ->append($this->addSmsParametersNode())
+                        ->append($this->addFacebookParametersNode())
+                        ->append($this->addTwitterParametersNode())
+                        ->append($this->addMailParametersNode())
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
         return $treeBuilder;
+    }
+
+    public function addEmailParametersNode()
+    {
+        $builder = new TreeBuilder();
+        $emailNode = $builder->root('email');
+
+        $emailNode
+            ->children()
+                ->scalarNode('default_configuration')
+                    ->defaultValue('default')
+                ->end()
+                ->arrayNode('configurations')
+                    ->useAttributeAsKey('')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('transport')
+                                //->isRequired()
+                                ->validate()
+                                ->ifNotInArray(array('smtp', 'sendmail', 'mail'))
+                                    ->thenInvalid('Invalid transport "%s"')
+                                ->end()
+                            ->end()
+                            ->scalarNode('from')->end()
+                            ->scalarNode('server')->end()
+                            ->scalarNode('login')->end()
+                            ->scalarNode('password')->end()
+                            ->integerNode('port')->min(0)->max(65536)->end()
+                            ->scalarNode('encryption')
+                                ->validate()
+                                ->ifNotInArray(array('ssl', 'tls'))
+                                    ->thenInvalid('Invalid encryption "%s"')
+                                ->end()
+                            ->end()
+                            ->booleanNode('isSecured')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $emailNode;
+
+    }
+
+    public function addSmsParametersNode()
+    {
+        $builder = new TreeBuilder();
+        $smsNode = $builder->root('sms');
+
+        $smsNode
+            ->children()
+                ->scalarNode('default_configuration')
+                    ->defaultValue('default')
+                ->end()
+                ->arrayNode('configurations')
+                    ->useAttributeAsKey('')
+                    ->prototype('array')
+                        ->children()
+                            ->integerNode('from')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $smsNode;
+
+    }
+
+    public function addFacebookParametersNode()
+    {
+        $builder = new TreeBuilder();
+        $facebookNode = $builder->root('facebook');
+
+        $facebookNode
+            ->children()
+                ->scalarNode('default_configuration')
+                    ->defaultValue('default')
+                ->end()
+                ->arrayNode('configurations')
+                    ->useAttributeAsKey('')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('senderLogin')->isRequired()->end()
+                            ->scalarNode('senderPassword')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $facebookNode;
+
+    }
+
+    public function addTwitterParametersNode()
+    {
+        $builder = new TreeBuilder();
+        $twitterNode = $builder->root('twitter');
+
+        $twitterNode
+            ->children()
+                ->scalarNode('default_configuration')
+                    ->defaultValue('default')
+                ->end()
+                ->arrayNode('configurations')
+                    ->useAttributeAsKey('')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('senderLogin')->isRequired()->end()
+                            ->scalarNode('senderPassword')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $twitterNode;
+    }
+
+    public function addMailParametersNode()
+    {
+        $builder = new TreeBuilder();
+        $mailNode = $builder->root('mail');
+
+        $mailNode
+            ->children()
+                ->scalarNode('default_configuration')
+                    ->defaultValue('default')
+                ->end()
+                ->arrayNode('configurations')
+                    ->useAttributeAsKey('')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('senderFirstName')->isRequired()->end()
+                            ->scalarNode('senderLastName')->isRequired()->end()
+                            ->scalarNode('senderAddress')->isRequired()->end()
+                            ->integerNode('senderPostalCode')->min(0)->isRequired()->end()
+                            ->scalarNode('senderCity')->isRequired()->end()
+                            ->scalarNode('senderCountry')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $mailNode;
     }
 }
