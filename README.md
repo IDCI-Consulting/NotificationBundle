@@ -39,7 +39,7 @@ public function registerBundles()
 }
 ```
 
-To test the bundle, you should declare a route as follow : 
+To test the bundle, you should declare a route as follow :
 
 ```php
 // app/config/routing.yml
@@ -70,7 +70,7 @@ Create a notification:
 Parameters examples:
 
     email=[{"to": {"to": "toto@titi.fr", "cc": "titi@toto.fr, tutu@titi.fr", "bcc": null},
-    "from": {"login":"test@tessi.com", "password": "password", "server": "smtp.tessi.fr", "port": "465", "encryption": "ssl", "isSecured": "yes"},
+    "from": {"transport":"smtp", login":"test@tessi.com", "password": "password", "server": "smtp.tessi.fr", "port": "465", "encryption": "ssl", "isSecured": "yes"},
     "content": {"subject": "A subject message", "message": "the message to be send", "htmlMessage": "<h1>Titre</h1><p>Message</p>", "attachments": []}}]&
     sms=[{"to": "0612345678, 0610111213", "content": "this is a sms"}, {"to": "0698765432", "content": "this is an other sms"}]&
     mail=[{"to": {"firstName": "fName", "lastName": "lName", "address": "adress", "postalCode": "75001", "city": "Paris", "country": "FR"}, "from": {"senderFirstName": "senderFirstName", "senderLastName": "senderLastName", "senderAddress": "serderAdress", "senderPostalCode": "75001", "senderCity": "Toulouse", "senderCountry": "FR"}, "content": {"message" : "Mail message"}}]
