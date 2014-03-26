@@ -49,7 +49,7 @@ class MailNotifier extends AbstractNotifier
             'senderPostalCode' => array('text',     array('required' => true)),
             'senderCity'       => array('text',     array('required' => true)),
             'senderCountry'    => array('text',     array('required' => true)),
-            'alias'     => array('text',     array('required' => true)),
+            'alias'            => array('text',     array('required' => true)),
         );
     }
 

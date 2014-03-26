@@ -41,7 +41,7 @@ class TwitterNotifier extends AbstractNotifier
         return array(
             'senderLogin'    => array('text', array('required' => true)),
             'senderPassword' => array('text', array('required' => true)),
-            'alias'   => array('text', array('required' => true))
+            'alias'          => array('text', array('required' => true))
         );
     }
 

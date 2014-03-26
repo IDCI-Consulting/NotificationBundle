@@ -38,7 +38,7 @@ class SmsNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'from'         => array('text', array('required' => true)),
+            'from'  => array('text', array('required' => true)),
             'alias' => array('text', array('required' => true))
         );
     }

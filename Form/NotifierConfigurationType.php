@@ -23,7 +23,6 @@ class NotifierConfigurationType extends AbstractType
     {
         $builder
             ->add('alias', 'text')
-            ->add('type', 'text')
             ->add('configuration', 'textarea')
         ;
     }
