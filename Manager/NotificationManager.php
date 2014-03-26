@@ -159,7 +159,7 @@ class NotificationManager extends AbstractManager
         $notification
             ->setType($type)
             ->setSource(null === $sourceName ? $data['source'] : $sourceName)
-            ->setFrom(json_encode($data['from']))
+            ->setFrom(isset($data['from']) ? json_encode($data['from']) : null)
             ->setTo(json_encode($data['to']))
             ->setContent(json_encode($data['content']))
         ;
