@@ -39,7 +39,7 @@ EOT
     /**
      * Execute
      *
-     * @param sInputInterface $input
+     * @param InputInterface $input
      * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -58,7 +58,6 @@ EOT
                 $output->writeln(sprintf("<comment>Notifications %s sent</comment>", $notification));
             }
         }
-
         $output->writeln(sprintf('%d notification(s) processed, %d error(s)',
             count($notifications),
             $countErrors

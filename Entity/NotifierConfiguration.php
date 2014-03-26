@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * NotifierConfiguration
  *
- * @ORM\Table(uniqueConstraints={
+ * @ORM\Entity()
+ * @ORM\Table(name="notifier_configuration", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="unique_configuration", columns={"alias", "type"})
  * })
- * @ORM\Entity
  */
 class NotifierConfiguration
 {

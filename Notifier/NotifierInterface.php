@@ -63,5 +63,4 @@ interface NotifierInterface
      * @return array The cleaned data
      */
     public function cleanData($data);
-
 }
