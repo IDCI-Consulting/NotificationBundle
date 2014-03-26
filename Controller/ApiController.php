@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @license: GPL
@@ -19,6 +19,7 @@ use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\UnavailableNotificationDataException;
 use IDCI\Bundle\NotificationBundle\Exception\UnavailableNotificationParameterException;
 use IDCI\Bundle\NotificationBundle\Exception\NotificationParameterException;
+use IDCI\Bundle\NotificationBundle\Exception\NotificationParametersParseErrorException;
 
 class ApiController extends Controller
 {
@@ -49,9 +50,12 @@ class ApiController extends Controller
 
             foreach ($requestNotifications as $type => $notificationsFeed) {
                 $notificationsData = json_decode($notificationsFeed, true);
+                if (!$notificationsData) {
+                    throw new NotificationParametersParseErrorException($notificationsFeed);
+                }
                 foreach ($notificationsData as $notificationData) {
                     $this
-                        ->get('idci_notification.manager')
+                        ->get('idci_notification.manager.notification')
                         ->addNotification($type, $notificationData, $sourceName)
                     ;
                 }

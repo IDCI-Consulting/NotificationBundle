@@ -17,17 +17,17 @@ class UndefinedNotifierConfigurationException extends \Exception
      * @param string $alias
      * @param string $type
      */
-    public function __construct($alias, $type)
+    public function __construct($alias, $type = null)
     {
-        parent::__construct(
-            sprintf(
-                'Undefined NotifierConfiguration (alias : %s and type : %s)',
+        $message = sprintf('Undefined NotifierConfiguration (alias : %s)', $alias);
+        if (null !== $type) {
+            $message = sprintf('Undefined NotifierConfiguration (alias : %s and type : %s)',
                 $alias,
                 $type
-            ),
-            0,
-            null
             );
+        }
+
+        parent::__construct($message, 0, null);
     }
 }
 
