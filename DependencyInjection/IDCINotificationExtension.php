@@ -39,7 +39,7 @@ class IDCINotificationExtension extends Extension
         }
 
         $container->setParameter(
-            'idci_notification.notifiers.config',
+            'idci_notification.notifiers.configuration',
             $config['notifiers']
         );
     }

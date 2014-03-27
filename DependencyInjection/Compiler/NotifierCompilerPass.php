@@ -27,7 +27,7 @@ class NotifierCompilerPass implements CompilerPassInterface
         $taggedServices = $container->findTaggedServiceIds('idci_notification.notifier');
         $notifiers = array();
         //get configuration of all notifier
-        $notifiersConfig = $container->getParameter('idci_notification.notifiers.config');
+        $notifiersConfiguration = $container->getParameter('idci_notification.notifiers.configuration');
         foreach ($taggedServices as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
                 $alias = $attributes["alias"];
@@ -43,7 +43,7 @@ class NotifierCompilerPass implements CompilerPassInterface
                     throw new UndefindedDefinitionException($id);
                 }
                 $notifierDefinition = $container->getDefinition($id);
-                $notifierDefinition->replaceArgument(1, $notifiersConfig[$alias]);
+                $notifierDefinition->replaceArgument(1, $notifiersConfiguration[$alias]);
 
                 $formAlias = sprintf('notification_%s', $alias);
                 $formServiceId = sprintf('idci_notification.form.type.%s', $formAlias);
