@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\UnavailableNotificationDataException;
 use IDCI\Bundle\NotificationBundle\Exception\UnavailableNotificationParameterException;
+use IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierException;
 use IDCI\Bundle\NotificationBundle\Exception\NotificationParameterException;
 use IDCI\Bundle\NotificationBundle\Exception\NotificationParametersParseErrorException;
 
@@ -48,7 +49,11 @@ class ApiController extends Controller
                 throw new NotificationParameterException('No parameters given');
             }
 
+            $notifers = $this->container->getParameter('idci_notification.notifiers');
             foreach ($requestNotifications as $type => $notificationsFeed) {
+                if (!in_array($type, $notifers)) {
+                    throw new UndefinedNotifierException($type);
+                }
                 $notificationsData = json_decode($notificationsFeed, true);
                 if (!$notificationsData) {
                     throw new NotificationParametersParseErrorException($notificationsFeed);

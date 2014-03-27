@@ -22,10 +22,11 @@ class NotificationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('type', 'notifier_choice')
             ->add('status', 'choice', array(
                 'choices' => Notification::getStatusList()
             ))
+            ->add('type', 'notifier_choice')
+            ->add('notifierAlias')
             ->add('from')
             ->add('to')
             ->add('content', 'textarea')

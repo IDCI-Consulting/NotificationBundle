@@ -3,7 +3,6 @@
 /**
  *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
- * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
  *
  */
@@ -14,7 +13,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class NotifierConfigurationSelectionType extends AbstractType
+class NotifierTypeSelectionType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -22,8 +21,18 @@ class NotifierConfigurationSelectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('notifierconfiguration_type', 'notifier_choice')
+            ->add('type', 'notifier_choice')
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'csrf_protection' => false,
+        ));
     }
 
     /**
@@ -31,6 +40,6 @@ class NotifierConfigurationSelectionType extends AbstractType
      */
     public function getName()
     {
-        return 'idci_bundle_notificationbundle_notifierconfigurationselectiontype';
+        return 'idci_bundle_notificationbundle_notifiertypeselectiontype';
     }
 }

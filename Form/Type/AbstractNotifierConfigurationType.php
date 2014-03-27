@@ -11,9 +11,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use IDCI\Bundle\NotificationBundle\Notifier\NotifierInterface;
-use IDCI\Bundle\NotificationBundle\Form\NotificationType;
+use IDCI\Bundle\NotificationBundle\Form\NotifierConfigurationType;
 
-class AbstractNotificationType extends NotificationType
+class AbstractNotifierConfigurationType extends NotifierConfigurationType
 {
     private $name;
     private $notifier;
@@ -38,17 +38,13 @@ class AbstractNotificationType extends NotificationType
         parent::buildForm($builder, $options);
         $builder
             ->add('type', 'hidden')
-            ->remove('log')
-            ->add('from', 'metadata', array(
-                'fields' => $this->notifier->getFromFields()
-            ))
-            ->add('to', 'metadata', array(
-                'fields' => $this->notifier->getToFields()
-            ))
-            ->add('content', 'metadata', array(
-                'fields' => $this->notifier->getContentFields()
-            ))
         ;
+
+        if ($this->notifier->getFromFields()) {
+            $builder->add('configuration', 'metadata', array(
+                'fields' => $this->notifier->getFromFields()
+            ));
+        }
     }
 
     /**
@@ -56,6 +52,6 @@ class AbstractNotificationType extends NotificationType
      */
     public function getName()
     {
-        return sprintf('notification_%s', $this->name);
+        return sprintf('notifier_configuration_%s', $this->name);
     }
 }

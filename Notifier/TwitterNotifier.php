@@ -26,32 +26,11 @@ class TwitterNotifier extends AbstractNotifier
     /**
      * {@inheritdoc}
      */
-    public function getToFields()
-    {
-        return array(
-            'to'  => array('text', array('required' => true))
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFromFields()
     {
         return array(
-            'senderLogin'    => array('text', array('required' => true)),
-            'senderPassword' => array('text', array('required' => true)),
-            'alias'          => array('text', array('required' => true))
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContentFields()
-    {
-        return array(
-            'message' => array('textarea', array('required' => false))
+            'login'    => array('text', array('required' => true)),
+            'password' => array('text', array('required' => true))
         );
     }
 }

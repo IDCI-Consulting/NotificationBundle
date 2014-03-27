@@ -25,31 +25,10 @@ class SmsNotifier extends AbstractNotifier
     /**
      * {@inheritdoc}
      */
-    public function getToFields()
-    {
-        return array(
-            'to'  => array('text', array('required' => true))
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFromFields()
     {
         return array(
-            'from'  => array('text', array('required' => true)),
-            'alias' => array('text', array('required' => true))
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContentFields()
-    {
-        return array(
-            'message' => array('textarea', array('required' => false))
+            'phone_number' => array('text', array('required' => true))
         );
     }
 }

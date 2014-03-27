@@ -89,7 +89,6 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $emailNode;
-
     }
 
     public function addSmsParametersNode()
@@ -139,7 +138,6 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $facebookNode;
-
     }
 
     public function addTwitterParametersNode()

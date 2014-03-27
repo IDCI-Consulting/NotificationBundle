@@ -45,6 +45,12 @@ class Notification
 
     /**
      * @var string
+     * @ORM\Column(name="notifier_alias", type="string", length=64, nullable=true)
+     */
+    protected $notifierAlias;
+
+    /**
+     * @var string
      * @ORM\Column(name="_from", type="string", length=128, nullable=true)
      */
     protected $from;
@@ -90,8 +96,6 @@ class Notification
      * @ORM\Column(type="text", nullable=true)
      */
     protected $log;
-
-    //protected $provider;
 
     /**
      * Get status list
@@ -183,6 +187,29 @@ class Notification
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set notifierAlias
+     *
+     * @param string $notifierAlias
+     * @return NotificationEntity
+     */
+    public function setNotifierAlias($notifierAlias)
+    {
+        $this->notifierAlias = $notifierAlias;
+
+        return $this;
+    }
+
+    /**
+     * Get notifierAlias
+     *
+     * @return string
+     */
+    public function getNotifierAlias()
+    {
+        return $this->notifierAlias;
     }
 
     /**

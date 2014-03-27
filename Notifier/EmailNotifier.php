@@ -77,7 +77,6 @@ class EmailNotifier extends AbstractNotifier
      */
     protected static function initMailTransport($configuration)
     {
-        //...
         return $transport = new \Swift_MailTransport();
     }
 
@@ -124,7 +123,7 @@ class EmailNotifier extends AbstractNotifier
             'subject'     => array('text',     array('required' => true)),
             'message'     => array('textarea', array('required' => false)),
             'htmlMessage' => array('textarea', array('required' => false)),
-            'attachments' => array('text',     array('required' => false)),
+            'attachments' => array('text',     array('required' => false))
         );
     }
 
@@ -136,7 +135,7 @@ class EmailNotifier extends AbstractNotifier
         return array(
             'transport'    => array('choice', array(
                 'required' => false,
-                'choices' => array(
+                'choices'  => array(
                     'smtp'     => 'smtp',
                     'sendmail' => 'sendmail',
                     'mail'     => 'mail'
@@ -149,13 +148,11 @@ class EmailNotifier extends AbstractNotifier
             'port'         => array('integer',  array('required' => false)),
             'encryption'   => array('choice',   array(
                 'required' => false,
-                'choices' => array(
-                    'ssl' => 'ssl',
-                    'tsl' => 'tsl'
+                'choices'  => array(
+                    'ssl'  => 'ssl',
+                    'tsl'  => 'tsl'
                 )
-            )),
-            'isSecured'    => array('checkbox', array('required' => false)),
-            'alias'        => array('text',     array('required' => false))
+            ))
         );
     }
 }

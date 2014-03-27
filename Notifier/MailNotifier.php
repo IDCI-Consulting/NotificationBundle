@@ -43,23 +43,12 @@ class MailNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'senderFirstName'  => array('text',     array('required' => true)),
-            'senderLastName'   => array('text',     array('required' => true)),
-            'senderAddress'    => array('textarea', array('required' => true)),
-            'senderPostalCode' => array('text',     array('required' => true)),
-            'senderCity'       => array('text',     array('required' => true)),
-            'senderCountry'    => array('text',     array('required' => true)),
-            'alias'            => array('text',     array('required' => true)),
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContentFields()
-    {
-        return array(
-            'message' => array('textarea', array('required' => false))
+            'firstName'  => array('text',     array('required' => false)),
+            'lastName'   => array('text',     array('required' => false)),
+            'address'    => array('textarea', array('required' => false)),
+            'postalCode' => array('text',     array('required' => false)),
+            'city'       => array('text',     array('required' => false)),
+            'country'    => array('text',     array('required' => false))
         );
     }
 }

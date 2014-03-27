@@ -126,8 +126,11 @@ abstract class AbstractNotifier implements NotifierInterface
     public function cleanData($data)
     {
         foreach ($data as $field => $options) {
-            $fieldOptions = $this->getFieldOptions($field);
-            $data[$field] = $this->getResolver($fieldOptions)->resolve($options);
+            if (is_array($options)) {
+                $fieldOptions = $this->guessFieldOptions($field);
+                $options = $this->getResolver($fieldOptions)->resolve($options);
+            }
+            $data[$field] = $options;
         }
 
         return $data;
@@ -136,26 +139,26 @@ abstract class AbstractNotifier implements NotifierInterface
     /**
      * Get resolver
      *
-     * @param array $options
+     * @param array $fieldOptions
      *
      * @return $resolver
      */
-    protected function getResolver(array $options)
+    protected function getResolver(array $fieldOptions)
     {
         $resolver = new OptionsResolver();
-        $this->setDefaultOptions($resolver, $options);
+        $this->configureDefaultOptions($resolver, $fieldOptions);
 
         return $resolver;
     }
 
     /**
-     * Get field option
+     * Guess field options
      *
-     * @param string $field The name of field("to", "from", "content")
+     * @param string $field The name of field("from", "to", "content")
      *
      * @return array
      */
-    protected function getFieldOptions($field)
+    protected function guessFieldOptions($field)
     {
         $method = sprintf('get%sFields', ucfirst(strtolower($field)));
 
@@ -167,7 +170,7 @@ abstract class AbstractNotifier implements NotifierInterface
      */
     public function getToFields()
     {
-        return false;
+        return array('to' => array('textarea', array('required' => false)));
     }
 
     /**
@@ -175,7 +178,7 @@ abstract class AbstractNotifier implements NotifierInterface
      */
     public function getContentFields()
     {
-        return false;
+        return array('message' => array('textarea', array('required' => false)));
     }
 
     /**
@@ -183,7 +186,7 @@ abstract class AbstractNotifier implements NotifierInterface
      */
     public function getFromFields()
     {
-        return false;
+        return array('from' => array('text', array('required' => false)));
     }
 
     /**
@@ -192,7 +195,7 @@ abstract class AbstractNotifier implements NotifierInterface
      * @param OptionsResolver $resolver
      * @param array           $fieldOptions
      */
-    protected function setDefaultOptions(OptionsResolver $resolver, array $fieldOptions)
+    protected function configureDefaultOptions(OptionsResolver $resolver, array $fieldOptions)
     {
         foreach ($fieldOptions as $name => $options) {
             $resolver->setOptional(array($name));
