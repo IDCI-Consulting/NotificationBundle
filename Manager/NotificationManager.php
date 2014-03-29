@@ -14,9 +14,10 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Notifier\NotifierInterface;
-use IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierException;
 use IDCI\Bundle\NotificationBundle\Event\NotificationEvent;
 use IDCI\Bundle\NotificationBundle\Event\NotificationEvents;
+use IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierException;
+use IDCI\Bundle\NotificationBundle\Exception\NotificationParametersParseErrorException;
 
 class NotificationManager extends AbstractManager
 {
@@ -141,6 +142,29 @@ class NotificationManager extends AbstractManager
         }
 
         return $this->notifiers[$alias];
+    }
+
+    /**
+     * Process data
+     *
+     * @param string $type
+     * @param string $data in json format
+     * @param string|null $sourceName
+     */
+    public function processData($type, $data, $sourceName = null)
+    {
+        if (!isset($this->notifiers[$type])) {
+            throw new UndefinedNotifierException($type);
+        }
+
+        $notificationsData = json_decode($data, true);
+        if (!$notificationsData) {
+            throw new NotificationParametersParseErrorException($data);
+        }
+
+        foreach ($notificationsData as $notificationData) {
+            $this->addNotification($type, $notificationData, $sourceName);
+        }
     }
 
     /**

@@ -1,0 +1,19 @@
+IDCI\Bundle\NotificationBundle\Entity\NotifierConfiguration:
+    exclusion_policy: ALL
+
+    properties:
+        id:
+            expose: true
+            groups: [list, details]
+
+        alias:
+            expose: true
+            groups: [list, details]
+
+        type:
+            expose: true
+            groups: [list, details]
+
+        configuration:
+            expose: true
+            groups: [details]

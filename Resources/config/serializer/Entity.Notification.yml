@@ -1,0 +1,50 @@
+IDCI\Bundle\NotificationBundle\Entity\Notification:
+    exclusion_policy: ALL
+
+    properties:
+        id:
+            expose: true
+            groups: [list, details]
+
+        type:
+            expose: true
+            groups: [list, details]
+
+        notifierAlias:
+            expose: true
+            groups: [details]
+            serialized_name: notifierAlias
+
+        from:
+            expose: true
+            groups: [details]
+
+        to:
+            expose: true
+            groups: [details]
+
+        status:
+            expose: true
+            groups: [details]
+
+        content:
+            expose: true
+            groups: [details]
+
+        source:
+            expose: true
+            groups: [list, details]
+
+        log:
+            expose: true
+            groups: [details]
+
+        createdAt:
+            expose: true
+            groups: [list, details]
+            serialized_name: createdAt
+
+        updatedAt:
+            expose: true
+            groups: [list, details]
+            serialized_name: updatedAt

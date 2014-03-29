@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use IDCI\Bundle\NotificationBundle\Exception\UndefindedDefinitionException;
 
 class NotifierCompilerPass implements CompilerPassInterface
 {
