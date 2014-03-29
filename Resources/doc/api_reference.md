@@ -10,7 +10,7 @@ API List
 |--------|--------------------------------------------------------------------------|------------
 | GET    | [/notifications.{_format}](api/notification/get_notifications.md)        | List all notifications
 | GET    | [/notifications/{id}.{_format}](api/notification/get_notification.md)    | Retrieve one notification
-| POST   | [/notifications/{id}.{_format}](api/notification/post_notification.md)   | Create one notification
+| POST   | [/notifications/{id}.{_format}](api/notification/post_notifications.md)   | Create one notification
 
 ### NotifierConfiguration
 | Method | Path                                                                                               | Description
