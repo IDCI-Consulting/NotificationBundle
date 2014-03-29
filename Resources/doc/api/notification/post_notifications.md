@@ -119,7 +119,7 @@ mail=[
 |------|------------
 | 201  | Created
 | 400  | Bad request (wrong query parameters)
-| 501  | not implemented (the notifier doesn't exist)
+| 501  | Not implemented (the notifier doesn't exist)
 | 500  | Server error
 
 ## HTTP Response content examples
