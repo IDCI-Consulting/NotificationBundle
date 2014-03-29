@@ -39,7 +39,6 @@ public function registerBundles()
 ```
 
 Import the routing configuration:
-
 ```yml
 # app/config/routing.yml
 
