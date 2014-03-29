@@ -22,10 +22,8 @@ Create one notification
 | twitter        | true     |         |              | Twitter data
 
 ### source_name
-To associate a source name with the notifications
-The source name parameter is optional.
-Automaticaly add the source IP: "[ip] - source_name".
-By default sets the notification client IP address in this field.
+To associate a source name with the notifications, the source name parameter is optional.
+Automaticaly add the source IP: `"[ip] - source_name"`.  
 
 ### email
 ...
