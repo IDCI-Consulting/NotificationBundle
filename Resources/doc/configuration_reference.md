@@ -1,0 +1,2 @@
+IDCINotificationBundle Configuration Reference
+==============================================
