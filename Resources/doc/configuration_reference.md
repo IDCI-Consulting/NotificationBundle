@@ -1,7 +1,7 @@
 IDCINotificationBundle Configuration Reference
 ==============================================
 
-Email notifier Configuration
+Email notifier configuration
 ----------------------------
 
 ###Parameters :
@@ -53,7 +53,7 @@ idci_notification:
                     from:      test2@test.fr
 ```
 
-SMS notifier Configuration
+SMS notifier configuration
 --------------------------
 
 ###Parameters :
@@ -73,7 +73,7 @@ idci_notification:
                     phone_number: 0635214255
 ```
 
-Mail notifier Configuration
+Mail notifier configuration
 ---------------------------
 
 ###Parameters :
@@ -103,7 +103,7 @@ idci_notification:
                     country:     FR
 ```
 
-Facebook notifier Configuration
+Facebook notifier configuration
 -------------------------------
 
 ###Parameters :
@@ -125,7 +125,7 @@ idci_notification:
                     password: password
 ```
 
-Twitter notifier Configuration
+Twitter notifier configuration
 ------------------------------
 
 ###Parameters :
@@ -143,11 +143,11 @@ idci_notification:
             default_configuration: default
             configurations:
                 default:
-                    login:    @test
+                    login:    '@@test'
                     password: password
 ```
 
-OverView of `app/config/config.yml`
+Overview of `app/config/config.yml`
 -----------------------------------
 ```yml
 # Notification
@@ -192,6 +192,6 @@ idci_notification:
             default_configuration: default
             configurations:
                 default:
-                    login:    @test
+                    login:    '@@test'
                     password: password
 ```
