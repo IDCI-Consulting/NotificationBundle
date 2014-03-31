@@ -1,8 +1,8 @@
 IDCINotificationBundle Configuration Reference
 ==============================================
 
-Email notifier configuration
-----------------------------
+Email 
+-----
 
 ###Parameters :
 | Parameter  | Type    | Required | Valide values        |
@@ -53,8 +53,8 @@ idci_notification:
                     from:      test2@test.fr
 ```
 
-SMS notifier configuration
---------------------------
+SMS 
+---
 
 ###Parameters :
 | Parameter     | Type    | Required | Valide values        |
@@ -73,8 +73,8 @@ idci_notification:
                     phone_number: 0635214255
 ```
 
-Mail notifier configuration
----------------------------
+Mail 
+----
 
 ###Parameters :
 | Parameter   | Type    | Required | Valide values        |
@@ -103,8 +103,8 @@ idci_notification:
                     country:     FR
 ```
 
-Facebook notifier configuration
--------------------------------
+Facebook
+--------
 
 ###Parameters :
 | Parameter   | Type    | Required | Valide values        |
@@ -125,8 +125,8 @@ idci_notification:
                     password: password
 ```
 
-Twitter notifier configuration
-------------------------------
+Twitter
+-------
 
 ###Parameters :
 | Parameter   | Type    | Required | Valide values        |
