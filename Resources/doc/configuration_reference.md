@@ -12,7 +12,7 @@ Email notifier configuration
 | server     | string  | no       | string value         |
 | login      | string  | no       | string value         |
 | password   | string  | no       | string value         |
-| port       | integer | no       | 0<= value <= 65536   |
+| port       | integer | no       | 0 <= value <= 65536  |
 | encryption | string  | no       | null, ssl, tls       |
 
 ###Configuration
