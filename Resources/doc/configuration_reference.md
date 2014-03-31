@@ -1,8 +1,8 @@
 IDCINotificationBundle Configuration Reference
 ==============================================
 
-Email notifier Configuration
-----------------------------
+Email 
+-----
 
 ###Parameters :
 | Parameter  | Type    | Required | Valide values        |
@@ -12,7 +12,7 @@ Email notifier Configuration
 | server     | string  | no       | string value         |
 | login      | string  | no       | string value         |
 | password   | string  | no       | string value         |
-| port       | integer | no       | 0<= value <= 65536   |
+| port       | integer | no       | 0 <= value <= 65536  |
 | encryption | string  | no       | null, ssl, tls       |
 
 ###Configuration
@@ -53,8 +53,8 @@ idci_notification:
                     from:      test2@test.fr
 ```
 
-SMS notifier Configuration
---------------------------
+SMS 
+---
 
 ###Parameters :
 | Parameter     | Type    | Required | Valide values        |
@@ -73,8 +73,8 @@ idci_notification:
                     phone_number: 0635214255
 ```
 
-Mail notifier Configuration
----------------------------
+Mail 
+----
 
 ###Parameters :
 | Parameter   | Type    | Required | Valide values        |
@@ -103,8 +103,8 @@ idci_notification:
                     country:     FR
 ```
 
-Facebook notifier Configuration
--------------------------------
+Facebook
+--------
 
 ###Parameters :
 | Parameter   | Type    | Required | Valide values        |
@@ -125,8 +125,8 @@ idci_notification:
                     password: password
 ```
 
-Twitter notifier Configuration
-------------------------------
+Twitter
+-------
 
 ###Parameters :
 | Parameter   | Type    | Required | Valide values        |
@@ -143,11 +143,11 @@ idci_notification:
             default_configuration: default
             configurations:
                 default:
-                    login:    @test
+                    login:    '@@test'
                     password: password
 ```
 
-OverView of `app/config/config.yml`
+Overview of `app/config/config.yml`
 -----------------------------------
 ```yml
 # Notification
@@ -192,6 +192,6 @@ idci_notification:
             default_configuration: default
             configurations:
                 default:
-                    login:    @test
+                    login:    '@@test'
                     password: password
 ```
