@@ -128,9 +128,7 @@ idci_notification:
 More informations
 -----------------
 ### Why using a default configuration ?
-```
 In case the notifierAlias and the configuration sent in a notification are not provided ; the default configuration is used to configure a notifier in order to send a notification.
-```
 
 ### Several configurations for each type of notifier
 Exemple : Several email notifier configurations in `app/config/config.yml` :
