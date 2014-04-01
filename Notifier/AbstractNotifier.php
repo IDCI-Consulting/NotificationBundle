@@ -58,12 +58,11 @@ abstract class AbstractNotifier implements NotifierInterface
             throw new ConfigurationParseErrorException($notification->getFrom());
         }
 
-        $notifierAlias = $notification->getNotifierAlias();
-        if ( null != $notifierAlias) {
+        if ($notification->hasNotifierAlias()) {
             try {
-                $from = $this->getDataBaseConfiguration($notifierAlias, $notification->getType());
+                $from = $this->getDataBaseConfiguration($notification->getNotifierAlias(), $notification->getType());
             } catch(UndefinedNotifierConfigurationException $e) {
-                $from = $this->getFileConfiguration($notifierAlias);
+                $from = $this->getFileConfiguration($notification->getNotifierAlias());
             }
         }
 
