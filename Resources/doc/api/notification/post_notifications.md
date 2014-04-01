@@ -26,10 +26,10 @@ To associate a source name with the notifications, the source name parameter is 
 Automaticaly add the source IP: `"[ip] - source_name"`.
 
 ### Email
-Field "notifier_alias" :
-type: string
-optional : true
-valide values : string value
+Field "notifier_alias" :  
+type: string  
+optional : true  
+valide values : string value  
 
 Field "to" :
 
@@ -110,10 +110,10 @@ email=[
 ```
 
 ### Facebook
-Field "notifier_alias" :
-type: string
-optional : true
-valide values : string value
+Field "notifier_alias" :  
+type: string  
+optional : true  
+valide values : string value  
 
 Field "to" :
 
@@ -152,10 +152,10 @@ facebook=[
 ```
 
 ### Mail
-Field "notifier_alias" :
-type: string
-optional : true
-valide values : string value
+Field "notifier_alias" :  
+type: string  
+optional : true  
+valide values : string value  
 
 Field "to" :
 
@@ -210,10 +210,10 @@ mail=[
 ```
 
 ### Sms
-Field "notifier_alias" :
-type: string
-optional : true
-valide values : string value
+Field "notifier_alias" :  
+type: string  
+optional : true  
+valide values : string value  
 
 Field "to" :
 
@@ -244,10 +244,10 @@ sms=[
 ```
 
 ### Twitter
-Field "notifier_alias" :
-type: string
-optional : true
-valide values : string value
+Field "notifier_alias" :  
+type: string  
+optional : true  
+valide values : string value  
 
 Field "to" :
 
