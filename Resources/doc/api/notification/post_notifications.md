@@ -31,7 +31,7 @@ type: string
 optional : true  
 valide values : string value  
 
-Field "to" :
+####Field "to" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
@@ -39,7 +39,7 @@ Field "to" :
 | cc          | string  | true     | string value
 | bcc         | string  | true     | string value
 
-Field "from" :
+####Field "from" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
@@ -51,7 +51,7 @@ Field "from" :
 | port        | integer | true     | 0 <= value <= 65536
 | encryption  | string  | true     | ull, ssl, tls
 
-Field "content" :
+####Field "content" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
@@ -115,20 +115,20 @@ type: string
 optional : true  
 valide values : string value  
 
-Field "to" :
+####Field "to" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | to          | string  | false    | string value
 
-Field "from" :
+####Field "from" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
 | login       | string  | true     | string value
 | password    | string  | true     | string value
 
-Field "content" :
+####Field "content" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
@@ -157,7 +157,7 @@ type: string
 optional : true  
 valide values : string value  
 
-Field "to" :
+####Field "to" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
@@ -168,7 +168,7 @@ Field "to" :
 | city        | string  | false    | string value
 | country     | string  | false    | string value
 
-Field "from" :
+####Field "from" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
@@ -179,7 +179,7 @@ Field "from" :
 | city        | string  | true     | string value
 | country     | string  | true     | string value
 
-Field "content" :
+####Field "content" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
@@ -215,19 +215,19 @@ type: string
 optional : true  
 valide values : string value  
 
-Field "to" :
+####Field "to" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | to          | string  | false    | string value
 
-Field "from" :
+####Field "from" :
 
 | Subfield     | Type    | Optional | Valide values
 |--------------|---------|----------|---------------
 | phone_number | integer | true     | 0 <= value
 
-Field "content" :
+####Field "content" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
@@ -249,20 +249,20 @@ type: string
 optional : true  
 valide values : string value  
 
-Field "to" :
+####Field "to" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | to          | string  | false      | string value
 
-Field "from" :
+####Field "from" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | login       | string  | true     | string value
 | password    | string  | true     | string value
 
-Field "content" :
+####Field "content" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
