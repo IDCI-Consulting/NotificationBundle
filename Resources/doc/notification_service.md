@@ -5,25 +5,23 @@ IDCINotificationBundle Notification Service
 Notification
 ------------
 ### What is a Notification ?
-A notification is an object. It is used to inform a user about a subject.
+A notification is an persisted object : "entity" (using Doctrine). It is used to inform a user about a subject.
 
 Object Notification :
 
-![UML Notification Class Diagram](Notification_class.png)
+![UML Notification Class Diagram](notification_class.png)
 
 
-### What is a notifierAlias ?
-| Attribute         | Type   |
-|-------------------|--------|
-| notifierAlias     | string |
+#### What is the role of a notifierAlias ?
 
-A notifierAlias is an attribut of the object Notification. It is used to identity which configuration has to be used to send a notification. This notifierAlias can identify a configuration in a database or in `app/config/config.yml` file (more details : [Several_configurations_for_each_type_of_notifier](https://github.com/IDCI-Consulting/NotificationBundle/blob/master/Resources/doc/configuration_reference.md#several-configurations-for-each-type-of-notifier)).
+A notifierAlias is an attribut of the object Notification. This field identify which configuration has to be used to send a notification. This notifierAlias can identify a configuration in a database or in `app/config/config.yml` file (more details : [Several_configurations_for_each_type_of_notifier](https://github.com/IDCI-Consulting/NotificationBundle/blob/master/Resources/doc/configuration_reference.md#several-configurations-for-each-type-of-notifier)).
 
 Example : a configuration identified by an alias in a database
-| Id | Alias    | Type  | Configuration                                                             |
-|----|----------|-------|---------------------------------------------------------------------------|
-| 1  | myalias1 | email | {"transport": "smtp","server": "smtp.test.com","login": "toto@test.fr","password": "test","port": 587,"encryption": "tls"} |
-Note 1 : valides types : email, sms, mail, facebook, twitter
+
+| Id | Alias    | Type  | Configuration                                                                              
+|----|----------|-------|-----------------------------------------------------------------------------------
+| 1  | myalias1 | email | {"transport": "smtp","server": "smtp.test.com","login": "toto@test.fr","password": "test","port": 587,"encryption": "tls"} 
+Note 1 : valides types : email, sms, mail, facebook, twitter  
 Note 2 : the couple value {alias, type} is used to define the unique constraint in your database.
 
 Example : a configuration identified by an alias in `app/config/config.yml`.
@@ -51,15 +49,15 @@ Note : Primery the notifierAlias is used to find a configuration in the database
 ### How to create a Notification ?
 There are 3 methods to create an notification.
 
-Method 1 : Use a web service of the bundle.
+####Method 1 : Use a web service.
 
-| Type   | Path                                                     | Description            |
-|--------|----------------------------------------------------------|------------------------|
-| POST   | [/notifications](api/notification/post_notifications.md) | Create an notification |
+| Type   | Path                                                     | Description            
+|--------|----------------------------------------------------------|------------------------
+| POST   | [/notifications](api/notification/post_notifications.md) | Create an notification 
 
-Method 2 : Create an interface to manage a notification (CRUD)
+####Method 2 : Create an interface to manage a notification (CRUD)
 
-Method 3 : Use [IDCINotificationApiClientBundle](https://github.com/IDCI-Consulting/NotificationApiClientBundle.git).
+####Method 3 : Using [IDCINotificationApiClientBundle](https://github.com/IDCI-Consulting/NotificationApiClientBundle.git).
 Exemple : Using the command line `tms:notification:notify` to create an email notification.
 ```sh
 $ php app/console tms:notification:notify email '{"notifierAlias":"sfr",
@@ -72,30 +70,29 @@ To send a Notification you can use this command line : `idci:notification:send`
 ```sh
 $ php app/console idci:notification:send
 ```
-Process of this command :
+Workflow of this command :  
 
-1. Find all notifications with status NEW.
-
-2. Use the suitable notifier for each type of notification to send it.
-
-3. Send notifications one by one.
+1. Find all notifications with "NEW" status.  
+2. Guess the notifier for each type of notification to send.  
+3. Send them one by one.  
 
 Notifier
 --------
 ### What is a Notifier ?
 A notifier is an object. It is used to send a notification.
 There are five notifier types.
-| Type     | Notifier         | development state |
-|----------|------------------|-------------------|
-| email    | emailNotifier    | 100%              |
-| sms      | smsNotifier      | 10%               |
-| mail     | mailNotifier     | 10%               |
-| facebook | facebookNotifier | 10%               |
-| twitter  | twitterNotifier  | 10%               |
+
+| Type     | Notifier         | development state 
+|----------|------------------|-------------------
+| email    | emailNotifier    | 100%              
+| sms      | smsNotifier      | 10%               
+| mail     | mailNotifier     | 10%               
+| facebook | facebookNotifier | 10%               
+| twitter  | twitterNotifier  | 10%               
 
 Notifier UML schema:
 
-![Notifier class diagram](Notifier_class_diagram.png)
+![Notifier class diagram](notifier_class_diagram.png)
 
 ### How to create a Notifier
 If you wish to add your own notifier, create a class which extends `IDCI\Bundle\NotificationBundle\Notifier\AbstractNotifier`
@@ -160,9 +157,9 @@ Detail : the values in array are used to create form field
 ```
 'field'  => array('text', array('required' => false))
 ```
-'field'    : field name
-'text'     : [built-in field type](http://symfony.com/doc/current/book/forms.html#built-in-field-types)
-'required' : field type options ([required option](http://symfony.com/doc/current/book/forms.html#field-type-options))
+'field'    : field name  
+'text'     : [built-in field type](http://symfony.com/doc/current/book/forms.html#built-in-field-types)  
+'required' : field type options ([required option](http://symfony.com/doc/current/book/forms.html#field-type-options))  
 
 Now declare your notifier as service:
 ```yml
