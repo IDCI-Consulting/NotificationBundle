@@ -32,6 +32,7 @@ optional : true
 valide values : string value
 
 Field "to" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | to          | string  | false    | string value
@@ -39,6 +40,7 @@ Field "to" :
 | bcc         | string  | true     | string value
 
 Field "from" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
 | transport   | string  | true     | smtp, sendmail, mail
@@ -50,6 +52,7 @@ Field "from" :
 | encryption  | string  | true     | ull, ssl, tls
 
 Field "content" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
 | subject     | string  | false    | string value
@@ -113,17 +116,20 @@ optional : true
 valide values : string value
 
 Field "to" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | to          | string  | false    | string value
 
 Field "from" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
 | login       | string  | true     | string value
 | password    | string  | true     | string value
 
 Field "content" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
 | message     | string  | true     | string value
@@ -152,6 +158,7 @@ optional : true
 valide values : string value
 
 Field "to" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | firstName   | string  | false    | string value
@@ -162,6 +169,7 @@ Field "to" :
 | country     | string  | false    | string value
 
 Field "from" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | firstName   | string  | true     | string value
@@ -172,6 +180,7 @@ Field "from" :
 | country     | string  | true     | string value
 
 Field "content" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
 | message     | string  | true     | string value
@@ -207,16 +216,19 @@ optional : true
 valide values : string value
 
 Field "to" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | to          | string  | false    | string value
 
 Field "from" :
+
 | Subfield     | Type    | Optional | Valide values
 |--------------|---------|----------|---------------
 | phone_number | integer | true     | 0 <= value
 
 Field "content" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
 | message     | string  | true     | string value
@@ -238,17 +250,20 @@ optional : true
 valide values : string value
 
 Field "to" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | to          | string  | false      | string value
 
 Field "from" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | login       | string  | true     | string value
 | password    | string  | true     | string value
 
 Field "content" :
+
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
 | message     | string  | true     | string value
