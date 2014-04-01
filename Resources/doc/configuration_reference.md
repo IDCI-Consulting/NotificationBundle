@@ -152,7 +152,7 @@ idci_notification:
                     from:      test2@test.fr
 ```
 Note : This possibility allows to have a flexible configuration. When a notification is received with an notifierAlias you can use it to choose which configuration has to be used. 
-For more details about [notiferAlias](notification_service.md).  
+For more details about [notiferAlias](https://github.com/IDCI-Consulting/NotificationBundle/blob/master/Resources/doc/notification_service.md#what-is-the-role-of-a-notifieralias-).  
 
 Overview of `app/config/config.yml`
 -----------------------------------
