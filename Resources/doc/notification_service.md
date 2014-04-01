@@ -14,37 +14,18 @@ Object Notification :
 
 #### What is the role of a notifierAlias ?
 
-A notifierAlias is an attribut of the object Notification. This field identify which configuration has to be used to send a notification. This notifierAlias can identify a configuration in a database or in `app/config/config.yml` file (more details : [Several_configurations_for_each_type_of_notifier](https://github.com/IDCI-Consulting/NotificationBundle/blob/master/Resources/doc/configuration_reference.md#several-configurations-for-each-type-of-notifier)).
+A notifierAlias is an attribut of the object Notification. This field identify which configuration has to be used to send a notification. Primery the notifierAlias is used to find a configuration in the database. Secondly, if there is no configuration in there then it is used to check in `app/config/config.yml` file.
 
-Example : a configuration identified by an alias in a database
+Example : a configuration identified by an alias in a database  
 
 | Id | Alias    | Type  | Configuration                                                                              
 |----|----------|-------|-----------------------------------------------------------------------------------
 | 1  | myalias1 | email | {"transport": "smtp","server": "smtp.test.com","login": "toto@test.fr","password": "test","port": 587,"encryption": "tls"} 
 Note 1 : valides types : email, sms, mail, facebook, twitter  
-Note 2 : the couple value {alias, type} is used to define the unique constraint in your database.
+Note 2 : the couple value {alias, type} is used to define the unique constraint in your database.  
 
-Example : a configuration identified by an alias in `app/config/config.yml`.
-```yml
-# Notification
-idci_notification:
-    notifiers:
-        email:
-            default_configuration: default
-            configurations:
-                default:
-                    transport:  smtp
-                    from:       test@test.fr
-                    server:     smtp.xxx.com
-                    login:      yourlogin
-                    password:   yourpassword
-                    port:       587
-                    encryption: ssl
-                myAlias2:
-                    transport: sendmail
-                    from:      test2@test.fr
-```
-Note : Primery the notifierAlias is used to find a configuration in the database. Secondly, if there is no configuration in there then it is used to check in `app/config/config.yml` file.
+Example : a configuration identified by an alias in `app/config/config.yml`.  
+Please check : [Several_configurations_for_each_type_of_notifier](https://github.com/IDCI-Consulting/NotificationBundle/blob/master/Resources/doc/configuration_reference.md#several-configurations-for-each-type-of-notifier)
 
 ### How to create a Notification ?
 There are 3 methods to create an notification.
