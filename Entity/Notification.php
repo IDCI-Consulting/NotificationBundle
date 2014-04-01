@@ -219,13 +219,8 @@ class Notification
      */
     public function hasNotifierAlias()
     {
-        if(null != $this->getNotifierAlias()) {
-            return true;
-        } else {
-            return false;
-        }
+        return null !== $this->getNotifierAlias();
     }
-
 
     /**
      * Set from
