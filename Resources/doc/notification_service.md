@@ -5,7 +5,7 @@ IDCINotificationBundle Notification Service
 Notification
 ------------
 ### What is a Notification ?
-A notification is an persisted object : "entity" (using Doctrine). It is used to inform a user about a subject.
+A notification is an persisted object called "entity" (using Doctrine). It is used to inform a user about a subject.
 
 Object Notification :
 
@@ -14,7 +14,7 @@ Object Notification :
 
 #### What is the role of a notifierAlias ?
 
-A notifierAlias is an attribut of the object Notification. This field identify which configuration has to be used to send a notification. Primery the notifierAlias is used to find a configuration in the database. Secondly, if there is no configuration in there then it is used to check in `app/config/config.yml` file.
+A notifierAlias is a string attribut of the entity Notification. This field identify which configuration has to be used to send a notification. Primery the notifierAlias is used to find a configuration in the database. Secondly, if there is no configuration in there then it is used to check in `app/config/config.yml` file.
 
 Example : a configuration identified by an alias in a database  
 
