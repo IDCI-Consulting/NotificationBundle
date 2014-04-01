@@ -219,12 +219,11 @@ email=[
             "attachments": []
         }
     }
-
 ]
 ```
 
 To send two email and one sms notifications:
-```json
+```
 source_name="my_notification_source" &
 email=[
     {
