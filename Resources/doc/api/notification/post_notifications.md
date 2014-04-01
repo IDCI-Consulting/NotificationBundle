@@ -26,11 +26,42 @@ To associate a source name with the notifications, the source name parameter is 
 Automaticaly add the source IP: `"[ip] - source_name"`.
 
 ### Email
+Field "notifier_alias" :
+type: string
+optional : true
+valide values : string value
+
+Field "to" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|---------------
+| to          | string  | false    | string value
+| cc          | string  | true     | string value
+| bcc         | string  | true     | string value
+
+Field "from" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|--------------
+| transport   | string  | true     | smtp, sendmail, mail
+| from        | string  | true     | string value
+| login       | string  | true     | string value
+| password    | string  | true     | string value
+| server      | string  | true     | string value
+| port        | integer | true     | 0 <= value <= 65536
+| encryption  | string  | true     | ull, ssl, tls
+
+Field "content" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|--------------
+| subject     | string  | false    | string value
+| message     | string  | true     | string value
+| htmlMessage | string  | true     | string value
+| attachments | string  | true     | string value
+
+#### Case 1 : notification with notifier parameters
+Example :
 ```
 email=[
     {
-        "notifier_alias" : "my_email_alias"
-        ,
         "to": {
             "to": "toto@titi.fr",
             "cc": "titi@toto.fr, tutu@titi.fr",
@@ -54,13 +85,52 @@ email=[
     }
 ]
 ```
+#### Case 2 : notification without notifier parameters
+Example :
+```
+email=[
+    {
+        "notifier_alias" : "my_email_alias",
+        "to": {
+            "to": "toto@titi.fr",
+            "cc": "titi@toto.fr, tutu@titi.fr",
+            "bcc": null
+        },
+        "content": {
+            "subject": "A subject message",
+            "message": "the message to be send",
+            "htmlMessage": "<h1>Titre</h1><p>Message</p>",
+            "attachments": []
+        }
+    }
+]
+```
 
 ### Facebook
+Field "notifier_alias" :
+type: string
+optional : true
+valide values : string value
+
+Field "to" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|---------------
+| to          | string  | false    | string value
+
+Field "from" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|--------------
+| login       | string  | true     | string value
+| password    | string  | true     | string value
+
+Field "content" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|--------------
+| message     | string  | true     | string value
 ```
 facebook=[
     {
-        "notifier_alias" : "my_facebook_alias"
-        ,
+        "notifier_alias" : "my_facebook_alias",
         "to": {
             "to": "toto@facebook.com"
         },
@@ -76,11 +146,39 @@ facebook=[
 ```
 
 ### Mail
+Field "notifier_alias" :
+type: string
+optional : true
+valide values : string value
+
+Field "to" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|---------------
+| firstName   | string  | false    | string value
+| lastName    | string  | false    | string value
+| address     | string  | false    | string value
+| postalCode  | integer | false    | 0 <= value
+| city        | string  | false    | string value
+| country     | string  | false    | string value
+
+Field "from" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|---------------
+| firstName   | string  | true     | string value
+| lastName    | string  | true     | string value
+| address     | string  | true     | string value
+| postalCode  | integer | true     | 0 <= value
+| city        | string  | true     | string value
+| country     | string  | true     | string value
+
+Field "content" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|--------------
+| message     | string  | true     | string value
 ```
 mail=[
     {
-        "notifier_alias" : "my_mail_alias"
-        ,
+        "notifier_alias" : "my_mail_alias",
         "to": {
             "firstName": "fName",
             "lastName": "lName",
@@ -103,6 +201,25 @@ mail=[
 ```
 
 ### Sms
+Field "notifier_alias" :
+type: string
+optional : true
+valide values : string value
+
+Field "to" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|---------------
+| to          | string  | false    | string value
+
+Field "from" :
+| Subfield     | Type    | Optional | Valide values
+|--------------|---------|----------|---------------
+| phone_number | integer | true     | 0 <= value
+
+Field "content" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|--------------
+| message     | string  | true     | string value
 ```
 sms=[
     {
@@ -115,11 +232,31 @@ sms=[
 ```
 
 ### Twitter
+Field "notifier_alias" :
+type: string
+optional : true
+valide values : string value
+
+Field "to" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|---------------
+| to          | string  | false      | string value
+
+Field "from" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|---------------
+| login       | string  | true     | string value
+| password    | string  | true     | string value
+
+Field "content" :
+| Subfield    | Type    | Optional | Valide values
+|-------------|---------|----------|--------------
+| message     | string  | true     | string value
+
 ```
 twitter=[
     {
-        "notifier_alias" : "my_twitter_alias"
-        ,
+        "notifier_alias" : "my_twitter_alias",
         "to": {
             "to": "@toto"
         },
@@ -141,8 +278,6 @@ To send one email notification:
 source_name="my_notification_source" &
 email=[
     {
-        "notifier_alias" : "my_email_alias"
-        ,
         "to": {
             "to": "toto@titi.fr",
             "cc": "titi@toto.fr, tutu@titi.fr",
@@ -172,8 +307,6 @@ To send two email notifications:
 source_name="my_notification_source" &
 email=[
     {
-        "notifier_alias" : "my_email_alias1"
-        ,
         "to": {
             "to": "toto1@titi.fr",
             "cc": "titi1@toto.fr, tutu@titi.fr",
@@ -196,21 +329,12 @@ email=[
         }
     },
     {
-        "notifier_alias" : "my_email_alias2"
+        "notifier_alias" : "my_email_alias"
         ,
         "to": {
             "to": "toto2@titi.fr",
             "cc": "titi2@toto.fr, tutu@titi.fr",
             "bcc": null
-        },
-        "from": {
-            "transport":"smtp",
-            "from" :"test2@test.fr",
-            "login":"mail2@mxserver.com",
-            "password": "password2",
-            "server": "smtp.mxserver.fr",
-            "port": "465",
-            "encryption": "ssl",
         },
         "content": {
             "subject": "the subject of the seconde message",
@@ -227,8 +351,6 @@ To send two email and one sms notifications:
 source_name="my_notification_source" &
 email=[
     {
-        "notifier_alias" : "my_email_alias1"
-        ,
         "to": {
             "to": "toto1@titi.fr",
             "cc": "titi1@toto.fr, tutu@titi.fr",
@@ -257,15 +379,6 @@ email=[
             "to": "toto2@titi.fr",
             "cc": "titi2@toto.fr, tutu@titi.fr",
             "bcc": null
-        },
-        "from": {
-            "transport":"smtp",
-            "from" :"test2@test.fr",
-            "login":"mail2@mxserver.com",
-            "password": "password2",
-            "server": "smtp.mxserver.fr",
-            "port": "465",
-            "encryption": "ssl",
         },
         "content": {
             "subject": "the subject of the seconde message",
@@ -289,8 +402,6 @@ sms=[
 source_name="my_notification_source" &
 email=[
     {
-        "notifier_alias" : "my_email_alias"
-        ,
         "to": {
             "to": "toto@titi.fr",
             "cc": "titi@toto.fr, tutu@titi.fr",
@@ -310,23 +421,6 @@ email=[
             "message": "the message to be send",
             "htmlMessage": "<h1>Titre</h1><p>Message</p>",
             "attachments": []
-        }
-    },
-    {...}
-] &
-facebook=[
-    {
-        "notifier_alias" : "my_facebook_alias"
-        ,
-        "to": {
-            "to": "toto@facebook.com"
-        },
-        "from": {
-            "login": "mylogin@facebook.com",
-            "password" : "mypassword"
-        },
-        "content": {
-            "message" : "The message to be sent."
         }
     },
     {...}
@@ -362,23 +456,6 @@ sms=[
         "from" : {"phone_number": "0614589655"},
         "content": {"message" :"this is a sms"}
     },
-    {...}
-] &
-twitter=[
-    {
-        "notifier_alias" : "my_twitter_alias"
-        ,
-        "to": {
-            "to": "@toto"
-        },
-        "from": {
-            "login": "@mylogin",
-            "password" : "mypassword"
-        },
-        "content": {
-            "message" : "The message to be sent."
-        }
-    }
     {...}
 ]
 ```
