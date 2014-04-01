@@ -128,10 +128,10 @@ idci_notification:
 More informations
 -----------------
 ### Why using a default configuration ?
-In case the notifierAlias and the configuration sent in a notification are not provided ; the default configuration is used to configure a notifier in order to send a notification.
+The notifier provider default_configuration parameter allow to identify the configuration has to be used when a notification is received without notifier informations to send it.
 
 ### Several configurations for each type of notifier
-Exemple : Several email notifier configurations in `app/config/config.yml` :
+Example : Several email notifier configurations in `app/config/config.yml` :
 ```yml
 # Notification
 idci_notification:
@@ -147,12 +147,11 @@ idci_notification:
                     password:   yourpassword
                     port:       587
                     encryption: ssl
-                notifierAlias:
+                myconfiguration:
                     transport: sendmail
                     from:      test2@test.fr
 ```
-Note : Previously you defined a default configuration for each notifier. Now you can also add a personnal configuration to send a notification. This personnal configuration is use only if an notifierAlias is provided and if there is no configuration in database corresponding to this notifierAlias.
-
+Note : To use this personnal configuration you have to specify an identifier in your notification.  
 
 Overview of `app/config/config.yml`
 -----------------------------------
