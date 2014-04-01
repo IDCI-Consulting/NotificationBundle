@@ -8,9 +8,9 @@ Notification
 A notification is an object. It is used to inform a user about a subject.
 
 Object Notification :
-```
+
 ![UML Notification Class Diagram](Notification_class.png)
-```
+
 
 ### What is a notifierAlias ?
 | Attribute         | Type   |
@@ -94,9 +94,9 @@ There are five notifier types.
 | twitter  | twitterNotifier  | 10%               |
 
 Notifier UML schema:
-```
+
 ![Notifier class diagram](Notifier_class_diagram.png)
-```
+
 ### How to create a Notifier
 If you wish to add your own notifier, create a class which extends `IDCI\Bundle\NotificationBundle\Notifier\AbstractNotifier`
 ```php
