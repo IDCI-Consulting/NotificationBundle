@@ -1,7 +1,7 @@
 IDCINotificationBundle Configuration Reference
 ==============================================
 
-Email 
+Email
 -----
 
 ###Parameters :
@@ -32,28 +32,7 @@ idci_notification:
                     port:       587
                     encryption: ssl
 ```
-Add several email notifier configurations in `app/config/config.yml` :
-```yml
-# Notification
-idci_notification:
-    notifiers:
-        email:
-            default_configuration: default
-            configurations:
-                default:
-                    transport:  smtp
-                    from:       test@test.fr
-                    server:     smtp.xxx.com
-                    login:      yourlogin
-                    password:   yourpassword
-                    port:       587
-                    encryption: ssl
-                myconfiguration:
-                    transport: sendmail
-                    from:      test2@test.fr
-```
-
-SMS 
+SMS
 ---
 
 ###Parameters :
@@ -73,7 +52,7 @@ idci_notification:
                     phone_number: 0635214255
 ```
 
-Mail 
+Mail
 ----
 
 ###Parameters :
@@ -146,10 +125,41 @@ idci_notification:
                     login:    '@@test'
                     password: password
 ```
+More informations
+-----------------
+### Why using a default configuration ?
+```
+In case the notifierAlias and the configuration sent in a notification are not provided ; the default configuration is used to configure a notifier in order to send a notification.
+```
+
+### Several configurations for each type of notifier
+Exemple : Several email notifier configurations in `app/config/config.yml` :
+```yml
+# Notification
+idci_notification:
+    notifiers:
+        email:
+            default_configuration: default
+            configurations:
+                default:
+                    transport:  smtp
+                    from:       test@test.fr
+                    server:     smtp.xxx.com
+                    login:      yourlogin
+                    password:   yourpassword
+                    port:       587
+                    encryption: ssl
+                notifierAlias:
+                    transport: sendmail
+                    from:      test2@test.fr
+```
+Note : Previously you defined a default configuration for each notifier. Now you can also add a personnal configuration to send a notification. This personnal configuration is use only if an notifierAlias is provided and if there is no configuration in database corresponding to this notifierAlias.
+
 
 Overview of `app/config/config.yml`
 -----------------------------------
 ```yml
+//...
 # Notification
 idci_notification:
     notifiers:
