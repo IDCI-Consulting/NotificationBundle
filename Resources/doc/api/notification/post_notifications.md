@@ -26,10 +26,12 @@ To associate a source name with the notifications, the source name parameter is 
 Automaticaly add the source IP: `"[ip] - source_name"`.
 
 ### Email
-Field "notifier_alias" :  
-type: string  
-optional : true  
-valide values : string value  
+ 
+####Field "notifier_alias" :
+
+| Type    | Optional | Valide values
+|---------|----------|--------------
+| string  | true     | string value
 
 ####Field "to" :
 
@@ -61,7 +63,6 @@ valide values : string value
 | attachments | string  | true     | string value
 
 #### Case 1 : notification with notifier parameters
-Example :
 ```
 email=[
     {
@@ -89,7 +90,6 @@ email=[
 ]
 ```
 #### Case 2 : notification without notifier parameters
-Example :
 ```
 email=[
     {
@@ -110,10 +110,12 @@ email=[
 ```
 
 ### Facebook
-Field "notifier_alias" :  
-type: string  
-optional : true  
-valide values : string value  
+
+####Field "notifier_alias" :
+
+| Type    | Optional | Valide values
+|---------|----------|--------------
+| string  | true     | string value 
 
 ####Field "to" :
 
@@ -133,10 +135,11 @@ valide values : string value
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
 | message     | string  | true     | string value
+
+#### Case 1 : notification with notifier parameters
 ```
 facebook=[
     {
-        "notifier_alias" : "my_facebook_alias",
         "to": {
             "to": "toto@facebook.com"
         },
@@ -150,12 +153,28 @@ facebook=[
     }
 ]
 ```
+#### Case 2 : notification without notifier parameters
+```
+facebook=[
+    {
+        "notifier_alias" : "my_facebook_alias",
+        "to": {
+            "to": "toto@facebook.com"
+        },
+        "content": {
+            "message" : "The message to be sent."
+        }
+    }
+]
+```
 
 ### Mail
-Field "notifier_alias" :  
-type: string  
-optional : true  
-valide values : string value  
+
+####Field "notifier_alias" :
+
+| Type    | Optional | Valide values
+|---------|----------|--------------
+| string  | true     | string value 
 
 ####Field "to" :
 
@@ -184,10 +203,11 @@ valide values : string value
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
 | message     | string  | true     | string value
+
+#### Case 1 : notification with notifier parameters
 ```
 mail=[
     {
-        "notifier_alias" : "my_mail_alias",
         "to": {
             "firstName": "fName",
             "lastName": "lName",
@@ -208,12 +228,31 @@ mail=[
     }
 ]
 ```
+#### Case 2 : notification without notifier parameters
+```
+mail=[
+    {
+        "notifier_alias" : "my_mail_alias",
+        "to": {
+            "firstName": "fName",
+            "lastName": "lName",
+            "address": "address",
+            "postalCode": "75001",
+            "city": "Paris",
+            "country": "FR"
+        },
+        "content": {"message" : "Mail message"}
+    }
+]
+```
 
 ### Sms
-Field "notifier_alias" :  
-type: string  
-optional : true  
-valide values : string value  
+
+####Field "notifier_alias" :
+
+| Type    | Optional | Valide values
+|---------|----------|--------------
+| string  | true     | string value 
 
 ####Field "to" :
 
@@ -232,22 +271,35 @@ valide values : string value
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
 | message     | string  | true     | string value
+
+#### Case 1 : notification with notifier parameters
 ```
 sms=[
     {
-        "notifier_alias" : "my_sms_alias",
         "to": {"to": "0612345678, 0610111213"},
         "from" : {"phone_number": "0614589655"},
         "content": {"message" :"this is a sms"}
     }
 ]
 ```
+#### Case 2 : notification without notifier parameters
+```
+sms=[
+    {
+        "notifier_alias" : "my_sms_alias",
+        "to": {"to": "0612345678, 0610111213"},
+        "content": {"message" :"this is a sms"}
+    }
+]
+```
 
 ### Twitter
-Field "notifier_alias" :  
-type: string  
-optional : true  
-valide values : string value  
+
+####Field "notifier_alias" :
+
+| Type    | Optional | Valide values
+|---------|----------|--------------
+| string  | true     | string value 
 
 ####Field "to" :
 
@@ -268,16 +320,31 @@ valide values : string value
 |-------------|---------|----------|--------------
 | message     | string  | true     | string value
 
+#### Case 1 : notification with notifier parameters
 ```
 twitter=[
     {
-        "notifier_alias" : "my_twitter_alias",
         "to": {
             "to": "@toto"
         },
         "from": {
             "login": "@mylogin",
             "password" : "mypassword"
+        },
+        "content": {
+            "message" : "The message to be sent."
+        }
+    }
+]
+```
+#### Case 2 : notification without notifier parameters
+
+```
+twitter=[
+    {
+        "notifier_alias" : "my_twitter_alias",
+        "to": {
+            "to": "@toto"
         },
         "content": {
             "message" : "The message to be sent."
@@ -410,68 +477,6 @@ sms=[
         "from" : {"phone_number": "0614589655"},
         "content": {"message" :"this is a sms"}
     }
-]
-```
-
-```
-source_name="my_notification_source" &
-email=[
-    {
-        "to": {
-            "to": "toto@titi.fr",
-            "cc": "titi@toto.fr, tutu@titi.fr",
-            "bcc": null
-        },
-        "from": {
-            "transport":"smtp",
-            "from" :"test@test.fr",
-            "login":"mail@mxserver.com",
-            "password": "password",
-            "server": "smtp.mxserver.fr",
-            "port": "465",
-            "encryption": "ssl"
-        },
-        "content": {
-            "subject": "A subject message",
-            "message": "the message to be send",
-            "htmlMessage": "<h1>Titre</h1><p>Message</p>",
-            "attachments": []
-        }
-    },
-    {...}
-] &
-mail=[
-    {
-        "notifier_alias" : "my_mail_alias"
-        ,
-        "to": {
-            "firstName": "fName",
-            "lastName": "lName",
-            "address": "address",
-            "postalCode": "75001",
-            "city": "Paris",
-            "country": "FR"
-        },
-        "from": {
-            "firstName": "senderFirstName",
-            "lastName": "senderLastName",
-            "address": "address",
-            "postalCode": "75001",
-            "city": "Paris",
-            "country": "FR"
-        },
-        "content": {"message" : "Mail message"}
-    },
-    {...}
-] &
-sms=[
-    {
-        "notifier_alias" : "my_sms_alias",
-        "to": {"to": "0612345678, 0610111213"},
-        "from" : {"phone_number": "0614589655"},
-        "content": {"message" :"this is a sms"}
-    },
-    {...}
 ]
 ```
 
