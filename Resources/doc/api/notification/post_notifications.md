@@ -12,14 +12,14 @@ Create one notification
 | **Secured** | true
 
 ## HTTP Request parameters
-| Name       | Optional | Default | Requirements | Description
-|------------|----------|---------|--------------|------------
-| sourceName | true     |         |              | The source name
-| email      | true     |         |              | Email data
-| facebook   | true     |         |              | Facebook data
-| mail       | true     |         |              | Mail data
-| sms        | true     |         |              | Sms data
-| twitter    | true     |         |              | Twitter data
+| Name           | Optional | Default | Requirements | Description
+|----------------|----------|---------|--------------|------------
+| source_name    | true     |         |              | The source name
+| email          | true     |         |              | Email data
+| facebook       | true     |         |              | Facebook data
+| mail           | true     |         |              | Mail data
+| sms            | true     |         |              | Sms data
+| twitter        | true     |         |              | Twitter data
 
 ### source_name
 To associate a source name with the notifications, the source name parameter is optional.
@@ -27,40 +27,40 @@ Automaticaly add the source IP: `"[ip] - source_name"`.
 
 ### Email
  
-#### Field "notifierAlias" :
+####Field "notifier_alias" :
 
-| Type    | Optional | Valide values
-|---------|----------|--------------
-| string  | true     | string value
+| Optional | Requirements | Description
+|----------|--------------|------------
+| true     | string value | The notifier alias used to identify a configuration
 
-#### Field "to" :
+####Field "to" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|---------------
-| to          | string  | false    | string value
-| cc          | string  | true     | string value
-| bcc         | string  | true     | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| to          | false    | string value | Email delivery address
+| cc          | true     | string value | Carbon copy adresses
+| bcc         | true     | string value | Blind carbon copy addresses
 
-#### Field "from" :
+####Field "from" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|--------------
-| transport   | string  | true     | smtp, sendmail, mail
-| from        | string  | true     | string value
-| login       | string  | true     | string value
-| password    | string  | true     | string value
-| server      | string  | true     | string value
-| port        | integer | true     | 0 <= value <= 65536
-| encryption  | string  | true     | ull, ssl, tls
+| Subfield    | Optional | Requirements         | Description
+|-------------|----------|----------------------|------------
+| transport   | true     | smtp, sendmail, mail | Transport data
+| from        | true     | string value         | Sender email address
+| login       | true     | string value         | Login data
+| password    | true     | string value         | Password data
+| server      | true     | string value         | Server data
+| port        | true     | 0 <= value <= 65536  | Port data
+| encryption  | true     | null, ssl, tls       | Encryption data
 
-#### Field "content" :
+####Field "content" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|--------------
-| subject     | string  | false    | string value
-| message     | string  | true     | string value
-| htmlMessage | string  | true     | string value
-| attachments | string  | true     | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| subject     | false    | string value | Subject data
+| message     | true     | string value | Email message
+| htmlMessage | true     | string value | Email message in html format
+| attachments | true     | string value | Attachments data
 
 #### Case 1 : notification with notifier parameters
 ```
@@ -93,7 +93,7 @@ email=[
 ```
 email=[
     {
-        "notifierAlias" : "my_email_alias",
+        "notifier_alias" : "my_email_alias",
         "to": {
             "to": "toto@titi.fr",
             "cc": "titi@toto.fr, tutu@titi.fr",
@@ -111,30 +111,30 @@ email=[
 
 ### Facebook
 
-#### Field "notifierAlias" :
+####Field "notifier_alias" :
 
-| Type    | Optional | Valide values
-|---------|----------|--------------
-| string  | true     | string value 
+| Optional | Requirements | Description
+|----------|--------------|------------
+| true     | string value | The notifier alias used to define a configuration
 
-#### Field "to" :
+####Field "to" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|---------------
-| to          | string  | false    | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| to          | false    | string value | Facebook delivery address
 
-#### Field "from" :
+####Field "from" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|--------------
-| login       | string  | true     | string value
-| password    | string  | true     | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| login       | true     | string value | Login data
+| password    | true     | string value | Password data
 
-#### Field "content" :
+####Field "content" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|--------------
-| message     | string  | true     | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| message     | true     | string value | Message data
 
 #### Case 1 : notification with notifier parameters
 ```
@@ -157,7 +157,7 @@ facebook=[
 ```
 facebook=[
     {
-        "notifierAlias" : "my_facebook_alias",
+        "notifier_alias" : "my_facebook_alias",
         "to": {
             "to": "toto@facebook.com"
         },
@@ -170,39 +170,39 @@ facebook=[
 
 ### Mail
 
-#### Field "notifierAlias" :
+####Field "notifier_alias" :
 
-| Type    | Optional | Valide values
-|---------|----------|--------------
-| string  | true     | string value 
+| Optional | Requirements | Description
+|----------|--------------|------------
+| true     | string value | The notifier alias used to define a configuration
 
-#### Field "to" :
+####Field "to" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|---------------
-| firstName   | string  | false    | string value
-| lastName    | string  | false    | string value
-| address     | string  | false    | string value
-| postalCode  | integer | false    | 0 <= value
-| city        | string  | false    | string value
-| country     | string  | false    | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| firstName   | false    | string value | Recipient first name
+| lastName    | false    | string value | Recipient last name
+| address     | false    | string value | Recipient address
+| postalCode  | false    | 0 <= value   | Recipient postal code
+| city        | false    | string value | Recipient city
+| country     | false    | string value | Recipient country (for France, use FR)
 
-#### Field "from" :
+####Field "from" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|---------------
-| firstName   | string  | true     | string value
-| lastName    | string  | true     | string value
-| address     | string  | true     | string value
-| postalCode  | integer | true     | 0 <= value
-| city        | string  | true     | string value
-| country     | string  | true     | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|-------------
+| firstName   | true     | string value | Sender first name
+| lastName    | true     | string value | Sender last name
+| address     | true     | string value | Sender address
+| postalCode  | true     | 0 <= value   | Sender postal code
+| city        | true     | string value | Sender city
+| country     | true     | string value | Sender country (for France, use FR)
 
-#### Field "content" :
+####Field "content" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|--------------
-| message     | string  | true     | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| message     | true     | string value | Message data
 
 #### Case 1 : notification with notifier parameters
 ```
@@ -232,7 +232,7 @@ mail=[
 ```
 mail=[
     {
-        "notifierAlias" : "my_mail_alias",
+        "notifier_alias" : "my_mail_alias",
         "to": {
             "firstName": "fName",
             "lastName": "lName",
@@ -248,29 +248,29 @@ mail=[
 
 ### Sms
 
-#### Field "notifierAlias" :
+####Field "notifier_alias" :
 
-| Type    | Optional | Valide values
-|---------|----------|--------------
-| string  | true     | string value 
+| Optional | Requirements | Description
+|----------|--------------|------------
+| true     | string value | The notifier alias used to define a configuration
 
-#### Field "to" :
+####Field "to" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|---------------
-| to          | string  | false    | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| to          | false    | string value | Recipient phone number
 
-#### Field "from" :
+####Field "from" :
 
-| Subfield     | Type    | Optional | Valide values
-|--------------|---------|----------|---------------
-| phone_number | integer | true     | 0 <= value
+| Subfield     | Optional | Requirements | Description
+|--------------|----------|--------------|------------
+| phone_number | true     | 0 <= value   | Sender phone number
 
-#### Field "content" :
+####Field "content" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|--------------
-| message     | string  | true     | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| message     | true     | string value | Message data
 
 #### Case 1 : notification with notifier parameters
 ```
@@ -286,7 +286,7 @@ sms=[
 ```
 sms=[
     {
-        "notifierAlias" : "my_sms_alias",
+        "notifier_alias" : "my_sms_alias",
         "to": {"to": "0612345678, 0610111213"},
         "content": {"message" :"this is a sms"}
     }
@@ -295,30 +295,30 @@ sms=[
 
 ### Twitter
 
-#### Field "notifierAlias" :
+####Field "notifier_alias" :
 
-| Type    | Optional | Valide values
-|---------|----------|--------------
-| string  | true     | string value 
+| Optional | Requirements | Description
+|----------|--------------|------------
+| true     | string value | The notifier alias used to define a configuration 
 
-#### Field "to" :
+####Field "to" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|---------------
-| to          | string  | false      | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| to          | false    | string value | Recipient twitter address
 
-#### Field "from" :
+####Field "from" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|---------------
-| login       | string  | true     | string value
-| password    | string  | true     | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| login       | true     | string value | Login data
+| password    | true     | string value | Password data
 
-#### Field "content" :
+####Field "content" :
 
-| Subfield    | Type    | Optional | Valide values
-|-------------|---------|----------|--------------
-| message     | string  | true     | string value
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| message     | true     | string value | Message data
 
 #### Case 1 : notification with notifier parameters
 ```
@@ -342,7 +342,7 @@ twitter=[
 ```
 twitter=[
     {
-        "notifierAlias" : "my_twitter_alias",
+        "notifier_alias" : "my_twitter_alias",
         "to": {
             "to": "@toto"
         },
@@ -411,7 +411,8 @@ email=[
         }
     },
     {
-        "notifierAlias" : "my_email_alias",
+        "notifier_alias" : "my_email_alias"
+        ,
         "to": {
             "to": "toto2@titi.fr",
             "cc": "titi2@toto.fr, tutu@titi.fr",
@@ -454,7 +455,8 @@ email=[
         }
     },
     {
-        "notifierAlias" : "my_email_alias2",
+        "notifier_alias" : "my_email_alias2"
+        ,
         "to": {
             "to": "toto2@titi.fr",
             "cc": "titi2@toto.fr, tutu@titi.fr",
@@ -470,7 +472,7 @@ email=[
 ] &
 sms=[
     {
-        "notifierAlias" : "my_sms_alias",
+        "notifier_alias" : "my_sms_alias",
         "to": {"to": "0612345678, 0610111213"},
         "from" : {"phone_number": "0614589655"},
         "content": {"message" :"this is a sms"}
