@@ -12,14 +12,14 @@ Create one notification
 | **Secured** | true
 
 ## HTTP Request parameters
-| Name           | Optional | Default | Requirements | Description
-|----------------|----------|---------|--------------|------------
-| source_name    | true     |         |              | The source name
-| email          | true     |         |              | Email data
-| facebook       | true     |         |              | Facebook data
-| mail           | true     |         |              | Mail data
-| sms            | true     |         |              | Sms data
-| twitter        | true     |         |              | Twitter data
+| Name       | Optional | Default | Requirements | Description
+|------------|----------|---------|--------------|------------
+| sourceName | true     |         |              | The source name
+| email      | true     |         |              | Email data
+| facebook   | true     |         |              | Facebook data
+| mail       | true     |         |              | Mail data
+| sms        | true     |         |              | Sms data
+| twitter    | true     |         |              | Twitter data
 
 ### source_name
 To associate a source name with the notifications, the source name parameter is optional.
@@ -27,13 +27,13 @@ Automaticaly add the source IP: `"[ip] - source_name"`.
 
 ### Email
  
-####Field "notifier_alias" :
+#### Field "notifierAlias" :
 
 | Type    | Optional | Valide values
 |---------|----------|--------------
 | string  | true     | string value
 
-####Field "to" :
+#### Field "to" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
@@ -41,7 +41,7 @@ Automaticaly add the source IP: `"[ip] - source_name"`.
 | cc          | string  | true     | string value
 | bcc         | string  | true     | string value
 
-####Field "from" :
+#### Field "from" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
@@ -53,7 +53,7 @@ Automaticaly add the source IP: `"[ip] - source_name"`.
 | port        | integer | true     | 0 <= value <= 65536
 | encryption  | string  | true     | ull, ssl, tls
 
-####Field "content" :
+#### Field "content" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
@@ -93,7 +93,7 @@ email=[
 ```
 email=[
     {
-        "notifier_alias" : "my_email_alias",
+        "notifierAlias" : "my_email_alias",
         "to": {
             "to": "toto@titi.fr",
             "cc": "titi@toto.fr, tutu@titi.fr",
@@ -111,26 +111,26 @@ email=[
 
 ### Facebook
 
-####Field "notifier_alias" :
+#### Field "notifierAlias" :
 
 | Type    | Optional | Valide values
 |---------|----------|--------------
 | string  | true     | string value 
 
-####Field "to" :
+#### Field "to" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | to          | string  | false    | string value
 
-####Field "from" :
+#### Field "from" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
 | login       | string  | true     | string value
 | password    | string  | true     | string value
 
-####Field "content" :
+#### Field "content" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
@@ -157,7 +157,7 @@ facebook=[
 ```
 facebook=[
     {
-        "notifier_alias" : "my_facebook_alias",
+        "notifierAlias" : "my_facebook_alias",
         "to": {
             "to": "toto@facebook.com"
         },
@@ -170,13 +170,13 @@ facebook=[
 
 ### Mail
 
-####Field "notifier_alias" :
+#### Field "notifierAlias" :
 
 | Type    | Optional | Valide values
 |---------|----------|--------------
 | string  | true     | string value 
 
-####Field "to" :
+#### Field "to" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
@@ -187,7 +187,7 @@ facebook=[
 | city        | string  | false    | string value
 | country     | string  | false    | string value
 
-####Field "from" :
+#### Field "from" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
@@ -198,7 +198,7 @@ facebook=[
 | city        | string  | true     | string value
 | country     | string  | true     | string value
 
-####Field "content" :
+#### Field "content" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
@@ -232,7 +232,7 @@ mail=[
 ```
 mail=[
     {
-        "notifier_alias" : "my_mail_alias",
+        "notifierAlias" : "my_mail_alias",
         "to": {
             "firstName": "fName",
             "lastName": "lName",
@@ -248,25 +248,25 @@ mail=[
 
 ### Sms
 
-####Field "notifier_alias" :
+#### Field "notifierAlias" :
 
 | Type    | Optional | Valide values
 |---------|----------|--------------
 | string  | true     | string value 
 
-####Field "to" :
+#### Field "to" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | to          | string  | false    | string value
 
-####Field "from" :
+#### Field "from" :
 
 | Subfield     | Type    | Optional | Valide values
 |--------------|---------|----------|---------------
 | phone_number | integer | true     | 0 <= value
 
-####Field "content" :
+#### Field "content" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
@@ -286,7 +286,7 @@ sms=[
 ```
 sms=[
     {
-        "notifier_alias" : "my_sms_alias",
+        "notifierAlias" : "my_sms_alias",
         "to": {"to": "0612345678, 0610111213"},
         "content": {"message" :"this is a sms"}
     }
@@ -295,26 +295,26 @@ sms=[
 
 ### Twitter
 
-####Field "notifier_alias" :
+#### Field "notifierAlias" :
 
 | Type    | Optional | Valide values
 |---------|----------|--------------
 | string  | true     | string value 
 
-####Field "to" :
+#### Field "to" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | to          | string  | false      | string value
 
-####Field "from" :
+#### Field "from" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|---------------
 | login       | string  | true     | string value
 | password    | string  | true     | string value
 
-####Field "content" :
+#### Field "content" :
 
 | Subfield    | Type    | Optional | Valide values
 |-------------|---------|----------|--------------
@@ -342,7 +342,7 @@ twitter=[
 ```
 twitter=[
     {
-        "notifier_alias" : "my_twitter_alias",
+        "notifierAlias" : "my_twitter_alias",
         "to": {
             "to": "@toto"
         },
@@ -411,8 +411,7 @@ email=[
         }
     },
     {
-        "notifier_alias" : "my_email_alias"
-        ,
+        "notifierAlias" : "my_email_alias",
         "to": {
             "to": "toto2@titi.fr",
             "cc": "titi2@toto.fr, tutu@titi.fr",
@@ -455,8 +454,7 @@ email=[
         }
     },
     {
-        "notifier_alias" : "my_email_alias2"
-        ,
+        "notifierAlias" : "my_email_alias2",
         "to": {
             "to": "toto2@titi.fr",
             "cc": "titi2@toto.fr, tutu@titi.fr",
@@ -472,7 +470,7 @@ email=[
 ] &
 sms=[
     {
-        "notifier_alias" : "my_sms_alias",
+        "notifierAlias" : "my_sms_alias",
         "to": {"to": "0612345678, 0610111213"},
         "from" : {"phone_number": "0614589655"},
         "content": {"message" :"this is a sms"}

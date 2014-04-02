@@ -105,13 +105,13 @@ class ApiNotificationController extends FOSRestController
         $twitter     = null
     )
     {
+        // The default source name value is based on the request client IP
+        $defaultSourceName = sprintf('[%s]', $this->get('request')->getClientIp());
         if (null === $sourceName) {
-            // The default source name value is based on the request client IP
-            $sourceName = sprintf('[%s]', $this->get('request')->getClientIp());
+            $sourceName = $defaultSourceName;
         } else {
             $sourceName = sprintf('%s %s', $defaultSourceName, $sourceName);
         }
-
 
         try {
             $notifications = array(
