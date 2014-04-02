@@ -12,28 +12,28 @@ Create one notification
 | **Secured** | true
 
 ## HTTP Request parameters
-| Name           | Optional | Default | Requirements | Description
-|----------------|----------|---------|--------------|------------
-| source_name    | true     |         |              | The source name
-| email          | true     |         |              | Email data
-| facebook       | true     |         |              | Facebook data
-| mail           | true     |         |              | Mail data
-| sms            | true     |         |              | Sms data
-| twitter        | true     |         |              | Twitter data
+| Name       | Optional | Default | Requirements | Description
+|------------|----------|---------|--------------|------------
+| sourceName | true     |         |              | The source name
+| email      | true     |         |              | Email data
+| facebook   | true     |         |              | Facebook data
+| mail       | true     |         |              | Mail data
+| sms        | true     |         |              | Sms data
+| twitter    | true     |         |              | Twitter data
 
 ### source_name
 To associate a source name with the notifications, the source name parameter is optional.
 Automaticaly add the source IP: `"[ip] - source_name"`.
 
 ### Email
- 
-####Field "notifier_alias" :
+
+#### Field "notifierAlias" :
 
 | Optional | Requirements | Description
 |----------|--------------|------------
 | true     | string value | The notifier alias used to identify a configuration
 
-####Field "to" :
+#### Field "to" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
@@ -41,7 +41,7 @@ Automaticaly add the source IP: `"[ip] - source_name"`.
 | cc          | true     | string value | Carbon copy adresses
 | bcc         | true     | string value | Blind carbon copy addresses
 
-####Field "from" :
+#### Field "from" :
 
 | Subfield    | Optional | Requirements         | Description
 |-------------|----------|----------------------|------------
@@ -53,7 +53,7 @@ Automaticaly add the source IP: `"[ip] - source_name"`.
 | port        | true     | 0 <= value <= 65536  | Port data
 | encryption  | true     | null, ssl, tls       | Encryption data
 
-####Field "content" :
+#### Field "content" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
@@ -93,7 +93,7 @@ email=[
 ```
 email=[
     {
-        "notifier_alias" : "my_email_alias",
+        "notifierAlias" : "my_email_alias",
         "to": {
             "to": "toto@titi.fr",
             "cc": "titi@toto.fr, tutu@titi.fr",
@@ -111,26 +111,26 @@ email=[
 
 ### Facebook
 
-####Field "notifier_alias" :
+#### Field "notifierAlias" :
 
 | Optional | Requirements | Description
 |----------|--------------|------------
 | true     | string value | The notifier alias used to define a configuration
 
-####Field "to" :
+#### Field "to" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
 | to          | false    | string value | Facebook delivery address
 
-####Field "from" :
+#### Field "from" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
 | login       | true     | string value | Login data
 | password    | true     | string value | Password data
 
-####Field "content" :
+#### Field "content" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
@@ -157,7 +157,7 @@ facebook=[
 ```
 facebook=[
     {
-        "notifier_alias" : "my_facebook_alias",
+        "notifierAlias" : "my_facebook_alias",
         "to": {
             "to": "toto@facebook.com"
         },
@@ -170,13 +170,13 @@ facebook=[
 
 ### Mail
 
-####Field "notifier_alias" :
+#### Field "notifierAlias" :
 
 | Optional | Requirements | Description
 |----------|--------------|------------
 | true     | string value | The notifier alias used to define a configuration
 
-####Field "to" :
+#### Field "to" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
@@ -187,7 +187,7 @@ facebook=[
 | city        | false    | string value | Recipient city
 | country     | false    | string value | Recipient country (for France, use FR)
 
-####Field "from" :
+#### Field "from" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|-------------
@@ -198,7 +198,7 @@ facebook=[
 | city        | true     | string value | Sender city
 | country     | true     | string value | Sender country (for France, use FR)
 
-####Field "content" :
+#### Field "content" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
@@ -232,7 +232,7 @@ mail=[
 ```
 mail=[
     {
-        "notifier_alias" : "my_mail_alias",
+        "notifierAlias" : "my_mail_alias",
         "to": {
             "firstName": "fName",
             "lastName": "lName",
@@ -248,25 +248,25 @@ mail=[
 
 ### Sms
 
-####Field "notifier_alias" :
+#### Field "notifierAlias" :
 
 | Optional | Requirements | Description
 |----------|--------------|------------
 | true     | string value | The notifier alias used to define a configuration
 
-####Field "to" :
+#### Field "to" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
 | to          | false    | string value | Recipient phone number
 
-####Field "from" :
+#### Field "from" :
 
 | Subfield     | Optional | Requirements | Description
 |--------------|----------|--------------|------------
 | phone_number | true     | 0 <= value   | Sender phone number
 
-####Field "content" :
+#### Field "content" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
@@ -286,7 +286,7 @@ sms=[
 ```
 sms=[
     {
-        "notifier_alias" : "my_sms_alias",
+        "notifierAlias" : "my_sms_alias",
         "to": {"to": "0612345678, 0610111213"},
         "content": {"message" :"this is a sms"}
     }
@@ -295,26 +295,26 @@ sms=[
 
 ### Twitter
 
-####Field "notifier_alias" :
+#### Field "notifierAlias" :
 
 | Optional | Requirements | Description
 |----------|--------------|------------
-| true     | string value | The notifier alias used to define a configuration 
+| true     | string value | The notifier alias used to define a configuration
 
-####Field "to" :
+#### Field "to" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
 | to          | false    | string value | Recipient twitter address
 
-####Field "from" :
+#### Field "from" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
 | login       | true     | string value | Login data
 | password    | true     | string value | Password data
 
-####Field "content" :
+#### Field "content" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
@@ -342,7 +342,7 @@ twitter=[
 ```
 twitter=[
     {
-        "notifier_alias" : "my_twitter_alias",
+        "notifierAlias" : "my_twitter_alias",
         "to": {
             "to": "@toto"
         },
@@ -357,7 +357,7 @@ twitter=[
 
 To send one email notification:
 ```
-source_name="my_notification_source" &
+sourceName="my_notification_source" &
 email=[
     {
         "to": {
@@ -386,7 +386,7 @@ email=[
 
 To send two email notifications:
 ```
-source_name="my_notification_source" &
+sourceName="my_notification_source" &
 email=[
     {
         "to": {
@@ -411,7 +411,7 @@ email=[
         }
     },
     {
-        "notifier_alias" : "my_email_alias"
+        "notifierAlias" : "my_email_alias"
         ,
         "to": {
             "to": "toto2@titi.fr",
@@ -430,7 +430,7 @@ email=[
 
 To send two email and one sms notifications:
 ```
-source_name="my_notification_source" &
+sourceName="my_notification_source" &
 email=[
     {
         "to": {
@@ -455,8 +455,7 @@ email=[
         }
     },
     {
-        "notifier_alias" : "my_email_alias2"
-        ,
+        "notifierAlias" : "my_email_alias2",
         "to": {
             "to": "toto2@titi.fr",
             "cc": "titi2@toto.fr, tutu@titi.fr",
@@ -472,7 +471,6 @@ email=[
 ] &
 sms=[
     {
-        "notifier_alias" : "my_sms_alias",
         "to": {"to": "0612345678, 0610111213"},
         "from" : {"phone_number": "0614589655"},
         "content": {"message" :"this is a sms"}
