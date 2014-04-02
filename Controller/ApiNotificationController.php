@@ -82,14 +82,14 @@ class ApiNotificationController extends FOSRestController
      * [POST] /notifications
      * Create a notification
      *
-     * @RequestParam(name="source_name", nullable=true, description="Source name")
+     * @RequestParam(name="sourceName", nullable=true, description="Source name")
      * @RequestParam(name="email", nullable=true, description="Email notification data")
      * @RequestParam(name="facebook", nullable=true, description="Facebook notification data")
      * @RequestParam(name="mail", nullable=true, description="Mail notification data")
      * @RequestParam(name="sms", nullable=true, description="Sms notification data")
      * @RequestParam(name="twitter", nullable=true, description="Twitter notification data")
      *
-     * @param string $source_name
+     * @param string $sourceName
      * @param array  $email
      * @param array  $facebook
      * @param array  $mail
@@ -97,7 +97,7 @@ class ApiNotificationController extends FOSRestController
      * @param array  $twitter
      */
     public function postNotificationsAction(
-        $source_name = null,
+        $sourceName  = null,
         $email       = null,
         $facebook    = null,
         $mail        = null,
@@ -105,13 +105,13 @@ class ApiNotificationController extends FOSRestController
         $twitter     = null
     )
     {
-        // The default source name value is based on the request client IP
-        $sourceName = sprintf('[%s]', $this->get('request')->getClientIp());
-
-        // Retrieve the source name if sent
-        if (null !== $source_name) {
-            $sourceName = sprintf('%s %s', $sourceName, $source_name);
+        if (null === $sourceName) {
+            // The default source name value is based on the request client IP
+            $sourceName = sprintf('[%s]', $this->get('request')->getClientIp());
+        } else {
+            $sourceName = sprintf('%s %s', $defaultSourceName, $sourceName);
         }
+
 
         try {
             $notifications = array(
