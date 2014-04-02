@@ -38,7 +38,7 @@ SMS
 ###Parameters :
 | Parameter     | Type    | Required | Valide values        |
 |---------------|---------|----------|----------------------|
-| phone_number  | integer | yes      | integer value        |
+| phoneNumber   | integer | yes      | integer value        |
 
 ###Configuration
 Add an sms notifier configuration in `app/config/config.yml` :
@@ -49,7 +49,7 @@ idci_notification:
             default_configuration: default
             configurations:
                 default:
-                    phone_number: 0635214255
+                    phoneNumber: 0635214255
 ```
 
 Mail

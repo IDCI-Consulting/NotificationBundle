@@ -264,7 +264,7 @@ mail=[
 
 | Subfield     | Optional | Requirements | Description
 |--------------|----------|--------------|------------
-| phone_number | true     | 0 <= value   | Sender phone number
+| phoneNumber  | true     | 0 <= value   | Sender phone number
 
 #### Field "content" :
 
@@ -277,7 +277,7 @@ mail=[
 sms=[
     {
         "to": {"to": "0612345678, 0610111213"},
-        "from" : {"phone_number": "0614589655"},
+        "from" : {"phoneNumber": "0614589655"},
         "content": {"message" :"this is a sms"}
     }
 ]
@@ -472,7 +472,7 @@ email=[
 sms=[
     {
         "to": {"to": "0612345678, 0610111213"},
-        "from" : {"phone_number": "0614589655"},
+        "from" : {"phoneNumber": "0614589655"},
         "content": {"message" :"this is a sms"}
     }
 ]
