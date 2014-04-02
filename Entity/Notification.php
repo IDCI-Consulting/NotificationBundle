@@ -213,6 +213,16 @@ class Notification
     }
 
     /**
+     * Has notifierAlias
+     *
+     * @return booleen
+     */
+    public function hasNotifierAlias()
+    {
+        return null !== $this->getNotifierAlias();
+    }
+
+    /**
      * Set from
      *
      * @param string $from
