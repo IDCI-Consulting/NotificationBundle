@@ -26,16 +26,6 @@ class FacebookNotifier extends AbstractNotifier
     /**
      * {@inheritdoc}
      */
-    public function getToFields()
-    {
-        return array(
-            'to'  => array('text', array('required' => true))
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFromFields()
     {
         return array(

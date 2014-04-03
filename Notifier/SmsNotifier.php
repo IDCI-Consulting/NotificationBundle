@@ -31,4 +31,14 @@ class SmsNotifier extends AbstractNotifier
             'phoneNumber' => array('text', array('required' => true))
         );
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getToFields()
+    {
+        return array(
+            'phoneNumber' => array('text', array('required' => true))
+        );
+    }
 }
