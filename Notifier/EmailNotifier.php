@@ -26,7 +26,7 @@ class EmailNotifier extends AbstractNotifier
         $configuration = $this->getConfiguration($notification);
 
         $message = \Swift_Message::newInstance()
-            ->setSubject(isset($content['subject']) ? $content['subject'] : null )
+            ->setSubject(isset($content['subject']) ? $content['subject'] : null)
             ->setFrom($configuration['from'])
             ->setTo($to['to'])
             ->setCc(isset($to['cc']) ? $to['cc'] : null)
