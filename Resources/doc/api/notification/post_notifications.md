@@ -183,7 +183,7 @@ facebook=[
 | firstName   | false    | string value | Recipient first name
 | lastName    | false    | string value | Recipient last name
 | address     | false    | string value | Recipient address
-| postalCode  | false    | 0 <= value   | Recipient postal code
+| postalCode  | false    | string value | Recipient postal code
 | city        | false    | string value | Recipient city
 | country     | false    | string value | Recipient country (for France, use FR)
 
