@@ -38,7 +38,7 @@ SMS
 ###Parameters :
 | Parameter     | Type    | Required | Valide values        |
 |---------------|---------|----------|----------------------|
-| phoneNumber   | integer | yes      | integer value        |
+| phone_number  | string  | yes      | string value         |
 
 ###Configuration
 Add an sms notifier configuration in `app/config/config.yml` :
@@ -61,7 +61,7 @@ Mail
 | first_name  | string  | yes      | string value         |
 | last_name   | string  | yes      | string value         |
 | address     | string  | yes      | string value         |
-| postal_code | integer | yes      | integer value        |
+| postal_code | string  | yes      | string value         |
 | city        | string  | yes      | string value         |
 | country     | string  | yes      | string value         |
 

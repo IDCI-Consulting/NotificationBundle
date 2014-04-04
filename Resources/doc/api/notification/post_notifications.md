@@ -194,7 +194,7 @@ facebook=[
 | firstName   | true     | string value | Sender first name
 | lastName    | true     | string value | Sender last name
 | address     | true     | string value | Sender address
-| postalCode  | true     | 0 <= value   | Sender postal code
+| postalCode  | true     | string value | Sender postal code
 | city        | true     | string value | Sender city
 | country     | true     | string value | Sender country (for France, use FR)
 
@@ -258,13 +258,13 @@ mail=[
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
-| to          | false    | string value | Recipient phone number
+| phoneNumber | false    | string value | Recipient phone number
 
 #### Field "from" :
 
 | Subfield     | Optional | Requirements | Description
 |--------------|----------|--------------|------------
-| phoneNumber  | true     | 0 <= value   | Sender phone number
+| phoneNumber  | true     | string value | Sender phone number
 
 #### Field "content" :
 
@@ -276,7 +276,7 @@ mail=[
 ```
 sms=[
     {
-        "to": {"to": "0612345678, 0610111213"},
+        "to": {"phoneNumber": "0612345678, 0610111213"},
         "from" : {"phoneNumber": "0614589655"},
         "content": {"message" :"this is a sms"}
     }
@@ -287,7 +287,7 @@ sms=[
 sms=[
     {
         "notifierAlias" : "my_sms_alias",
-        "to": {"to": "0612345678, 0610111213"},
+        "to": {"phoneNumber": "0612345678, 0610111213"},
         "content": {"message" :"this is a sms"}
     }
 ]
@@ -471,7 +471,7 @@ email=[
 ] &
 sms=[
     {
-        "to": {"to": "0612345678, 0610111213"},
+        "to": {"phoneNumber": "0612345678, 0610111213"},
         "from" : {"phoneNumber": "0614589655"},
         "content": {"message" :"this is a sms"}
     }
