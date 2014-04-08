@@ -51,13 +51,13 @@ class Notification
 
     /**
      * @var string
-     * @ORM\Column(name="_from", type="string", length=128, nullable=true)
+     * @ORM\Column(name="_from", type="text", nullable=true)
      */
     protected $from;
 
     /**
      * @var string
-     * @ORM\Column(name="_to", type="text", length=128, nullable=false)
+     * @ORM\Column(name="_to", type="text", nullable=false)
      */
     protected $to;
 

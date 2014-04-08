@@ -70,6 +70,7 @@ class Configuration implements ConfigurationInterface
                                     ->thenInvalid('Invalid transport "%s"')
                                 ->end()
                             ->end()
+                            ->scalarNode('replyTo')->end()
                             ->scalarNode('from')->end()
                             ->scalarNode('server')->end()
                             ->scalarNode('login')->end()

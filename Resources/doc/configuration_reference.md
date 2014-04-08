@@ -5,15 +5,16 @@ Email
 -----
 
 ###Parameters :
-| Parameter  | Type    | Required | Valide values        |
-|------------|---------|----------|----------------------|
-| transport  | string  | yes      | smtp, sendmail, mail |
-| from       | string  | no       | string value         |
-| server     | string  | no       | string value         |
-| login      | string  | no       | string value         |
-| password   | string  | no       | string value         |
-| port       | integer | no       | 0 <= value <= 65536  |
-| encryption | string  | no       | null, ssl, tls       |
+| Parameter  | Type    | Required | Valide values
+|------------|---------|----------|----------------------
+| transport  | string  | yes      | smtp, sendmail, mail
+| replyTo    | string  | no       | string value
+| from       | string  | no       | string value
+| server     | string  | no       | string value
+| login      | string  | no       | string value
+| password   | string  | no       | string value
+| port       | integer | no       | 0 <= value <= 65536
+| encryption | string  | no       | null, ssl, tls
 
 ###Configuration
 Add an email notifier configuration in `app/config/config.yml` :
@@ -25,6 +26,7 @@ idci_notification:
             configurations:
                 default:
                     transport:  smtp
+                    replyTo:    replyto@test.fr
                     from:       test@test.fr
                     server:     smtp.xxx.com
                     login:      yourlogin
@@ -141,6 +143,7 @@ idci_notification:
             configurations:
                 default:
                     transport:  smtp
+                    replyTo:    replyto@test.fr
                     from:       test@test.fr
                     server:     smtp.xxx.com
                     login:      yourlogin
@@ -166,6 +169,7 @@ idci_notification:
             configurations:
                 default:
                     transport:  smtp
+                    replyTo:    replyto@test.fr
                     from:       test@test.fr
                     server:     smtp.xxx.com
                     login:      yourlogin

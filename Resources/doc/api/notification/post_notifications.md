@@ -46,6 +46,7 @@ Automaticaly add the source IP: `"[ip] - source_name"`.
 | Subfield    | Optional | Requirements         | Description
 |-------------|----------|----------------------|------------
 | transport   | true     | smtp, sendmail, mail | Transport data
+| replyTo     | true     | string value         | Email address to reply
 | from        | true     | string value         | Sender email address
 | login       | true     | string value         | Login data
 | password    | true     | string value         | Password data
@@ -73,6 +74,7 @@ email=[
         },
         "from": {
             "transport":"smtp",
+            "replyTo":"replyTo@test.fr",
             "from" :"test@test.fr",
             "login":"mail@mxserver.com",
             "password": "password",
@@ -367,12 +369,13 @@ email=[
         },
         "from": {
             "transport":"smtp",
+            "replyTo":"replyTo@test.fr",
             "from" :"test@test.fr",
             "login":"mail@mxserver.com",
             "password": "password",
             "server": "smtp.mxserver.fr",
             "port": "465",
-            "encryption": "ssl",
+            "encryption": "ssl"
         },
         "content": {
             "subject": "A subject message",
@@ -390,29 +393,29 @@ sourceName="my_notification_source" &
 email=[
     {
         "to": {
-            "to": "toto1@titi.fr",
-            "cc": "titi1@toto.fr, tutu@titi.fr",
+            "to": "toto@titi.fr",
+            "cc": "titi@toto.fr, tutu@titi.fr",
             "bcc": null
         },
         "from": {
             "transport":"smtp",
-            "from" :"test&=1@test.fr",
-            "login":"mail1@mxserver.com",
-            "password": "password1",
+            "replyTo":"replyTo@test.fr",
+            "from" :"test@test.fr",
+            "login":"mail@mxserver.com",
+            "password": "password",
             "server": "smtp.mxserver.fr",
             "port": "465",
-            "encryption": "ssl",
+            "encryption": "ssl"
         },
         "content": {
-            "subject": "the subject of the first message",
+            "subject": "A subject message",
             "message": "the message to be send",
             "htmlMessage": "<h1>Titre</h1><p>Message</p>",
             "attachments": []
         }
     },
     {
-        "notifierAlias" : "my_email_alias"
-        ,
+        "notifierAlias" : "my_email_alias",
         "to": {
             "to": "toto2@titi.fr",
             "cc": "titi2@toto.fr, tutu@titi.fr",
@@ -434,28 +437,29 @@ sourceName="my_notification_source" &
 email=[
     {
         "to": {
-            "to": "toto1@titi.fr",
-            "cc": "titi1@toto.fr, tutu@titi.fr",
+            "to": "toto@titi.fr",
+            "cc": "titi@toto.fr, tutu@titi.fr",
             "bcc": null
         },
         "from": {
             "transport":"smtp",
-            "from" :"test&=1@test.fr",
-            "login":"mail1@mxserver.com",
-            "password": "password1",
+            "replyTo":"replyTo@test.fr",
+            "from" :"test@test.fr",
+            "login":"mail@mxserver.com",
+            "password": "password",
             "server": "smtp.mxserver.fr",
             "port": "465",
-            "encryption": "ssl",
+            "encryption": "ssl"
         },
         "content": {
-            "subject": "the subject of the first message",
+            "subject": "A subject message",
             "message": "the message to be send",
             "htmlMessage": "<h1>Titre</h1><p>Message</p>",
             "attachments": []
         }
     },
     {
-        "notifierAlias" : "my_email_alias2",
+        "notifierAlias" : "my_email_alias",
         "to": {
             "to": "toto2@titi.fr",
             "cc": "titi2@toto.fr, tutu@titi.fr",

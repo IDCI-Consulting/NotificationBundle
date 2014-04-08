@@ -28,6 +28,7 @@ class EmailNotifier extends AbstractNotifier
         $message = \Swift_Message::newInstance()
             ->setSubject(isset($content['subject']) ? $content['subject'] : null)
             ->setFrom($configuration['from'])
+            ->setReplyTo(isset($configuration['replyTo']) ? $configuration['replyTo'] : null)
             ->setTo($to['to'])
             ->setCc(isset($to['cc']) ? $to['cc'] : null)
             ->setBcc(isset($to['bcc']) ? $to['bcc'] : null)
@@ -141,6 +142,7 @@ class EmailNotifier extends AbstractNotifier
                     'mail'     => 'mail'
                 )
             )),
+            'replyTo'      => array('text',     array('required' => false)),
             'from'         => array('text',     array('required' => false)),
             'server'       => array('text',     array('required' => false)),
             'login'        => array('text',     array('required' => false)),
@@ -150,7 +152,7 @@ class EmailNotifier extends AbstractNotifier
                 'required' => false,
                 'choices'  => array(
                     'ssl'  => 'ssl',
-                    'tsl'  => 'tsl'
+                    'tls'  => 'tls'
                 )
             ))
         );
