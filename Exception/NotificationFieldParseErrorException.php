@@ -1,27 +1,28 @@
 <?php
+
 /**
  *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
- * @author:  Pichet PUTH <pichet.puth@utt.fr>
+ * @author:  Pichet Puth <pichet.puth@utt.fr>
  * @license: GPL
  *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Exception;
 
-class NotificationParametersParseErrorException extends \Exception
+class NotificationFieldParseErrorException extends \Exception
 {
     /**
      * Constructor
      *
-     * @param string $configuration
+     * @param string $notificationField
      */
-    public function __construct($configuration)
+    public function __construct($notificationField)
     {
         parent::__construct(
             sprintf(
-                'Wrong Notification parameters : %s',
-                $configuration
+                'Notification field parse error : %s',
+                $notificationField
             ),
             0,
             null
