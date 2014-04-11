@@ -49,7 +49,7 @@ abstract class AbstractNotifier implements NotifierInterface
      */
     public function getConfiguration(Notification $notification)
     {
-        if (null === $notification->getFrom() || empty($notification->getFrom())) {
+        if (null === $notification->getFrom() || count($notification->getFrom()) > 0) {
             return $this->getFileConfiguration();
         }
 
