@@ -303,38 +303,33 @@ sms=[
 |----------|--------------|------------
 | true     | string value | The notifier alias used to define a configuration
 
-#### Field "to" :
-
-| Subfield    | Optional | Requirements | Description
-|-------------|----------|--------------|------------
-| to          | false    | string value | Recipient twitter address
-
 #### Field "from" :
 
-| Subfield    | Optional | Requirements | Description
-|-------------|----------|--------------|------------
-| login       | true     | string value | Login data
-| password    | true     | string value | Password data
+| Subfield                  | Optional | Requirements | Description
+|---------------------------|----------|--------------|------------
+| consumer_key              | true     | string value | consumer key data
+| consumer_secret           | true     | string value | consumer secret data
+| oauth_access_token        | true     | string value | oauth access token data
+| oauth_access_token_secret | true     | string value | oauth access token secret data
 
 #### Field "content" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
-| message     | true     | string value | Message data
+| status      | true     | string value | Twitter status data
 
 #### Case 1 : notification with notifier parameters
 ```
 twitter=[
     {
-        "to": {
-            "to": "@toto"
-        },
         "from": {
-            "login": "@mylogin",
-            "password" : "mypassword"
+            "consumer_key": "your_consumer_key",
+            "consumer_secret" : "your_consumer_secret",
+            "oauth_access_token" : "your_oauth_access_token",
+            "oauth_access_token_secret" : "your_oauth_access_token_secret"
         },
         "content": {
-            "message" : "The message to be sent."
+            "status" : "The message to be sent."
         }
     }
 ]
@@ -345,11 +340,8 @@ twitter=[
 twitter=[
     {
         "notifierAlias" : "my_twitter_alias",
-        "to": {
-            "to": "@toto"
-        },
         "content": {
-            "message" : "The message to be sent."
+            "status" : "The message to be sent."
         }
     }
 ]

@@ -57,7 +57,7 @@ class Notification
 
     /**
      * @var string
-     * @ORM\Column(name="_to", type="text", nullable=false)
+     * @ORM\Column(name="_to", type="text", nullable=true)
      */
     protected $to;
 

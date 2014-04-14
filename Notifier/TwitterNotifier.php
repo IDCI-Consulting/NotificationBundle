@@ -189,7 +189,15 @@ class TwitterNotifier extends AbstractNotifier
     public function getContentFields()
     {
         return array(
-            'status'                => array('textarea', array('required' => true))
+            'status' => array('textarea', array('required' => true))
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getToFields()
+    {
+        return false;
     }
 }
