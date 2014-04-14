@@ -39,16 +39,31 @@ class AbstractNotificationType extends NotificationType
         $builder
             ->add('type', 'hidden')
             ->remove('log')
-            ->add('from', 'metadata', array(
-                'fields' => $this->notifier->getFromFields()
-            ))
-            ->add('to', 'metadata', array(
-                'fields' => $this->notifier->getToFields()
-            ))
-            ->add('content', 'metadata', array(
-                'fields' => $this->notifier->getContentFields()
-            ))
         ;
+
+        if (!$this->notifier->getFromFields()) {
+            $builder->remove('from');
+        } else {
+            $builder->add('from', 'metadata', array(
+                'fields' => $this->notifier->getFromFields()
+            ));
+        }
+
+        if (!$this->notifier->getToFields()) {
+            $builder->remove('to');
+        } else {
+            $builder->add('to', 'metadata', array(
+                'fields' => $this->notifier->getToFields()
+            ));
+        }
+
+        if (!$this->notifier->getContentFields()) {
+            $builder->remove('content');
+        } else {
+            $builder->add('content', 'metadata', array(
+                'fields' => $this->notifier->getContentFields()
+            ));
+        }
     }
 
     /**
