@@ -134,7 +134,7 @@ idci_notification:
 #### Note 1 : What you have to do to obtain twitter configuration :
 - Make sure that you have a twitter account. If not, create it one : [create_twitter_account](https://twitter.com/signup).
 
-- Create an application to access to your twitter account : [create_application](https://dev.twitter.com/).
+- Create an application to access to your twitter account : [create_application](https://apps.twitter.com/).
 
 #### Note 2 : What you have to do to link your application to your twitter account
 1. Associate a phone number to your twitter account : use the twitter application on smartphone to do this.
