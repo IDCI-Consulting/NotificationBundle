@@ -51,6 +51,6 @@ services:
 
     idci_notification.notifier.twitter:
         class: IDCI\Bundle\NotificationBundle\Notifier\TwitterNotifier
-        arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.twitter%]
+        arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.twitter%, @da_api_client.api.notification]
         tags:
             - { name: idci_notification.notifier, alias: twitter }

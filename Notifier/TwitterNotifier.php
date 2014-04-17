@@ -19,6 +19,8 @@ use IDCI\Bundle\NotificationBundle\Exception\UndefindedArgumentException;
 
 class TwitterNotifier extends AbstractNotifier
 {
+    protected $apiClient;
+
     /**
      * Constructor
      *
@@ -26,10 +28,21 @@ class TwitterNotifier extends AbstractNotifier
      * @param array                  $defaultConfiguration
      * @param RestApiClientInterface $apiClient
      */
-    public function __construct(EntityManager $entityManager, $defaultConfiguration)
+    public function __construct(EntityManager $entityManager, $defaultConfiguration, RestApiClientInterface $apiClient)
     {
         $this->entityManager = $entityManager;
         $this->defaultConfiguration = $defaultConfiguration;
+        $this->apiClient = $apiClient;
+    }
+
+    /**
+     * Get ApiClient
+     *
+     * @return RestApiClientInterface
+     */
+    protected function getApiClient()
+    {
+        return $this->apiClient;
     }
 
     /**
@@ -37,14 +50,47 @@ class TwitterNotifier extends AbstractNotifier
      */
     public function sendNotification(Notification $notification)
     {
-        $path = "https://api.twitter.com/1.1/statuses/update.json";
-        $requestMethod = "POST";
-        $configuration = $this->getConfiguration($notification);
+        $path = '/1.1/statuses/update.json';
 
+        $this->getApiClient()->post(
+            $path,
+            $this->getDataContentField($notification),
+            $this->buildHeaders($path, "POST", $notification)
+        );
+    }
+
+    /**
+     * Get data from content field
+     *
+     * @param Notification $notification
+     * @return array
+     */
+    protected function getDataContentField(Notification $notification)
+    {
+        if (null === json_decode($notification->getContent(), true)) {
+            throw new NotificationFieldParseErrorException($notification->getContent());
+        }
+        $contentValue = json_decode($notification->getContent(), true);
+
+        return $contentValue;
+    }
+
+    /**
+     * Build headers
+     *
+     * @param string       $path
+     * @param string       $requestMethod
+     * @param Notification $notification
+     * @return array
+     */
+    protected function buildHeaders($path, $requestMethod, Notification $notification)
+    {
+        $headers = array();
+        $configuration = $this->getConfiguration($notification);
         $oauth = $this->buildOauth($path, $requestMethod, $configuration);
-        $header = array($this->AuthorizationHeaderBuilder($oauth), 'Expect:');
-        $postFields = $this->postFieldsBuilder($notification->getContent());
-        $this->performRequest($header, $postFields, $path);
+        $headers['Authorization'] = $this->buildAuthorizationHeader($oauth);
+
+        return $headers;
     }
 
     /**
@@ -66,11 +112,12 @@ class TwitterNotifier extends AbstractNotifier
             'oauth_version'          => '1.0'
         );
 
-        $baseStringCurl = $this->baseStringCurlBuilder(
+        $baseStringCurl = $this->buildBaseStringCurl(
             $path,
             $requestMethod,
             $oauth
         );
+
         $compositeKey = rawurlencode($configuration['consumer_secret']). '&' . rawurlencode($configuration['oauth_access_token_secret']);
         $oauthSignature = base64_encode(hash_hmac('sha1', $baseStringCurl, $compositeKey, true));
         $oauth['oauth_signature'] = $oauthSignature;
@@ -79,15 +126,16 @@ class TwitterNotifier extends AbstractNotifier
     }
 
     /**
-     * Build the base string used by cURL
+     * Build the base string in order to generate oauth signature
      *
      * @param string $path
      * @param string $requestMethod
      * @param array  $oauth
      * @return string
      */
-    protected function baseStringCurlBuilder($path, $requestMethod, $oauth)
+    protected function buildBaseStringCurl($path, $requestMethod, $oauth)
     {
+        $absolutePath = $this->buildAbsolutePath($path);
         $baseStringValues = array();
         ksort($oauth);
 
@@ -95,7 +143,20 @@ class TwitterNotifier extends AbstractNotifier
             $baseStringValues[] = $key. "=" . $value;
         }
 
-        return $requestMethod . '&' . rawurlencode($path) . '&' . rawurlencode(implode('&', $baseStringValues));
+        return $requestMethod . '&' . rawurlencode($absolutePath) . '&' . rawurlencode(implode('&', $baseStringValues));
+    }
+
+    /**
+     * Build absolute path
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function buildAbsolutePath($path)
+    {
+        $endPointRoot = $this->getApiClient()->getEndpointRoot();
+
+        return $endPointRoot . $path;
     }
 
     /**
@@ -104,9 +165,9 @@ class TwitterNotifier extends AbstractNotifier
      * @param  array  $oauth
      * @return string $authorizationHeader
      */
-    protected function AuthorizationHeaderBuilder($oauth)
+    protected function buildAuthorizationHeader($oauth)
     {
-        $authorizationHeader = 'Authorization: OAuth ';
+        $authorizationHeader = 'OAuth ';
         $values = array();
 
         foreach ($oauth as $key => $value) {
@@ -116,58 +177,6 @@ class TwitterNotifier extends AbstractNotifier
         $authorizationHeader .= implode(',', $values);
 
         return $authorizationHeader;
-    }
-
-    /**
-     * Build the POST fields
-     *
-     * @param  string $notificationContentField
-     * @return string $contentFieldValues
-     */
-    protected function postFieldsBuilder($notificationContentField)
-    {
-        $contentFieldValues = json_decode($notificationContentField, true);
-        if (null === $contentFieldValues) {
-            throw new NotificationFieldParseErrorException($notificationContentField);
-        }
-
-        if (!isset($contentFieldValues['status'])) {
-            throw new UndefindedArgumentException('Undefinded "status" subfield in "content" field');
-        } elseif ('@' === substr($contentFieldValues['status'], 0,1)) {
-            $contentFieldValues['status'] = sprintf("\0%s", $contentFieldValues['status']);
-        }
-
-        return $contentFieldValues;
-    }
-
-    /**
-     * Perform request
-     *
-     * @param array  $header
-     * @param array  $postFields
-     * @param string $path
-     * @return string
-     */
-    protected function performRequest($header, $postFields, $path)
-    {
-        $options = array(
-            CURLOPT_HTTPHEADER     => $header,
-            CURLOPT_HEADER         => false,
-            CURLOPT_URL            => $path,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT        => 10
-        );
-
-        if (!is_null($postFields)) {
-            $options[CURLOPT_POSTFIELDS] = $postFields;
-        } else {
-            throw new UndefindedArgumentException('Undefinded "post fields" argument.');
-        }
-
-        $feed = curl_init();
-        curl_setopt_array($feed, $options);
-        curl_exec($feed);
-        curl_close($feed);
     }
 
     /**
