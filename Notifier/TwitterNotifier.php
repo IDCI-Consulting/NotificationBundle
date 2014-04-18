@@ -14,7 +14,6 @@ namespace IDCI\Bundle\NotificationBundle\Notifier;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use Doctrine\ORM\EntityManager;
 use Da\ApiClientBundle\Http\Rest\RestApiClientInterface;
-use IDCI\Bundle\NotificationBundle\Exception\NotificationFieldParseErrorException;
 use IDCI\Bundle\NotificationBundle\Exception\UndefindedArgumentException;
 
 class TwitterNotifier extends AbstractNotifier
@@ -50,29 +49,12 @@ class TwitterNotifier extends AbstractNotifier
      */
     public function sendNotification(Notification $notification)
     {
-        $path = '/1.1/statuses/update.json';
-
+        $path = '/statuses/update.json';
         $this->getApiClient()->post(
             $path,
-            $this->getDataContentField($notification),
+            $notification->getContentDecoded(),
             $this->buildHeaders($path, "POST", $notification)
         );
-    }
-
-    /**
-     * Get data from content field
-     *
-     * @param Notification $notification
-     * @return array
-     */
-    protected function getDataContentField(Notification $notification)
-    {
-        if (null === json_decode($notification->getContent(), true)) {
-            throw new NotificationFieldParseErrorException($notification->getContent());
-        }
-        $contentValue = json_decode($notification->getContent(), true);
-
-        return $contentValue;
     }
 
     /**

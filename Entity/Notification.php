@@ -11,6 +11,7 @@
 namespace IDCI\Bundle\NotificationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use IDCI\Bundle\NotificationBundle\Exception\NotificationFieldParseErrorException;
 
 /**
  * Notification
@@ -246,6 +247,21 @@ class Notification
     }
 
     /**
+     * Get from json decoded
+     *
+     * @return array
+     */
+    public function getFromDecoded()
+    {
+        $fromValues = json_decode($this->getFrom(), true);
+        if (null === $fromValues) {
+            throw new NotificationFieldParseErrorException($this->getFrom());
+        }
+
+        return $fromValues;
+    }
+
+    /**
      * Set to
      *
      * @param mixed $to
@@ -266,6 +282,21 @@ class Notification
     public function getTo()
     {
         return $this->to;
+    }
+
+    /**
+     * Get to json decoded
+     *
+     * @return array
+     */
+    public function getToDecoded()
+    {
+        $toValues = json_decode($this->getTo(), true);
+        if (null === $toValues) {
+            throw new NotificationFieldParseErrorException($this->getTo());
+        }
+
+        return $toValues;
     }
 
     /**
@@ -358,6 +389,21 @@ class Notification
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Get content json decoded
+     *
+     * @return array
+     */
+    public function getContentDecoded()
+    {
+        $contentValues = json_decode($this->getContent(), true);
+        if (null === $contentValues) {
+            throw new NotificationFieldParseErrorException($this->getContent());
+        }
+
+        return $contentValues;
     }
 
     /**

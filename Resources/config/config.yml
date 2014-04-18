@@ -1,7 +1,5 @@
 da_api_client:
-    log_enabled: true
     api:
-        notification:
-            endpoint_root: %api.notification.endpoint_root%
-            security_token: %api.security_token%
-            cache_enabled: true
+        twitter:
+            endpoint_root: %api.twitter.endpoint_root%
+            cache_enabled: false
