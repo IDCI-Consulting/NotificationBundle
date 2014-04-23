@@ -49,24 +49,27 @@ abstract class AbstractNotifier implements NotifierInterface
      */
     public function getConfiguration(Notification $notification)
     {
-        if (null === $notification->getFrom() || count($notification->getFrom()) > 0) {
-            return $this->getFileConfiguration();
-        }
-
-        $from = json_decode($notification->getFrom(), true);
-        if (null === $from) {
-            throw new ConfigurationParseErrorException($notification->getFrom());
-        }
-
         if ($notification->hasNotifierAlias()) {
             try {
-                $from = $this->getDataBaseConfiguration($notification->getNotifierAlias(), $notification->getType());
+                return $this->getDataBaseConfiguration(
+                    $notification->getNotifierAlias(),
+                    $notification->getType()
+                );
             } catch(UndefinedNotifierConfigurationException $e) {
-                $from = $this->getFileConfiguration($notification->getNotifierAlias());
+                return $this->getFileConfiguration($notification->getNotifierAlias());
             }
         }
 
-        return $from;
+        if (null !== $notification->getFrom()) {
+            $from = json_decode($notification->getFrom(), true);
+            if (null === $from) {
+                throw new ConfigurationParseErrorException($notification->getFrom());
+            } elseif (count($from) > 0) {
+                return $from;
+            }
+        }
+
+        return $this->getFileConfiguration();
     }
 
     /**
