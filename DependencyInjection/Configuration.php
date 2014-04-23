@@ -41,6 +41,7 @@ class Configuration implements ConfigurationInterface
                         ->append($this->addFacebookParametersNode())
                         ->append($this->addTwitterParametersNode())
                         ->append($this->addMailParametersNode())
+                        ->append($this->addIOSPushParameterNode())
                     ->end()
                 ->end()
             ->end()
@@ -192,5 +193,29 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $mailNode;
+    }
+
+    public function addIOSPushParameterNode()
+    {
+        $builder = new TreeBuilder();
+        $iOSPushNode = $builder->root('iOSPush');
+
+        $iOSPushNode
+            ->children()
+                ->scalarNode('default_configuration')
+                    ->defaultValue('default')
+                ->end()
+                ->arrayNode('configurations')
+                    ->useAttributeAsKey('')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('passphrase')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $iOSPushNode;
     }
 }
