@@ -142,8 +142,8 @@ class EmailNotifier extends AbstractNotifier
                     'mail'     => 'mail'
                 )
             )),
-            'fromName'     => array('text',     array('required' => false)),
             'from'         => array('text',     array('required' => false)),
+            'fromName'     => array('text',     array('required' => false)),
             'replyTo'      => array('text',     array('required' => false)),
             'server'       => array('text',     array('required' => false)),
             'login'        => array('text',     array('required' => false)),
