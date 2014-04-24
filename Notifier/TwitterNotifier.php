@@ -167,10 +167,10 @@ class TwitterNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'consumer_key'              => array('text', array('required' => false)),
-            'consumer_secret'           => array('text', array('required' => false)),
-            'oauth_access_token'        => array('text', array('required' => false)),
-            'oauth_access_token_secret' => array('text', array('required' => false))
+            'consumerKey'            => array('text', array('required' => false)),
+            'consumerSecret'         => array('text', array('required' => false)),
+            'oauthAccessToken'       => array('text', array('required' => false)),
+            'oauthAccessTokenSecret' => array('text', array('required' => false))
         );
     }
 
