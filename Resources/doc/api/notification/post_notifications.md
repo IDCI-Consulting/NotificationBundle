@@ -305,12 +305,12 @@ sms=[
 
 #### Field "from" :
 
-| Subfield                  | Optional | Requirements | Description
-|---------------------------|----------|--------------|------------
-| consumer_key              | true     | string value | consumer key data
-| consumer_secret           | true     | string value | consumer secret data
-| oauth_access_token        | true     | string value | oauth access token data
-| oauth_access_token_secret | true     | string value | oauth access token secret data
+| Subfield               | Optional | Requirements | Description
+|------------------------|----------|--------------|------------
+| consumerKey            | true     | string value | consumer key data
+| consumerSecret         | true     | string value | consumer secret data
+| oauthAccessToken       | true     | string value | oauth access token data
+| oauthAccessTokenSecret | true     | string value | oauth access token secret data
 
 #### Field "content" :
 
@@ -323,10 +323,10 @@ sms=[
 twitter=[
     {
         "from": {
-            "consumer_key": "your_consumer_key",
-            "consumer_secret" : "your_consumer_secret",
-            "oauth_access_token" : "your_oauth_access_token",
-            "oauth_access_token_secret" : "your_oauth_access_token_secret"
+            "consumerKey": "your_consumer_key",
+            "consumerSecret" : "your_consumer_secret",
+            "oauthAccessToken" : "your_oauth_access_token",
+            "oauthAccessTokenSecret" : "your_oauth_access_token_secret"
         },
         "content": {
             "status" : "The message to be sent."
