@@ -13,6 +13,7 @@ namespace IDCI\Bundle\NotificationBundle\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\NotificationFieldParseErrorException;
+use IDCI\Bundle\NotificationBundle\Exception\SocketConnexionFailedException;
 
 class IOSPushNotifier extends AbstractNotifier
 {
@@ -21,44 +22,75 @@ class IOSPushNotifier extends AbstractNotifier
      */
     public function sendNotification(Notification $notification)
     {
+        //$notification->getTo()
+        //$notification->getTo('deviceToken')
         $deviceToken = json_decode($notification->getTo(), true);
-        if ( null === $deviceToken ) {
+        if (null === $deviceToken) {
             throw new NotificationFieldParseErrorException($notification->getTo());
         }
 
         $passphrase = json_decode($notification->getFrom(), true);
-        if ( null === $passphrase ) {
+        if (null === $passphrase) {
             throw new NotificationFieldParseErrorException($notification->getFrom());
         }
 
         $message = json_decode($notification->getContent(), true);
-        if ( null === $message ) {
+        if (null === $message) {
             throw new NotificationFieldParseErrorException($notification->getContent());
         }
 
+        // Encode the payload as JSON
+        $payload = json_encode($this->createPayloadBody($message['message']));
+
+        // Build the binary notification
+        $msg = $this->buildBinaryNotification($deviceToken['deviceToken'], $payload);
+
+        $fp = sefl::initSocketConnexion($passphrase['passphrase']);
+
+        sefl::
+    }
+
+    /**
+     * Init the socket connexion
+     *
+     * @param string $passphrase
+     * @thrown SocketConnexionFailedException
+     */
+    public static function initSocketConnexion($passphrase)
+    {
         $context = stream_context_create(); //Crée un contexte de flux
         //Configure une option pour un flux/gestionnaire/contexte
         stream_context_set_option($context, 'ssl', 'local_cert', 'ck.pem');
         stream_context_set_option($context, 'ssl', 'passphrase', $passphrase);
-
         // Open a connection to the APNS server
         // Ouvre une connexion socket Internet ou Unix
         // return false if connection error
         $fp = stream_socket_client(
-            'ssl://gateway.sandbox.push.apple.com:2195', $err,
-            $errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $context);
+            'ssl://gateway.sandbox.push.apple.com:2195',
+            $err,
+            $errstr,
+            60,
+            STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT,
+            $context
+        );
 
-        if (!$fp)
-            exit("Failed to connect: $err $errstr" . PHP_EOL);
+        if (!$fp) {
+            throw new SocketConnexionFailedException($err, $errstr);
+        }
 
         echo 'Connected to APNS' . PHP_EOL;
 
-        // Encode the payload as JSON
-        $payload = json_encode($this->createPayloadBody($message));
+        return $fp;
+    }
 
-        // Build the binary notification
-        $msg = $this->buildBinaryNotification($deviceToken, $payload);
-
+    /**
+     * Send the payload using socket connexion
+     *
+     * @param
+     * @param string $msg
+     */
+    public static function sendViaSocketConnexion($fp, $msg)
+    {
         // Send it to the server
         // Écrit un fichier en mode binaire
         $result = fwrite($fp, $msg, strlen($msg));
@@ -72,6 +104,7 @@ class IOSPushNotifier extends AbstractNotifier
         // Ferme un fichier
         fclose($fp);
     }
+
 
     /**
      * Create the payload body
@@ -107,7 +140,7 @@ class IOSPushNotifier extends AbstractNotifier
     public function getToFields()
     {
         return array(
-            'device_token' => array('text', array('required' => true))
+            'deviceToken' => array('text', array('required' => true))
         );
     }
 
