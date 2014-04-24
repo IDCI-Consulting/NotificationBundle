@@ -18,6 +18,68 @@ use Doctrine\ORM\EntityRepository;
 class NotificationRepository extends EntityRepository
 {
     /**
+     * Find by query builder
+     * 
+     * @param array $criteria
+     * @param array|null $orderBy
+     * 
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function findByQueryBuilder(array $criteria, array $orderBy = null)
+    {
+        $qb = $this->createQueryBuilder('entity');
+
+        if(!is_null($orderBy)) {
+            foreach($orderBy as $field => $order) {
+                $qb->addOrderBy(sprintf("entity.%s", $field), $order);
+            }
+        }
+        
+        foreach($criteria as $name => $value) {
+            $qb->andWhere(sprintf('entity.%s = %s', $name, $value));
+        }
+
+        return $qb;
+    }
+
+    /**
+     * Find by query
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * 
+     * @return \Doctrine\ORM\Query
+     */
+    public function findByQuery(array $criteria = null, array $orderBy = null)
+    {
+        return $this->findByQueryBuilder($criteria, $orderBy)->getQuery();
+    }
+
+    /**
+     * Find all query builder
+     * 
+     * @param array|null $orderBy
+     * 
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function findAllQueryBuilder(array $orderBy = null)
+    {
+        return $this->findByQueryBuilder(array(), $orderBy);
+    }
+
+    /**
+     * Find all query
+     * 
+     * @param array|null $orderBy
+     * 
+     * @return \Doctrine\ORM\Query
+     */
+    public function findAllQuery(array $orderBy = null)
+    {
+        return $this->findAllQueryBuilder($orderBy)->getQuery();
+    }
+
+    /**
      * Get the number of medias for each mime type
      *
      * @param DateTime from
