@@ -86,10 +86,10 @@ class TwitterNotifier extends AbstractNotifier
     protected function buildOauth($path, $requestMethod, $configuration)
     {
         $oauth = array(
-            'oauth_consumer_key'     => $configuration['consumer_key'],
+            'oauth_consumer_key'     => $configuration['consumerKey'],
             'oauth_nonce'            => time(),
             'oauth_signature_method' => 'HMAC-SHA1',
-            'oauth_token'            => $configuration['oauth_access_token'],
+            'oauth_token'            => $configuration['oauthAccessToken'],
             'oauth_timestamp'        => time(),
             'oauth_version'          => '1.0'
         );
@@ -100,7 +100,7 @@ class TwitterNotifier extends AbstractNotifier
             $oauth
         );
 
-        $compositeKey = rawurlencode($configuration['consumer_secret']). '&' . rawurlencode($configuration['oauth_access_token_secret']);
+        $compositeKey = rawurlencode($configuration['consumerSecret']). '&' . rawurlencode($configuration['oauthAccessTokenSecret']);
         $oauthSignature = base64_encode(hash_hmac('sha1', $baseStringCurl, $compositeKey, true));
         $oauth['oauth_signature'] = $oauthSignature;
 
