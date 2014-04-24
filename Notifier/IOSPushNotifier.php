@@ -47,7 +47,8 @@ class IOSPushNotifier extends AbstractNotifier
 
         $fp = sefl::initSocketConnexion($passphrase['passphrase']);
 
-        sefl::
+        sefl::sendViaSocketConnexion($fp, $msg);
+
     }
 
     /**
@@ -77,8 +78,6 @@ class IOSPushNotifier extends AbstractNotifier
         if (!$fp) {
             throw new SocketConnexionFailedException($err, $errstr);
         }
-
-        echo 'Connected to APNS' . PHP_EOL;
 
         return $fp;
     }
