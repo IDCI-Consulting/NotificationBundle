@@ -13,7 +13,8 @@ namespace IDCI\Bundle\NotificationBundle\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\NotificationFieldParseErrorException;
-use IDCI\Bundle\NotificationBundle\Exception\SocketConnexionFailedException;
+use IDCI\Bundle\NotificationBundle\Exception\InitSocketConnexionFailedException;
+use IDCI\Bundle\NotificationBundle\Exception\SendingErrorViaSocketConnexionException;
 
 class IOSPushNotifier extends AbstractNotifier
 {
@@ -41,12 +42,10 @@ class IOSPushNotifier extends AbstractNotifier
 
         // Encode the payload as JSON
         $payload = json_encode($this->createPayloadBody($message['message']));
-
         // Build the binary notification
         $msg = $this->buildBinaryNotification($deviceToken['deviceToken'], $payload);
 
         $fp = sefl::initSocketConnexion($passphrase['passphrase']);
-
         sefl::sendViaSocketConnexion($fp, $msg);
 
     }
@@ -76,7 +75,7 @@ class IOSPushNotifier extends AbstractNotifier
         );
 
         if (!$fp) {
-            throw new SocketConnexionFailedException($err, $errstr);
+            throw new InitSocketConnexionFailedException($err, $errstr);
         }
 
         return $fp;
@@ -85,8 +84,9 @@ class IOSPushNotifier extends AbstractNotifier
     /**
      * Send the payload using socket connexion
      *
-     * @param
+     * @param TODO   $fp
      * @param string $msg
+     * @throw SendingErrorViaSocketConnexionException
      */
     public static function sendViaSocketConnexion($fp, $msg)
     {
@@ -94,10 +94,9 @@ class IOSPushNotifier extends AbstractNotifier
         // Écrit un fichier en mode binaire
         $result = fwrite($fp, $msg, strlen($msg));
 
-        if (!$result)
-            echo 'Message not delivered' . PHP_EOL;
-        else
-            echo 'Message successfully delivered' . PHP_EOL;
+        if (!$result) {
+            throw new SendingErrorViaSocketConnexionException()
+        }
 
         // Close the connection to the server
         // Ferme un fichier
