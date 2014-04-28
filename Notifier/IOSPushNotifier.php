@@ -41,7 +41,7 @@ class IOSPushNotifier extends AbstractNotifier
      *
      * @param string $certificate
      * @param string $passphrase
-     * @thrown SocketConnexionFailedException
+     * @thrown IOSPushNotifierException
      */
     public static function createSocketConnexion($certificate, $passphrase)
     {
@@ -72,8 +72,8 @@ class IOSPushNotifier extends AbstractNotifier
     /**
      * Send the payload using socket connexion
      *
-     * @param  TODO   $socket
-     * @param  string $binaryMessage
+     * @param  persistent stream|false  $socket
+     * @param  string                   $binaryMessage
      * @return boolean
      */
     public static function sendBinaryMessage($socket, $binaryMessage)
