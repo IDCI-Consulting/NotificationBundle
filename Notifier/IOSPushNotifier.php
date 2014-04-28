@@ -40,7 +40,7 @@ class IOSPushNotifier extends AbstractNotifier
     public static function createSocketConnexion($passphrase)
     {
         $ctx = stream_context_create();
-        stream_context_set_option($ctx, 'ssl', 'local_cert', '/home/quentin/workspace/NotificationManager/bin/pp.pem');
+        stream_context_set_option($ctx, 'ssl', 'local_cert', '/home/quentin/workspace/NotificationManager/bin/ck.pem');
         stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
 
         $socket = stream_socket_client(
@@ -74,7 +74,7 @@ class IOSPushNotifier extends AbstractNotifier
     {
         $result = fwrite($socket, $binaryMessage, strlen($binaryMessage));
         fclose($socket);
-
+        //var_dump($result); die;
         return false === $result ? false : true;
     }
 
@@ -87,9 +87,15 @@ class IOSPushNotifier extends AbstractNotifier
      */
     protected function buildBinaryMessage($deviceToken, $message)
     {
-        $payload = json_encode(array(
+        /*$body['aps'] = array(
             'alert' => $message,
             'sound' => 'default'
+        );*/
+        $payload = json_encode(array(
+            'aps' => array(
+                'alert' => $message,
+                'sound' => 'default'
+            )
         ));
 
         return chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
