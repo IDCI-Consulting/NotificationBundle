@@ -21,7 +21,6 @@ class IOSPushNotifier extends AbstractNotifier
     public function sendNotification(Notification $notification)
     {
         $socket = self::createSocketConnexion($notification->getFrom('passphrase'));
-
         return self::sendBinaryMessage(
             $socket,
             $this->buildBinaryMessage(
@@ -34,8 +33,9 @@ class IOSPushNotifier extends AbstractNotifier
     /**
      * Init the socket connexion
      *
-     * @param string $passphrase
-     * @thrown SocketConnexionFailedException
+     * @param  string                   $passphrase
+     * @return persistent stream|false  $socket
+     * @thrown IOSPushNotifierException
      */
     public static function createSocketConnexion($passphrase)
     {
@@ -66,8 +66,8 @@ class IOSPushNotifier extends AbstractNotifier
     /**
      * Send the payload using socket connexion
      *
-     * @param  TODO   $socket
-     * @param  string $binaryMessage
+     * @param  persistent stream|false  $socket
+     * @param  string                   $binaryMessage
      * @return boolean
      */
     public static function sendBinaryMessage($socket, $binaryMessage)
@@ -87,10 +87,6 @@ class IOSPushNotifier extends AbstractNotifier
      */
     protected function buildBinaryMessage($deviceToken, $message)
     {
-        /*$body['aps'] = array(
-            'alert' => $message,
-            'sound' => 'default'
-        );*/
         $payload = json_encode(array(
             'aps' => array(
                 'alert' => $message,
