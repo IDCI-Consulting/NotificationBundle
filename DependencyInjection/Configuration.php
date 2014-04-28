@@ -203,6 +203,9 @@ class Configuration implements ConfigurationInterface
 
         $iOSPushNode
             ->children()
+                ->scalarNode('certificates_directory')
+                    ->defaultValue("%kernel.root_dir%/../bin/certificates")
+                ->end()
                 ->scalarNode('default_configuration')
                     ->defaultValue('default')
                 ->end()
@@ -210,6 +213,7 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('')
                     ->prototype('array')
                         ->children()
+                            ->scalarNode('certificate')->isRequired()->end()
                             ->scalarNode('passphrase')->isRequired()->end()
                         ->end()
                     ->end()

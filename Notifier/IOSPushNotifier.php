@@ -20,7 +20,12 @@ class IOSPushNotifier extends AbstractNotifier
      */
     public function sendNotification(Notification $notification)
     {
-        $socket = self::createSocketConnexion($notification->getFrom('passphrase'));
+        $configuration = $this->getConfiguration($notification);
+
+        $socket = self::createSocketConnexion(
+            $configuration['certificate']['path'],
+            $configuration['passphrase']
+        );
 
         return self::sendBinaryMessage(
             $socket,
@@ -34,13 +39,14 @@ class IOSPushNotifier extends AbstractNotifier
     /**
      * Init the socket connexion
      *
+     * @param string $certificate
      * @param string $passphrase
      * @thrown SocketConnexionFailedException
      */
-    public static function createSocketConnexion($passphrase)
+    public static function createSocketConnexion($certificate, $passphrase)
     {
         $ctx = stream_context_create();
-        stream_context_set_option($ctx, 'ssl', 'local_cert', '/home/quentin/workspace/NotificationManager/bin/ck.pem');
+        stream_context_set_option($ctx, 'ssl', 'local_cert', $certificate);
         stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
 
         $socket = stream_socket_client(
@@ -74,7 +80,7 @@ class IOSPushNotifier extends AbstractNotifier
     {
         $result = fwrite($socket, $binaryMessage, strlen($binaryMessage));
         fclose($socket);
-        //var_dump($result); die;
+
         return false === $result ? false : true;
     }
 
@@ -87,10 +93,6 @@ class IOSPushNotifier extends AbstractNotifier
      */
     protected function buildBinaryMessage($deviceToken, $message)
     {
-        /*$body['aps'] = array(
-            'alert' => $message,
-            'sound' => 'default'
-        );*/
         $payload = json_encode(array(
             'aps' => array(
                 'alert' => $message,
@@ -117,7 +119,8 @@ class IOSPushNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'passphrase' => array('password', array('required' => true))
+            'certificate' => array('certificate', array('required' => false)),
+            'passphrase'  => array('text', array('required' => false))
         );
     }
 
