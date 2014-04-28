@@ -74,7 +74,7 @@ class IOSPushNotifier extends AbstractNotifier
     {
         $result = fwrite($socket, $binaryMessage, strlen($binaryMessage));
         fclose($socket);
-        //var_dump($result); die;
+
         return false === $result ? false : true;
     }
 
