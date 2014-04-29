@@ -4,7 +4,6 @@
  *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet Puth <pichet.puth@utt.fr>
- * @license: GPL
  *
  */
 
@@ -15,14 +14,14 @@ class NotificationFieldParseErrorException extends \Exception
     /**
      * Constructor
      *
-     * @param string $notificationField
+     * @param string $field
      */
-    public function __construct($notificationField)
+    public function __construct($field)
     {
         parent::__construct(
             sprintf(
-                'Notification field parse error : %s',
-                $notificationField
+                'Parse error in field : %s',
+                $field
             ),
             0,
             null

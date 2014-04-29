@@ -158,6 +158,32 @@ class Notification
     }
 
     /**
+     * Get data
+     *
+     * @param string $data
+     * @param string $key
+     * @param mixed  $default
+     * @return mixed
+     */
+    public static function getData($data, $key, $default)
+    {
+        if (null === $key) {
+            return $data;
+        }
+
+        $decodedData = json_decode($data, true);
+        if (null === $decodedData) {
+            throw new NotificationFieldParseErrorException($data);
+        }
+
+        if (!isset($decodedData[$key])) {
+            return $default;
+        }
+
+        return $decodedData[$key];
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -239,11 +265,13 @@ class Notification
     /**
      * Get from
      *
-     * @return string
+     * @param  string|null $key
+     * @param  mixed|null  $default
+     * @return mixed|null
      */
-    public function getFrom()
+    public function getFrom($key = null, $default = null)
     {
-        return $this->from;
+        return self::getData($this->from, $key, $default);
     }
 
     /**
@@ -277,11 +305,13 @@ class Notification
     /**
      * Get to
      *
+     * @param  string|null $key
+     * @param  mixed|null  $default
      * @return array
      */
-    public function getTo()
+    public function getTo($key = null, $default = null)
     {
-        return $this->to;
+        return self::getData($this->to, $key, $default);
     }
 
     /**
@@ -384,11 +414,13 @@ class Notification
     /**
      * Get content
      *
+     * @param  string|null $key
+     * @param  mixed|null  $default
      * @return array
      */
-    public function getContent()
+    public function getContent($key = null, $default = null)
     {
-        return $this->content;
+        return self::getData($this->content, $key, $default);
     }
 
     /**

@@ -13,6 +13,12 @@ services:
         tags:
             - { name: form.type, alias: notifier_choice }
 
+    idci_notification.form.type.certificate:
+        class: IDCI\Bundle\NotificationBundle\Form\Type\CertificateType
+        arguments: [%idci_notification.notifiers.configuration%]
+        tags:
+            - { name: form.type, alias: certificate }
+
     idci_notification.form.type.abstract_notification:
         class: IDCI\Bundle\NotificationBundle\Form\Type\AbstractNotificationType
         arguments: [null, null]
@@ -54,3 +60,9 @@ services:
         arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.twitter%, @da_api_client.api.twitter]
         tags:
             - { name: idci_notification.notifier, alias: twitter }
+
+    idci_notification.notifier.iOSPush:
+        class: IDCI\Bundle\NotificationBundle\Notifier\IOSPushNotifier
+        arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.iOSPush%]
+        tags:
+            - { name: idci_notification.notifier, alias: iOSPush }
