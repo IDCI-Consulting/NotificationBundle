@@ -50,11 +50,13 @@ class TwitterNotifier extends AbstractNotifier
     public function sendNotification(Notification $notification)
     {
         $path = '/statuses/update.json';
-        $this->getApiClient()->post(
+        $response = $this->getApiClient()->post(
             $path,
             $notification->getContentDecoded(),
             $this->buildHeaders($path, "POST", $notification)
         );
+
+        return (null !== $response) ? true : false;
     }
 
     /**
