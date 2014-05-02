@@ -34,7 +34,7 @@ class CertificateType extends AbstractType
      */
     public function getCertificatesDirectory()
     {
-        return $this->configuration['iOSPush']['certificates_directory'];
+        return $this->configuration['push_ios']['certificates_directory'];
     }
 
     /**

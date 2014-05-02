@@ -10,7 +10,7 @@
 
 namespace IDCI\Bundle\NotificationBundle\Exception;
 
-class IOSPushNotifierException extends \Exception
+class PushIOSNotifierException extends \Exception
 {
     /**
      * Constructor
@@ -20,7 +20,7 @@ class IOSPushNotifierException extends \Exception
     public function __construct($message)
     {
         parent::__construct(sprintf(
-            'IOS Push Notifier exception: %s'
+            'Push IOS Notifier exception: %s'
             $message
         ));
     }

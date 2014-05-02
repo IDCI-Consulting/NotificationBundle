@@ -61,8 +61,8 @@ services:
         tags:
             - { name: idci_notification.notifier, alias: twitter }
 
-    idci_notification.notifier.iOSPush:
-        class: IDCI\Bundle\NotificationBundle\Notifier\IOSPushNotifier
-        arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.iOSPush%]
+    idci_notification.notifier.push_ios:
+        class: IDCI\Bundle\NotificationBundle\Notifier\PushIOSNotifier
+        arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.push_ios%]
         tags:
-            - { name: idci_notification.notifier, alias: iOSPush }
+            - { name: idci_notification.notifier, alias: push_ios }

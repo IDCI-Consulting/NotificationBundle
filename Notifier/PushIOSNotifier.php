@@ -11,9 +11,9 @@
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
-use IDCI\Bundle\NotificationBundle\Exception\IOSPushNotifierException;
+use IDCI\Bundle\NotificationBundle\Exception\PushIOSNotifierException;
 
-class IOSPushNotifier extends AbstractNotifier
+class PushIOSNotifier extends AbstractNotifier
 {
     /**
      * {@inheritdoc}
@@ -59,7 +59,7 @@ class IOSPushNotifier extends AbstractNotifier
         );
 
         if (!$socket) {
-            throw new IOSPushNotifierException(sprintf(
+            throw new PushIOSNotifierException(sprintf(
                 'Connection failed: %s, %s',
                 $err,
                 $errstr

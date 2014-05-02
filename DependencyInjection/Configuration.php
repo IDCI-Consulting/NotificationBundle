@@ -41,7 +41,7 @@ class Configuration implements ConfigurationInterface
                         ->append($this->addFacebookParametersNode())
                         ->append($this->addTwitterParametersNode())
                         ->append($this->addMailParametersNode())
-                        ->append($this->addIOSPushParameterNode())
+                        ->append($this->addPushIOSParameterNode())
                     ->end()
                 ->end()
             ->end()
@@ -198,12 +198,12 @@ class Configuration implements ConfigurationInterface
         return $mailNode;
     }
 
-    public function addIOSPushParameterNode()
+    public function addPushIOSParameterNode()
     {
         $builder = new TreeBuilder();
-        $iOSPushNode = $builder->root('iOSPush');
+        $pushIOSNode = $builder->root('push_ios');
 
-        $iOSPushNode
+        $pushIOSNode
             ->children()
                 ->scalarNode('certificates_directory')
                     ->defaultValue("%kernel.root_dir%/../bin/certificates")
@@ -223,6 +223,6 @@ class Configuration implements ConfigurationInterface
             ->end()
         ;
 
-        return $iOSPushNode;
+        return $pushIOSNode;
     }
 }
