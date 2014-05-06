@@ -120,7 +120,7 @@ class PushIOSNotifier extends AbstractNotifier
     {
         return array(
             'certificate' => array('certificate', array('required' => false)),
-            'passphrase'  => array('text', array('required' => false))
+            'passphrase'  => array('text',        array('required' => false))
         );
     }
 
