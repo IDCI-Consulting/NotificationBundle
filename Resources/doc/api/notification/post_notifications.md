@@ -12,14 +12,15 @@ Create one notification
 | **Secured** | true
 
 ## HTTP Request parameters
-| Name       | Optional | Default | Requirements | Description
-|------------|----------|---------|--------------|------------
-| sourceName | true     |         |              | The source name
-| email      | true     |         |              | Email data
-| facebook   | true     |         |              | Facebook data
-| mail       | true     |         |              | Mail data
-| sms        | true     |         |              | Sms data
-| twitter    | true     |         |              | Twitter data
+| Name         | Optional | Default | Requirements | Description
+|--------------|----------|---------|--------------|------------
+| sourceName   | true     |         |              | The source name
+| email        | true     |         |              | Email data
+| facebook     | true     |         |              | Facebook data
+| mail         | true     |         |              | Mail data
+| sms          | true     |         |              | Sms data
+| twitter      | true     |         |              | Twitter data
+| pushAndroid  | true     |         |              | Push Android data
 
 ### source_name
 To associate a source name with the notifications, the source name parameter is optional.
@@ -342,6 +343,64 @@ twitter=[
         "notifierAlias" : "my_twitter_alias",
         "content": {
             "status" : "The message to be sent."
+        }
+    }
+]
+```
+
+### Push Android
+
+#### Field "notifierAlias" :
+
+| Optional | Requirements | Description
+|----------|--------------|------------
+| true     | string value | The notifier alias used to define a configuration
+
+#### Field "to"
+
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| deviceToken | false    | string value | The token is used to identify an android device associated to an application
+
+#### Field "from" :
+
+| Subfield | Optional | Requirements | Description
+|----------|----------|--------------|------------
+| apiKey   | true     | string value | The key using to identify an android application
+
+#### Field "content" :
+
+| Subfield | Optional | Requirements | Description
+|----------|----------|--------------|------------
+| message  | true     | string value | Push android message data
+
+#### Case 1 : notification with notifier parameters
+```
+pushAndroid=[
+    {
+        "to": {
+            "deviceToken": "your_device_token"
+        },
+        "from": {
+            "apiKey": "your_api_key"
+        },
+        "content": {
+            "message" : "The push message to be sent."
+        }
+    }
+]
+```
+#### Case 2 : notification without notifier parameters
+
+```
+pushAndroid=[
+    {
+        "notifierAlias" : "my_push_android_alias",
+        "to": {
+            "deviceToken": "your_device_token"
+        },
+        "content": {
+            "message" : "The push message to be sent."
         }
     }
 ]

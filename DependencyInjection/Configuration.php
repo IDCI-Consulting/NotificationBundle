@@ -42,6 +42,7 @@ class Configuration implements ConfigurationInterface
                         ->append($this->addTwitterParametersNode())
                         ->append($this->addMailParametersNode())
                         ->append($this->addIOSPushParameterNode())
+                        ->append($this->addPushAndroidParameterNode())
                     ->end()
                 ->end()
             ->end()
@@ -224,5 +225,29 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $iOSPushNode;
+    }
+
+    public function addPushAndroidParameterNode()
+    {
+        $builder = new TreeBuilder();
+        $pushAndroidNode = $builder->root('push_android');
+
+        $pushAndroidNode
+            ->children()
+                ->scalarNode('default_configuration')
+                    ->defaultValue('default')
+                ->end()
+                ->arrayNode('configurations')
+                    ->useAttributeAsKey('')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('apiKey')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $pushAndroidNode;
     }
 }

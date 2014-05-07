@@ -141,6 +141,27 @@ idci_notification:
 2. Return to your [application](https://apps.twitter.com/), change permission into `Read, Write and Access direct messages`(in Permission section) and regenerate your access token (in API keys section).
 3. Return to your twitter account and check parameters, you should see your application.
 
+Push Android
+------------
+
+### Parameters :
+| Parameter   | Type    | Required | Valide values
+|-------------|---------|----------|--------------
+| apiKey      | string  | yes      | string value using to identify an android application
+
+### Configuration
+Add an facebook notifier configuration in `app/config/config.yml` :
+```yml
+idci_notification:
+    notifiers:
+        push_android:
+            default_configuration: default
+            configurations:
+                default:
+                    apiKey: 'your_api_key'
+
+```
+
 More informations
 -----------------
 ### Why using a default configuration ?
@@ -222,4 +243,10 @@ idci_notification:
                     consumer_secret:           'your_consumer_secret'
                     oauth_access_token:        'your_oauth_access_token'
                     oauth_access_token_secret: 'your_oauth_access_token_secret'
+        push_android:
+            default_configuration: default
+            configurations:
+                default:
+                    apiKey: 'your_api_key'
+
 ```
