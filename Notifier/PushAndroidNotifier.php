@@ -13,6 +13,7 @@ namespace IDCI\Bundle\NotificationBundle\Notifier;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use Doctrine\ORM\EntityManager;
 use Da\ApiClientBundle\Http\Rest\RestApiClientInterface;
+use IDCI\Bundle\NotificationBundle\Exception\PushAndroidNotifierException;
 
 class PushAndroidNotifier extends AbstractNotifier
 {
@@ -27,9 +28,8 @@ class PushAndroidNotifier extends AbstractNotifier
             'Content-Type: application/json'
         );
         $message = self::buildGcmMessage($notification);
-        $response = json_decode(self::sendPushAndroid($headers, $message), true);
 
-        return ($response['success'] > 0) ? true : false;
+        return self::sendPushAndroid($headers, $message);
     }
 
     /**
@@ -45,7 +45,9 @@ class PushAndroidNotifier extends AbstractNotifier
             'vibrate'    => 1,
             'sound'      => 1
         );
+
         $gcmFields = array(
+            'delay_while_idle' => true,
             'registration_ids' => array($notification->getTo('deviceToken')),
             'data'             => $gcmMessage
         );
@@ -58,7 +60,7 @@ class PushAndroidNotifier extends AbstractNotifier
      *
      * @param array  $headers
      * @param string $message
-     * @return string
+     * @return boolean
      */
     public static function sendPushAndroid($headers, $message)
     {
@@ -73,7 +75,24 @@ class PushAndroidNotifier extends AbstractNotifier
         $response = curl_exec($ch);
         curl_close($ch);
 
-        return $response;
+        $decodedResponse = json_decode($response, true);
+        if (null === $decodedResponse) {
+            throw new PushAndroidNotifierException(sprintf(
+                "Error : \n [Api key]: %s, [Response] : \n %s",
+                $headers[0],
+                $response
+            ));
+        } elseif ($decodedResponse['failure'] > 0) {
+            $decodedMessage = json_decode($message, true);
+            throw new PushAndroidNotifierException(sprintf(
+                "Push notification not sent : [Error] : %s, \n [Api key] : %s, \n [Device token] : %s",
+                $decodedResponse['results'][0]['error'],
+                $headers[0],
+                json_encode($decodedMessage['registration_ids'])
+            ));
+        }
+
+        return true;
     }
 
     /**

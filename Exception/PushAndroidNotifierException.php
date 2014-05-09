@@ -20,7 +20,7 @@ class PushAndroidNotifierException extends \Exception
     public function __construct($message)
     {
         parent::__construct(sprintf(
-            'Push android notifier exception: %s'
+            'Push android notifier exception: %s',
             $message
         ));
     }
