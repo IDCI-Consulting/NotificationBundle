@@ -72,7 +72,7 @@ Add an mail notifier configuration in `app/config/config.yml` :
 ```yml
 idci_notification:
     notifiers:
-        email:
+        mail:
             default_configuration: default
             configurations:
                 default:
@@ -98,7 +98,7 @@ Add an facebook notifier configuration in `app/config/config.yml` :
 ```yml
 idci_notification:
     notifiers:
-        email:
+        facebook:
             default_configuration: default
             configurations:
                 default:
@@ -112,24 +112,24 @@ Twitter
 ### Parameters :
 | Parameter                 | Type    | Required | Valide values
 |---------------------------|---------|----------|--------------
-| consumer_key              | string  | yes      | string value
-| consumer_secret           | string  | yes      | string value
-| oauth_access_token        | string  | yes      | string value
-| oauth_access_token_secret | string  | yes      | string value
+| consumerKey               | string  | yes      | string value
+| consumerSecret            | string  | yes      | string value
+| oauthAccessToken          | string  | yes      | string value
+| oauthAccessTokenSecret    | string  | yes      | string value
 
 ### Configuration
 Add an twitter notifier configuration in `app/config/config.yml` :
 ```yml
 idci_notification:
     notifiers:
-        email:
+        twitter:
             default_configuration: default
             configurations:
                 default:
-                    consumer_key:              'your_consumer_key'
-                    consumer_secret:           'your_consumer_secret'
-                    oauth_access_token:        'your_oauth_access_token'
-                    oauth_access_token_secret: 'your_oauth_access_token_secret'
+                    consumerKey:            'your_consumer_key'
+                    consumerSecret:         'your_consumer_secret'
+                    oauthAccessToken:       'your_oauth_access_token'
+                    oauthAccessTokenSecret: 'your_oauth_access_token_secret'
 ```
 #### Note 1 : What you have to do to obtain twitter configuration :
 - Make sure that you have a twitter account. If not, create it one : [create_twitter_account](https://twitter.com/signup).
@@ -140,6 +140,28 @@ idci_notification:
 1. Associate a phone number to your twitter account : use the twitter application on smartphone to do this.
 2. Return to your [application](https://apps.twitter.com/), change permission into `Read, Write and Access direct messages`(in Permission section) and regenerate your access token (in API keys section).
 3. Return to your twitter account and check parameters, you should see your application.
+
+Push iOS
+--------
+
+### Parameters :
+| Parameter   | Type    | Required | Valide values
+|-------------|---------|----------|--------------
+|certificate  | string  | yes      | string value
+|passphrase   | string  | yes      | string value
+
+### Configuration
+Add a push iOS notifier configuration in `app/config/config.yml` :
+```yml
+idci_notification:
+    notifiers:
+        push_ios:
+            default_configuration: default
+            configurations:
+                default:
+                    certificate: '\/path\/of\/your\/certificate_file.pem'
+                    passphrase:  'your_passphrase'
+```
 
 More informations
 -----------------
@@ -218,8 +240,14 @@ idci_notification:
             default_configuration: default
             configurations:
                 default:
-                    consumer_key:              'your_consumer_key'
-                    consumer_secret:           'your_consumer_secret'
-                    oauth_access_token:        'your_oauth_access_token'
-                    oauth_access_token_secret: 'your_oauth_access_token_secret'
+                    consumerKey:            'your_consumer_key'
+                    consumerSecret:         'your_consumer_secret'
+                    oauthAccessToken:       'your_oauth_access_token'
+                    oauthAccessTokenSecret: 'your_oauth_access_token_secret'
+        push_ios:
+            default_configuration: default
+            configurations:
+                default:
+                    certificate: '\/path\/of\/your\/certificate_file.pem'
+                    passphrase:  'your_passphrase'
 ```

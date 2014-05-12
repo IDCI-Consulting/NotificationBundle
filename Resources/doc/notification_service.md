@@ -69,6 +69,7 @@ There are five notifier types.
 | mail     | mailNotifier     | 10%
 | facebook | facebookNotifier | 10%
 | twitter  | twitterNotifier  | 10%
+| push_ios | PushIOSNotifier  | 100%
 
 Notifier UML schema:
 

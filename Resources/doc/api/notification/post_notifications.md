@@ -20,6 +20,7 @@ Create one notification
 | mail       | true     |         |              | Mail data
 | sms        | true     |         |              | Sms data
 | twitter    | true     |         |              | Twitter data
+| pushIOS    | true     |         |              | PushIOS data
 
 ### source_name
 To associate a source name with the notifications, the source name parameter is optional.
@@ -342,6 +343,68 @@ twitter=[
         "notifierAlias" : "my_twitter_alias",
         "content": {
             "status" : "The message to be sent."
+        }
+    }
+]
+```
+### Push iOS
+
+#### Field "notifierAlias" :
+
+| Optional | Requirements | Description
+|----------|--------------|------------
+| true     | string value | The notifier alias used to define a configuration
+
+#### Field "to" :
+
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| deviceToken | false    | string value | The token used to identify an android device
+
+#### Field "from" :
+
+| Subfield               | Optional | Requirements | Description
+|------------------------|----------|--------------|------------
+| certificate            | true     | string value | The path of the certificate
+| passphrase             | true     | string value | The passphrase of the certificate
+
+#### Field "content" :
+
+| Subfield    | Optional | Requirements | Description
+|-------------|----------|--------------|------------
+| message     | true     | string value | The push iOS message data
+
+#### Case 1 : notification with notifier parameters
+```
+pushIOS=[
+    {
+        "to": {
+            "deviceToken": "your_device_token"
+        },
+        "from": {
+            "certificate": {
+                "path": "/path/to/the/certificate_file.pem",
+                "file": null
+            },
+            "passphrase": "your_passphrase"
+        },
+        "content": {
+            "message": "The message to be sent."
+        }
+    }
+]
+```
+#### Case 2 : notification without notifier parameters
+
+```
+pushIOS=[
+    {
+        "notifierAlias" : "my_push_ios_alias",
+        "to": {
+            "deviceToken": "your_device_token"
+        },
+        "content": {
+            "message": "The message to be sent."
         }
     }
 ]
