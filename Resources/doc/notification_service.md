@@ -62,14 +62,15 @@ Notifier
 A notifier is an object. It is used to send a notification.
 There are five notifier types.
 
-| Type     | Notifier         | development state
-|----------|------------------|-------------------
-| email    | emailNotifier    | 100%
-| sms      | smsNotifier      | 10%
-| mail     | mailNotifier     | 10%
-| facebook | facebookNotifier | 10%
-| twitter  | twitterNotifier  | 10%
-| push_ios | PushIOSNotifier  | 100%
+| Type         | Notifier            | development state
+|--------------|---------------------|-------------------
+| email        | EmailNotifier       | 100%
+| sms          | SmsNotifier         | 10%
+| mail         | MailNotifier        | 10%
+| facebook     | FacebookNotifier    | 10%
+| twitter      | TwitterNotifier     | 100%
+| push_ios     | PushIOSNotifier     | 100%
+| push_android | PushAndroidNotifier | 100%
 
 Notifier UML schema:
 

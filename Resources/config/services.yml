@@ -66,3 +66,9 @@ services:
         arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.push_ios%]
         tags:
             - { name: idci_notification.notifier, alias: push_ios }
+
+    idci_notification.notifier.push_android:
+            class: IDCI\Bundle\NotificationBundle\Notifier\PushAndroidNotifier
+            arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.push_android%]
+            tags:
+                - { name: idci_notification.notifier, alias: push_android }

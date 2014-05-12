@@ -163,6 +163,27 @@ idci_notification:
                     passphrase:  'your_passphrase'
 ```
 
+Push Android
+------------
+
+### Parameters :
+| Parameter   | Type    | Required | Valide values
+|-------------|---------|----------|--------------
+| apiKey      | string  | yes      | string value using to identify an android application
+
+### Configuration
+Add an push_android notifier configuration in `app/config/config.yml` :
+```yml
+idci_notification:
+    notifiers:
+        push_android:
+            default_configuration: default
+            configurations:
+                default:
+                    apiKey: 'your_api_key'
+
+```
+
 More informations
 -----------------
 ### Why using a default configuration ?
@@ -250,4 +271,10 @@ idci_notification:
                 default:
                     certificate: '\/path\/of\/your\/certificate_file.pem'
                     passphrase:  'your_passphrase'
+        push_android:
+            default_configuration: default
+            configurations:
+                default:
+                    apiKey: 'your_api_key'
+
 ```
