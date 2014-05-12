@@ -21,6 +21,13 @@ class PushIOSNotifier extends AbstractNotifier
     public function sendNotification(Notification $notification)
     {
         $configuration = $this->getConfiguration($notification);
+        if (null === $configuration['certificate']) {
+            throw new PushIOSNotifierException('Empty certificate');
+        }
+
+        if (null === $configuration['passphrase']) {
+            throw new PushIOSNotifierException('Empty passphrase');
+        }
 
         $socket = self::createSocketConnexion(
             $configuration['certificate']['path'],
@@ -39,8 +46,9 @@ class PushIOSNotifier extends AbstractNotifier
     /**
      * Init the socket connexion
      *
-     * @param string $certificate
-     * @param string $passphrase
+     * @param  string            $certificate
+     * @param  string            $passphrase
+     * @return persistent stream $socket
      * @thrown IOSPushNotifierException
      */
     public static function createSocketConnexion($certificate, $passphrase)

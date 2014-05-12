@@ -15,12 +15,12 @@ class PushIOSNotifierException extends \Exception
     /**
      * Constructor
      *
-     * @param string $errstr
+     * @param string $message
      */
     public function __construct($message)
     {
         parent::__construct(sprintf(
-            'Push IOS Notifier exception: %s'
+            'Push IOS Notifier exception: %s',
             $message
         ));
     }
