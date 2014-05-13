@@ -218,6 +218,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('certificate')->isRequired()->end()
                             ->scalarNode('passphrase')->isRequired()->end()
+                            ->booleanNode('useSandbox')->defaultValue(false)->end()
                         ->end()
                     ->end()
                 ->end()

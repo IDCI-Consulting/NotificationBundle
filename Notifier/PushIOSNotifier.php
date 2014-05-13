@@ -30,6 +30,7 @@ class PushIOSNotifier extends AbstractNotifier
         }
 
         $socket = self::createSocketConnexion(
+            $configuration['useSandbox'],
             $configuration['certificate']['path'],
             $configuration['passphrase']
         );
@@ -46,19 +47,25 @@ class PushIOSNotifier extends AbstractNotifier
     /**
      * Init the socket connexion
      *
+     * @param  bool              $useSandbox
      * @param  string            $certificate
      * @param  string            $passphrase
      * @return persistent stream $socket
      * @thrown IOSPushNotifierException
      */
-    public static function createSocketConnexion($certificate, $passphrase)
+    public static function createSocketConnexion($useSandbox, $certificate, $passphrase)
     {
         $ctx = stream_context_create();
         stream_context_set_option($ctx, 'ssl', 'local_cert', $certificate);
         stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
 
+        $apnsUrl = 'ssl://gateway.push.apple.com:2195';
+        if ($useSandbox) {
+            $apnsUrl = 'ssl://gateway.sandbox.push.apple.com:2195';
+        }
+
         $socket = stream_socket_client(
-            'ssl://gateway.sandbox.push.apple.com:2195',
+            $apnsUrl,
             $err,
             $errstr,
             60,
@@ -128,7 +135,8 @@ class PushIOSNotifier extends AbstractNotifier
     {
         return array(
             'certificate' => array('certificate', array('required' => false)),
-            'passphrase'  => array('text',        array('required' => false))
+            'passphrase'  => array('text',        array('required' => false)),
+            'useSandbox'  => array('checkbox',    array('required' => false))
         );
     }
 
@@ -137,7 +145,7 @@ class PushIOSNotifier extends AbstractNotifier
      */
     public function getContentFields()
     {
-        //256 charaters max (38 characters used for others fields)
+        //256 characters max (38 characters used for others fields)
         return array(
             'message' => array('text', array('required' => true, 'max_length' => 218))
         );
