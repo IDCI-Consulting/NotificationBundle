@@ -82,7 +82,7 @@ class TwitterNotifier extends AbstractNotifier
      *
      * @param string $path
      * @param string $requestMethod
-     * @param array  $notification
+     * @param array  $configuration
      * @return array $oauth
      */
     protected function buildOauth($path, $requestMethod, $configuration)
