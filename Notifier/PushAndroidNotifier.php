@@ -23,13 +23,9 @@ class PushAndroidNotifier extends AbstractNotifier
     public function sendNotification(Notification $notification)
     {
         $configuration = $this->getConfiguration($notification);
-        $headers = array(
-            'Authorization: key=' . $configuration['apiKey'],
-            'Content-Type: application/json'
-        );
         $message = self::buildGcmMessage($notification);
 
-        return self::sendPushAndroid($headers, $message);
+        return self::sendPushAndroid($configuration['apiKey'], $message);
     }
 
     /**
@@ -58,12 +54,17 @@ class PushAndroidNotifier extends AbstractNotifier
     /**
      * Send push android
      *
-     * @param array  $headers
+     * @param string $apiKey
      * @param string $message
      * @return boolean
      */
-    public static function sendPushAndroid($headers, $message)
+    public static function sendPushAndroid($apiKey, $message)
     {
+        $headers = array(
+            'Authorization: key=' . $apiKey,
+            'Content-Type: application/json'
+        );
+
         $ch = curl_init();
         //TO DO later : put url in conf
         curl_setopt($ch, CURLOPT_URL, 'https://android.googleapis.com/gcm/send');
@@ -78,8 +79,8 @@ class PushAndroidNotifier extends AbstractNotifier
         $decodedResponse = json_decode($response, true);
         if (null === $decodedResponse) {
             throw new PushAndroidNotifierException(sprintf(
-                "Error : \n [Api key]: %s, [Response] : \n %s",
-                $headers[0],
+                "Error : \n [Api key]: %s, \n [Response] : \n %s",
+                $apiKey,
                 $response
             ));
         } elseif ($decodedResponse['failure'] > 0) {
@@ -87,7 +88,7 @@ class PushAndroidNotifier extends AbstractNotifier
             throw new PushAndroidNotifierException(sprintf(
                 "Push notification not sent : [Error] : %s, \n [Api key] : %s, \n [Device token] : %s",
                 $decodedResponse['results'][0]['error'],
-                $headers[0],
+                $apiKey,
                 json_encode($decodedMessage['registration_ids'])
             ));
         }
