@@ -12,6 +12,7 @@
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\NotificationBundle\Util\Inflector;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
@@ -27,6 +28,7 @@ abstract class AbstractNotifier implements NotifierInterface
      * Constructor
      *
      * @param EntityManager $entityManager
+     * @param array         $defaultConfiguration
      */
     public function __construct(EntityManager $entityManager, $defaultConfiguration)
     {
@@ -131,7 +133,15 @@ abstract class AbstractNotifier implements NotifierInterface
         foreach ($data as $field => $options) {
             if (is_array($options)) {
                 $fieldOptions = $this->guessFieldOptions($field);
-                $options = $this->getResolver($fieldOptions)->resolve($options);
+                try {
+                    $options = $this->getResolver($fieldOptions)->resolve($options);
+                } catch (MissingOptionsException $e) {
+                    throw new MissingOptionsException(sprintf(
+                        'Error in "%s" field: %s',
+                        $field,
+                        $e->getMessage()
+                    ));
+                }
             }
             $data[$field] = $options;
         }
@@ -201,7 +211,11 @@ abstract class AbstractNotifier implements NotifierInterface
     protected function configureDefaultOptions(OptionsResolver $resolver, array $fieldOptions)
     {
         foreach ($fieldOptions as $name => $options) {
-            $resolver->setOptional(array($name));
+            if (isset($options[1]) && isset($options[1]['required']) && $options[1]['required']) {
+                $resolver->setRequired(array($name));
+            } else {
+                $resolver->setOptional(array($name));
+            }
 
             $hasChoices = isset($options[1]) && isset($options[1]['choices']) && count($options[1]['choices']) > 0 ? true : false;
             if ($hasChoices) {
