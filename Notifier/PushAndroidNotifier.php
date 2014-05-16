@@ -117,6 +117,6 @@ class PushAndroidNotifier extends AbstractNotifier
      */
     public function getContentFields()
     {
-        return array('message' => array('textarea', array('required' => false)));
+        return array('message' => array('textarea', array('required' => true)));
     }
 }
