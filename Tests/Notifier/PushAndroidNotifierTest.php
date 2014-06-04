@@ -102,6 +102,5 @@ class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
             json_encode($gcmFields),
             PushAndroidNotifier::buildGcmMessage($pushAndroidNotification)
         );
-
     }
 }

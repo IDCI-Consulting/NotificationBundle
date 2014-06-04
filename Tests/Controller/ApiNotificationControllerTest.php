@@ -91,4 +91,26 @@ class ApiNotificationControllerTest extends WebTestCase
         );
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
     }
+
+    public function testGetNotificationActionWithInvalidId()
+    {
+        $client = static::createClient();
+        $crawler = $client->request(
+            'GET',
+            '/api/notifications/invalidId'
+        );
+
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
+    public function testGetNotificationsActionWithInvalidParameters()
+    {
+        $client = static::createClient();
+        $crawler = $client->request(
+            'GET',
+            '/api/notifications?limit=invalidLimit&offset=invalideOffset'
+        );
+
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+    }
 }
