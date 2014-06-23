@@ -54,6 +54,40 @@ idci_notification:
                     phoneNumber: 0635214255
 ```
 
+SMS Ocito
+---
+
+### Parameters :
+| Parameter         | Type    | Required | Valide values
+|-------------------|---------|----------|--------------
+| userName          | string  | yes      | string value
+| password          | string  | yes      | string value
+| senderAppId       | string  | yes      | string value
+| senderId          | string  | no       | string value
+| flag              | integer | yes      | integer value
+| priority          | string  | no       | string value
+| timeToLiveTimeout | integer | no       | integer value in seconde
+| timeToSendTimeout | integer | no       | integer value in seconde
+
+### Configuration
+Add an sms notifier configuration in `app/config/config.yml` :
+```yml
+idci_notification:
+    notifiers:
+        sms_ocito:
+            default_configuration: default
+            configurations:
+                default:
+                    userName:          username_ocito
+                    password:          password_ocito
+                    senderAppId:       1234
+                    senderId:          SenderValue
+                    flag:              3
+                    priority:          L
+                    timeToLiveTimeout: 123
+                    timeToSendTimeout: 456
+```
+
 Mail
 ----
 
@@ -241,6 +275,18 @@ idci_notification:
             configurations:
                 default:
                     phone_number: 0635214255
+        sms_ocito:
+            default_configuration: default
+            configurations:
+                default:
+                    userName:          username_ocito
+                    password:          password_ocito
+                    senderAppId:       1234
+                    senderId:          SenderValue
+                    flag:              3
+                    priority:          L
+                    timeToLiveTimeout: 123
+                    timeToSendTimeout: 456
         mail:
             default_configuration: default
             configurations:

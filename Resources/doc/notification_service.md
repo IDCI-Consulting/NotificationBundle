@@ -66,6 +66,7 @@ There are five notifier types.
 |--------------|---------------------|-------------------
 | email        | EmailNotifier       | 100%
 | sms          | SmsNotifier         | 10%
+| sms_ocito    | SmsOcitoNotifier    | 100%
 | mail         | MailNotifier        | 10%
 | facebook     | FacebookNotifier    | 10%
 | twitter      | TwitterNotifier     | 100%
