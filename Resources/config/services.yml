@@ -55,6 +55,12 @@ services:
         tags:
             - { name: idci_notification.notifier, alias: sms }
 
+    idci_notification.notifier.sms_ocito:
+        class: IDCI\Bundle\NotificationBundle\Notifier\SmsOcitoNotifier
+        arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.sms%, @da_api_client.api.ocito]
+        tags:
+            - { name: idci_notification.notifier, alias: sms_ocito }
+
     idci_notification.notifier.twitter:
         class: IDCI\Bundle\NotificationBundle\Notifier\TwitterNotifier
         arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.twitter%, @da_api_client.api.twitter]
@@ -68,7 +74,7 @@ services:
             - { name: idci_notification.notifier, alias: push_ios }
 
     idci_notification.notifier.push_android:
-            class: IDCI\Bundle\NotificationBundle\Notifier\PushAndroidNotifier
-            arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.push_android%]
-            tags:
-                - { name: idci_notification.notifier, alias: push_android }
+        class: IDCI\Bundle\NotificationBundle\Notifier\PushAndroidNotifier
+        arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.push_android%]
+        tags:
+            - { name: idci_notification.notifier, alias: push_android }
