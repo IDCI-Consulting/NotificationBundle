@@ -38,6 +38,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->append($this->addEmailParametersNode())
                         ->append($this->addSmsParametersNode())
+                        ->append($this->addSmsOcitoParametersNode())
                         ->append($this->addFacebookParametersNode())
                         ->append($this->addTwitterParametersNode())
                         ->append($this->addMailParametersNode())
@@ -116,6 +117,37 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $smsNode;
+    }
+
+    public function addSmsOcitoParametersNode()
+    {
+        $builder = new TreeBuilder();
+        $smsOcitoNode = $builder->root('sms_ocito');
+
+        $smsOcitoNode
+            ->children()
+                ->scalarNode('default_configuration')
+                    ->defaultValue('default')
+                ->end()
+                ->arrayNode('configurations')
+                    ->useAttributeAsKey('')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('userName')->isRequired()->end()
+                            ->scalarNode('password')->isrequired()->end()
+                            ->scalarNode('senderAppId')->isRequired()->end()
+                            ->scalarNode('senderId')->end()
+                            ->integerNode('flag')->defaultValue(3)->end()
+                            ->scalarNode('priority')->end()
+                            ->integerNode('timeToLiveTimeout')->min(0)->end()
+                            ->integerNode('timeToSendTimeout')->min(0)->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $smsOcitoNode;
     }
 
     public function addFacebookParametersNode()
