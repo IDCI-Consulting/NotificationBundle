@@ -90,6 +90,7 @@ class ApiNotificationController extends FOSRestController
      * @RequestParam(name="twitter", nullable=true, description="Twitter notification data")
      * @RequestParam(name="pushIOS", nullable=true, description="PushIOS notification data")
      * @RequestParam(name="pushAndroid", nullable=true, description="push android notification data")
+     * @RequestParam(name="smsOcito", nullable=true, description="SMS Ocito notification data")
      *
      * @param string $sourceName
      * @param array  $email
@@ -99,6 +100,7 @@ class ApiNotificationController extends FOSRestController
      * @param array  $twitter
      * @param array  $pushIOS
      * @param array  $pushAndroid
+     * @param array  $smsOcito
      */
     public function postNotificationsAction(
         $sourceName  = null,
@@ -108,7 +110,8 @@ class ApiNotificationController extends FOSRestController
         $sms         = null,
         $twitter     = null,
         $pushIOS     = null,
-        $pushAndroid = null
+        $pushAndroid = null,
+        $smsOcito    = null
     )
     {
         // The default source name value is based on the request client IP
@@ -127,7 +130,8 @@ class ApiNotificationController extends FOSRestController
                 'sms'          => $sms,
                 'twitter'      => $twitter,
                 'push_ios'     => $pushIOS,
-                'push_android' => $pushAndroid
+                'push_android' => $pushAndroid,
+                'sms_ocito'    => $smsOcito
             );
 
             foreach ($notifications as $type => $data) {
