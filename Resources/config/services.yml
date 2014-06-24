@@ -49,12 +49,6 @@ services:
         tags:
             - { name: idci_notification.notifier, alias: mail }
 
-    idci_notification.notifier.sms:
-        class: IDCI\Bundle\NotificationBundle\Notifier\SmsNotifier
-        arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.sms%]
-        tags:
-            - { name: idci_notification.notifier, alias: sms }
-
     idci_notification.notifier.sms_ocito:
         class: IDCI\Bundle\NotificationBundle\Notifier\SmsOcitoNotifier
         arguments: [@doctrine.orm.entity_manager, %idci_notification.default_configuration.sms%, @da_api_client.api.ocito]

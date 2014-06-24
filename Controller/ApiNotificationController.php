@@ -86,7 +86,6 @@ class ApiNotificationController extends FOSRestController
      * @RequestParam(name="email", nullable=true, description="Email notification data")
      * @RequestParam(name="facebook", nullable=true, description="Facebook notification data")
      * @RequestParam(name="mail", nullable=true, description="Mail notification data")
-     * @RequestParam(name="sms", nullable=true, description="Sms notification data")
      * @RequestParam(name="twitter", nullable=true, description="Twitter notification data")
      * @RequestParam(name="pushIOS", nullable=true, description="PushIOS notification data")
      * @RequestParam(name="pushAndroid", nullable=true, description="push android notification data")
@@ -107,7 +106,6 @@ class ApiNotificationController extends FOSRestController
         $email       = null,
         $facebook    = null,
         $mail        = null,
-        $sms         = null,
         $twitter     = null,
         $pushIOS     = null,
         $pushAndroid = null,
@@ -127,7 +125,6 @@ class ApiNotificationController extends FOSRestController
                 'email'        => $email,
                 'facebook'     => $facebook,
                 'mail'         => $mail,
-                'sms'          => $sms,
                 'twitter'      => $twitter,
                 'push_ios'     => $pushIOS,
                 'push_android' => $pushAndroid,

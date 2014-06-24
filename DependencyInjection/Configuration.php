@@ -37,7 +37,6 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('notifiers')
                     ->children()
                         ->append($this->addEmailParametersNode())
-                        ->append($this->addSmsParametersNode())
                         ->append($this->addSmsOcitoParametersNode())
                         ->append($this->addFacebookParametersNode())
                         ->append($this->addTwitterParametersNode())
@@ -73,8 +72,8 @@ class Configuration implements ConfigurationInterface
                                     ->thenInvalid('Invalid transport "%s"')
                                 ->end()
                             ->end()
-                            ->scalarNode('fromName')->end()
                             ->scalarNode('from')->end()
+                            ->scalarNode('fromName')->end()
                             ->scalarNode('replyTo')->end()
                             ->scalarNode('server')->end()
                             ->scalarNode('login')->end()
@@ -93,30 +92,6 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $emailNode;
-    }
-
-    public function addSmsParametersNode()
-    {
-        $builder = new TreeBuilder();
-        $smsNode = $builder->root('sms');
-
-        $smsNode
-            ->children()
-                ->scalarNode('default_configuration')
-                    ->defaultValue('default')
-                ->end()
-                ->arrayNode('configurations')
-                    ->useAttributeAsKey('')
-                    ->prototype('array')
-                        ->children()
-                            ->scalarNode('phone_number')->isRequired()->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
-        ;
-
-        return $smsNode;
     }
 
     public function addSmsOcitoParametersNode()
@@ -139,8 +114,8 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('senderId')->end()
                             ->integerNode('flag')->defaultValue(3)->end()
                             ->scalarNode('priority')->end()
-                            ->integerNode('timeToLiveTimeout')->min(0)->end()
-                            ->integerNode('timeToSendTimeout')->min(0)->end()
+                            ->integerNode('timeToLiveDuration')->min(0)->end()
+                            ->integerNode('timeToSendDuration')->min(0)->end()
                         ->end()
                     ->end()
                 ->end()
