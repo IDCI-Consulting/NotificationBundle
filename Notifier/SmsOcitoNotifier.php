@@ -66,7 +66,6 @@ class SmsOcitoNotifier extends AbstractNotifier
             $notification->addLog(sprintf(
                 "[SUCCESS] : %s",
                 strip_tags($response)
-
             ));
         }
     }
@@ -94,11 +93,11 @@ class SmsOcitoNotifier extends AbstractNotifier
             'Priority' => isset($configuration['priority'])
                 ? $configuration['priority']
                 : null,
-            'TimeToLive' => isset($configuration['timeToLiveTimeout'])
-                ? self::getFuturTime($configuration['timeToLiveTimeout'])
+            'TimeToLive' => isset($configuration['timeToLiveDuration'])
+                ? self::computeDate($configuration['timeToLiveDuration'])
                 : null,
-            'TimeToSend' => isset($configuration['timeToSendTimeout'])
-                ? self::getFuturTime($configuration['timeToSendTimeout'])
+            'TimeToSend' => isset($configuration['timeToSendDuration'])
+                ? self::computeDate($configuration['timeToSendDuration'])
                 : null
         );
 
@@ -123,15 +122,15 @@ class SmsOcitoNotifier extends AbstractNotifier
     }
 
     /**
-     * GetFuturTime
+     * ComputeDate
      *
-     * @param integer $timeout
+     * @param integer $duration in seconds
      * @return string
      */
-    public static function getFuturTime($timeout)
+    protected static function computeDate($duration)
     {
         $date = new \DateTime('now');
-        $date->add(new \DateInterval('PT'.$timeout.'S'));
+        $date->add(new \DateInterval('PT'.$duration.'S'));
 
         return $date->format('Y-m-d H:i:s');
     }
@@ -158,8 +157,8 @@ class SmsOcitoNotifier extends AbstractNotifier
                     'L' => 'low'
                 )
             )),
-            'timeToLiveTimeout' => array('integer', array('required' => false)),
-            'timeToSendTimeout' => array('integer', array('required' => false))
+            'timeToLiveDuration' => array('integer', array('required' => false)),
+            'timeToSendDuration' => array('integer', array('required' => false))
         );
     }
 
