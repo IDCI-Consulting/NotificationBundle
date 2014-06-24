@@ -285,7 +285,7 @@ mail=[
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
-| message     | true     | string value | Message data (max 70 characters)
+| message     | false    | string value | Message data (max 70 characters)
 
 #### Case 1 : notification with notifier parameters
 ```
