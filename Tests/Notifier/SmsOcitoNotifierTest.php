@@ -43,17 +43,4 @@ class SmsOcitoNotifierTest extends \PHPUnit_Framework_TestCase
             SmsOcitoNotifier::cleanQueryString($queryStringParameters)
         );
     }
-
-    public function testGetFuturTime()
-    {
-        //Test with timeout = 300 seconds
-        $timeout = 300;
-        $date = new \DateTime('now');
-        $date->add(new \DateInterval('PT'.$timeout.'S'));
-
-        $this->assertEquals(
-            $date->format('Y-m-d H:i:s'),
-            SmsOcitoNotifier::getFuturTime($timeout)
-        );
-    }
 }
