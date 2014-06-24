@@ -5,16 +5,17 @@ Email
 -----
 
 ### Parameters :
-| Parameter  | Type    | Required | Valide values
+| Parameter  | Type    | Required | Description
 |------------|---------|----------|----------------------
-| transport  | string  | yes      | smtp, sendmail, mail
-| replyTo    | string  | no       | string value
-| from       | string  | no       | string value
-| server     | string  | no       | string value
-| login      | string  | no       | string value
-| password   | string  | no       | string value
-| port       | integer | no       | 0 <= value <= 65536
-| encryption | string  | no       | null, ssl, tls
+| transport  | string  | yes      | Transport data (smtp, sendmail, mail)
+| from       | string  | no       | Sender email address
+| fromName   | string  | no       | The name associated to an email address
+| replyTo    | string  | no       | Email address to reply
+| server     | string  | no       | Server data
+| login      | string  | no       | Login data
+| password   | string  | no       | Password data
+| port       | integer | no       | Port value : 0 <= value <= 65536
+| encryption | string  | no       | Encryption value (null, ssl, tls)
 
 ### Configuration
 Add an email notifier configuration in `app/config/config.yml` :
@@ -26,48 +27,45 @@ idci_notification:
             configurations:
                 default:
                     transport:  smtp
-                    replyTo:    replyto@test.fr
                     from:       test@test.fr
+                    fromName:   Test
+                    replyTo:    replyto@test.fr
                     server:     smtp.xxx.com
                     login:      yourlogin
                     password:   yourpassword
                     port:       587
                     encryption: ssl
 ```
-SMS
----
-
-### Parameters :
-| Parameter     | Type    | Required | Valide values        |
-|---------------|---------|----------|----------------------|
-| phone_number  | string  | yes      | string value         |
-
-### Configuration
-Add an sms notifier configuration in `app/config/config.yml` :
-```yml
-idci_notification:
-    notifiers:
-        sms:
-            default_configuration: default
-            configurations:
-                default:
-                    phoneNumber: 0635214255
-```
 
 SMS Ocito
 ---
 
 ### Parameters :
-| Parameter         | Type    | Required | Valide values
-|-------------------|---------|----------|--------------
-| userName          | string  | yes      | string value
-| password          | string  | yes      | string value
-| senderAppId       | string  | yes      | string value
-| senderId          | string  | no       | string value
-| flag              | integer | yes      | integer value
-| priority          | string  | no       | string value
-| timeToLiveTimeout | integer | no       | integer value in seconde
-| timeToSendTimeout | integer | no       | integer value in seconde
+| Parameter          | Type    | Required | Description
+|--------------------|---------|----------|--------------
+| userName           | string  | yes      | SMS Manager's account name
+| password           | string  | yes      | SMS Manager's password
+| senderAppId        | string  | yes      | Id of the application used to send SMS
+| senderId           | string  | no       | Id of the sender
+| flag               | integer | yes      | Flag value
+| priority           | string  | no       | H : high, L : low
+| timeToLiveDuration | integer | no       | Duration used to define "time to live" of a SMS
+| timeToSendDuration | integer | no       | Duration used to define the moment when the SMS should be sent (deferred message).
+
+Note : How to define the flag
+
+| Flag    | Requirements | Possible values | Description
+|---------|--------------|-----------------|------------
+| F0      |              | 0 or 1          | SMS Manger Push asks acquittals and acknowledgments from carrier
+| F1      | F0 enabled   | 0 or 2          | Ask SMS Manager Push to send acquittals and acknowledgments to client applcation
+| F2      |              | 0 or 4          | Enable special class (F2=0 enable class 1)
+| F3 + F4 | F2 enabled   | 0, 8, 16 or 24  | [00] class 0 : flash; [01] class 1 : default value from cellphone; [10] class 2 : saved on SIM card ; [11] class 3: saved in cellphone
+
+Exemple :
+
+1. Client application doesn't want to recieve acquittals and acknowledgments : flag = 0
+2. SMS with acquittals and acknowledgments : flag = 1*2⁰ + 1*2¹ = 3
+3. Class 2 SMS with acquittals and acknowledgments : flag = 1*2⁰ + 1*2¹ + 1*2² + 1*2⁴ = 23
 
 ### Configuration
 Add an sms notifier configuration in `app/config/config.yml` :
@@ -84,22 +82,23 @@ idci_notification:
                     senderId:          SenderValue
                     flag:              3
                     priority:          L
-                    timeToLiveTimeout: 123
-                    timeToSendTimeout: 456
+                    timeToLiveDuration: 200
+                    timeToSendDuration: 100
 ```
+Note : "timeToLiveDuration" must be greater than "timeToSendDuration".
 
 Mail
 ----
 
 ### Parameters :
-| Parameter   | Type    | Required | Valide values        |
-|-------------|---------|----------|----------------------|
-| first_name  | string  | yes      | string value         |
-| last_name   | string  | yes      | string value         |
-| address     | string  | yes      | string value         |
-| postal_code | string  | yes      | string value         |
-| city        | string  | yes      | string value         |
-| country     | string  | yes      | string value         |
+| Parameter   | Type    | Required | Description
+|-------------|---------|----------|------------
+| firstName   | string  | yes      | Sender first name
+| lastName    | string  | yes      | Sender last name
+| address     | string  | yes      | Sender address
+| postalCode  | string  | yes      | Sender postalCode
+| city        | string  | yes      | Sender city
+| country     | string  | yes      | Sender country
 
 ### Configuration
 Add an mail notifier configuration in `app/config/config.yml` :
@@ -110,10 +109,10 @@ idci_notification:
             default_configuration: default
             configurations:
                 default:
-                    first_name:  Toto
-                    last_name:   Titi
+                    firstName:   Toto
+                    lastName:    Titi
                     address:     '5 avenue Anatole'
-                    postal_code: 75007
+                    postalCode:  75007
                     city:        Paris
                     country:     FR
 ```
@@ -122,10 +121,10 @@ Facebook
 --------
 
 ### Parameters :
-| Parameter   | Type    | Required | Valide values        |
-|-------------|---------|----------|----------------------|
-| login       | string  | yes      | string value         |
-| password    | string  | yes      | string value         |
+| Parameter   | Type    | Required | Description
+|-------------|---------|----------|------------
+| login       | string  | yes      | Login value
+| password    | string  | yes      | password value
 
 ### Configuration
 Add an facebook notifier configuration in `app/config/config.yml` :
@@ -146,10 +145,10 @@ Twitter
 ### Parameters :
 | Parameter                 | Type    | Required | Valide values
 |---------------------------|---------|----------|--------------
-| consumerKey               | string  | yes      | string value
-| consumerSecret            | string  | yes      | string value
-| oauthAccessToken          | string  | yes      | string value
-| oauthAccessTokenSecret    | string  | yes      | string value
+| consumerKey               | string  | yes      | The "consumer key" of your twitter application
+| consumerSecret            | string  | yes      | The "consumer secret" of your twitter application
+| oauthAccessToken          | string  | yes      | The "oauth access token" of your twitter application
+| oauthAccessTokenSecret    | string  | yes      | The "oauth access token secret" of your twitter application
 
 ### Configuration
 Add an twitter notifier configuration in `app/config/config.yml` :
@@ -179,10 +178,11 @@ Push iOS
 --------
 
 ### Parameters :
-| Parameter   | Type    | Required | Valide values
-|-------------|---------|----------|--------------
-|certificate  | string  | yes      | string value
-|passphrase   | string  | yes      | string value
+| Parameter    | Type    | Required | Description
+|--------------|---------|----------|--------------
+| certificate  | string  | yes      | The path of the certificate
+| passphrase   | string  | yes      | The passphrase to use the certificate
+| useSandbox   | boolean | no       | true : send push iOS in a sandbox
 
 ### Configuration
 Add a push iOS notifier configuration in `app/config/config.yml` :
@@ -195,15 +195,16 @@ idci_notification:
                 default:
                     certificate: '\/path\/of\/your\/certificate_file.pem'
                     passphrase:  'your_passphrase'
+                    useSandbox:  false
 ```
 
 Push Android
 ------------
 
 ### Parameters :
-| Parameter   | Type    | Required | Valide values
-|-------------|---------|----------|--------------
-| apiKey      | string  | yes      | string value using to identify an android application
+| Parameter   | Type    | Required | Description
+|-------------|---------|----------|------------
+| apiKey      | string  | yes      | The key using to identify an android application
 
 ### Configuration
 Add an push_android notifier configuration in `app/config/config.yml` :
@@ -260,8 +261,9 @@ idci_notification:
             configurations:
                 default:
                     transport:  smtp
-                    replyTo:    replyto@test.fr
                     from:       test@test.fr
+                    fromName:   Test
+                    replyTo:    replyto@test.fr
                     server:     smtp.xxx.com
                     login:      yourlogin
                     password:   yourpassword
@@ -270,23 +272,18 @@ idci_notification:
                 myconfiguration:
                     transport: sendmail
                     from:      test2@test.fr
-        sms:
-            default_configuration: default
-            configurations:
-                default:
-                    phone_number: 0635214255
         sms_ocito:
             default_configuration: default
             configurations:
                 default:
-                    userName:          username_ocito
-                    password:          password_ocito
-                    senderAppId:       1234
-                    senderId:          SenderValue
-                    flag:              3
-                    priority:          L
-                    timeToLiveTimeout: 123
-                    timeToSendTimeout: 456
+                    userName:           username_ocito
+                    password:           password_ocito
+                    senderAppId:        1234
+                    senderId:           SenderValue
+                    flag:               3
+                    priority:           L
+                    timeToLiveDuration: 123
+                    timeToSendDuration: 456
         mail:
             default_configuration: default
             configurations:
@@ -317,6 +314,7 @@ idci_notification:
                 default:
                     certificate: '\/path\/of\/your\/certificate_file.pem'
                     passphrase:  'your_passphrase'
+                    sandBox:     false
         push_android:
             default_configuration: default
             configurations:

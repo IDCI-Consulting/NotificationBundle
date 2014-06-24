@@ -19,7 +19,7 @@ Create one notification
 | email       | true     |         |              | Email data
 | facebook    | true     |         |              | Facebook data
 | mail        | true     |         |              | Mail data
-| sms         | true     |         |              | Sms data
+| smsOcito    | true     |         |              | Sms Ocito data
 | twitter     | true     |         |              | Twitter data
 | pushIOS     | true     |         |              | PushIOS data
 | pushAndroid | true     |         |              | Push Android data
@@ -49,9 +49,10 @@ Automaticaly add the source IP: `"[ip] - source_name"`.
 
 | Subfield    | Optional | Requirements         | Description
 |-------------|----------|----------------------|------------
-| transport   | true     | smtp, sendmail, mail | Transport data
-| replyTo     | true     | string value         | Email address to reply
+| transport   | true     | smtp, sendmail, mail | Transport data (smtp, sendmail, mail)
 | from        | true     | string value         | Sender email address
+| fromName    | true     | string value         | The name associated to an email address
+| replyTo     | true     | string value         | Email address to reply
 | login       | true     | string value         | Login data
 | password    | true     | string value         | Password data
 | server      | true     | string value         | Server data
@@ -78,8 +79,9 @@ email=[
         },
         "from": {
             "transport":"smtp",
-            "replyTo":"replyTo@test.fr",
             "from" :"test@test.fr",
+            "fromName":"Test",
+            "replyTo":"replyTo@test.fr",
             "login":"mail@mxserver.com",
             "password": "password",
             "server": "smtp.mxserver.fr",
@@ -252,7 +254,7 @@ mail=[
 ]
 ```
 
-### Sms
+### SmsOcito
 
 #### Field "notifierAlias" :
 
@@ -268,32 +270,48 @@ mail=[
 
 #### Field "from" :
 
-| Subfield     | Optional | Requirements | Description
-|--------------|----------|--------------|------------
-| phoneNumber  | true     | string value | Sender phone number
+| Subfield           | Optional | Requirements  | Description
+|--------------------|----------|---------------|------------
+| userName           | true     | string value  | SMS Manager's account name
+| password           | true     | string value  | SMS Manager's password
+| senderAppId        | true     | string value  | Id of the application used to send SMS
+| senderId           | true     | string value  | Id of the sender
+| flag               | true     | integer value | Flag value
+| priority           | true     | string value  | H : high, L : low
+| timeToLiveDuration | true     | integer value | Duration used to define "time to live" of a SMS
+| timeToSendDuration | true     | integer value | Duration used to define the moment when the SMS should be sent (deferred message).
 
 #### Field "content" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
-| message     | true     | string value | Message data
+| message     | true     | string value | Message data (max 70 characters)
 
 #### Case 1 : notification with notifier parameters
 ```
-sms=[
+smsOcito=[
     {
-        "to": {"phoneNumber": "0612345678, 0610111213"},
-        "from" : {"phoneNumber": "0614589655"},
+        "to": {"phoneNumber": "33612345678"},
+        "from" : {
+            "userName": "sfddtest",
+            "password": "s7d16htp",
+            "senderAppId": "2254",
+            "senderId": "Tessi",
+            "flag": 3,
+            "priority": "H",
+            "timeToLiveDuration": 600,
+            "timeToSendDuration": 300
+        },
         "content": {"message" :"this is a sms"}
     }
 ]
 ```
 #### Case 2 : notification without notifier parameters
 ```
-sms=[
+smsOcito=[
     {
         "notifierAlias" : "my_sms_alias",
-        "to": {"phoneNumber": "0612345678, 0610111213"},
+        "to": {"phoneNumber": "33612345678"},
         "content": {"message" :"this is a sms"}
     }
 ]
@@ -364,40 +382,13 @@ twitter=[
 |-------------|----------|--------------|------------
 | deviceToken | false    | string value | The token used to identify an android device
 
-#### Field "from" :
-
-| Subfield               | Optional | Requirements | Description
-|------------------------|----------|--------------|------------
-| certificate            | true     | string value | The path of the certificate
-| passphrase             | true     | string value | The passphrase of the certificate
-
 #### Field "content" :
 
 | Subfield    | Optional | Requirements | Description
 |-------------|----------|--------------|------------
 | message     | true     | string value | The push iOS message data
 
-#### Case 1 : notification with notifier parameters
-```
-pushIOS=[
-    {
-        "to": {
-            "deviceToken": "your_device_token"
-        },
-        "from": {
-            "certificate": {
-                "path": "/path/to/the/certificate_file.pem",
-                "file": null
-            },
-            "passphrase": "your_passphrase"
-        },
-        "content": {
-            "message": "The message to be sent."
-        }
-    }
-]
-```
-#### Case 2 : notification without notifier parameters
+#### Notification without notifier parameters
 
 ```
 pushIOS=[
@@ -589,10 +580,19 @@ email=[
         }
     }
 ] &
-sms=[
+smsOcito=[
     {
-        "to": {"phoneNumber": "0612345678, 0610111213"},
-        "from" : {"phoneNumber": "0614589655"},
+        "to": {"phoneNumber": "33612345678"},
+        "from" : {
+            "userName": "sfddtest",
+            "password": "s7d16htp",
+            "senderAppId": "2254",
+            "senderId": "Tessi",
+            "flag": 3,
+            "priority": "H",
+            "timeToLiveDuration": 600,
+            "timeToSendDuration": 300
+        },
         "content": {"message" :"this is a sms"}
     }
 ]
