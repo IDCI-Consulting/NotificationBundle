@@ -76,12 +76,12 @@ idci_notification:
             default_configuration: default
             configurations:
                 default:
-                    userName:          username_ocito
-                    password:          password_ocito
-                    senderAppId:       1234
-                    senderId:          SenderValue
-                    flag:              3
-                    priority:          L
+                    userName:           username_ocito
+                    password:           password_ocito
+                    senderAppId:        1234
+                    senderId:           SenderValue
+                    flag:               3
+                    priority:           L
                     timeToLiveDuration: 200
                     timeToSendDuration: 100
 ```
