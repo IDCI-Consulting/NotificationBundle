@@ -9,6 +9,10 @@
             "name": "Gabriel BONDAZ",
             "email": "gabriel.bondaz@idci-consulting.fr",
             "homepage": "http://www.idci-consulting.fr"
+        },
+        {
+            "name": "Pichet PUTH",
+            "email": "pichet.puth@utt.fr"
         }
     ],
     "require": {
@@ -24,4 +28,3 @@
     "target-dir": "IDCI/Bundle/NotificationBundle",
     "minimum-stability": "dev"
 }
-
