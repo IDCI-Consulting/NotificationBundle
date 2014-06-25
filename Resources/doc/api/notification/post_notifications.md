@@ -293,10 +293,10 @@ smsOcito=[
     {
         "to": {"phoneNumber": "33612345678"},
         "from" : {
-            "userName": "sfddtest",
-            "password": "s7d16htp",
-            "senderAppId": "2254",
-            "senderId": "Tessi",
+            "userName": "userName_value",
+            "password": "password",
+            "senderAppId": "1234",
+            "senderId": "Test",
             "flag": 3,
             "priority": "H",
             "timeToLiveDuration": 600,
@@ -584,10 +584,10 @@ smsOcito=[
     {
         "to": {"phoneNumber": "33612345678"},
         "from" : {
-            "userName": "sfddtest",
-            "password": "s7d16htp",
-            "senderAppId": "2254",
-            "senderId": "Tessi",
+            "userName": "userName_value",
+            "password": "password",
+            "senderAppId": "1234",
+            "senderId": "Test",
             "flag": 3,
             "priority": "H",
             "timeToLiveDuration": 600,
