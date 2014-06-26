@@ -20,7 +20,7 @@ use JMS\Serializer\SerializationContext;
 class ApiNotifierConfigurationController extends FOSRestController
 {
     /**
-     * [GET] /notiferconfigurations
+     * [GET] /notifierconfigurations
      * Retrieve a set of notifer configurations
      *
      * @QueryParam(name="limit", requirements="\d+", default=20, strict=true, nullable=true, description="(optional) Pagination limit")
@@ -47,7 +47,7 @@ class ApiNotifierConfigurationController extends FOSRestController
     }
 
     /**
-     * [GET] /notiferconfigurations/{id}
+     * [GET] /notifierconfigurations/{id}
      * Retrieve a notiferconfiguration
      *
      * @param string $id
