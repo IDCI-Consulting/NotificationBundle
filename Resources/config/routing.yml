@@ -9,3 +9,8 @@ notifier_configuration:
     type:         rest
     resource:     IDCI\Bundle\NotificationBundle\Controller\ApiNotifierConfigurationController
     name_prefix:  api_notifier_configuration_
+
+notification_parameters:
+    type:        rest
+    resource:    IDCI\Bundle\NotificationBundle\Controller\ApiNotificationParametersController
+    name_prefix: api_notification_parameters_
