@@ -111,7 +111,7 @@ class EmailNotifier extends AbstractNotifier
         return array(
             'to'  => array('text', array('required' => true)),
             'cc'  => array('text', array('required' => false)),
-            'bcc' => array('text', array('required' => false)),
+            'bcc' => array('text', array('required' => false))
         );
     }
 
