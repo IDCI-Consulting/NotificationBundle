@@ -63,4 +63,13 @@ interface NotifierInterface
      * @return array The cleaned data
      */
     public function cleanData($data);
+
+    /**
+     * Clean empty value
+     *
+     * @param array $data The data to be cleaned
+     *
+     * @return array $data The cleaned data
+     */
+    public function cleanEmptyValue($data);
 }

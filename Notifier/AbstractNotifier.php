@@ -150,6 +150,20 @@ abstract class AbstractNotifier implements NotifierInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function cleanEmptyValue($data)
+    {
+        foreach($data as $key => $value) {
+            if (null === $value) {
+                unset($data[$key]);
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * Get resolver
      *
      * @param array $fieldOptions
