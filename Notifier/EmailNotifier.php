@@ -109,9 +109,9 @@ class EmailNotifier extends AbstractNotifier
     public function getToFields()
     {
         return array(
-            'to'  => array('text', array('required' => true)),
-            'cc'  => array('text', array('required' => false)),
-            'bcc' => array('text', array('required' => false))
+            'to'  => array('email', array('required' => true,  "trim" => true)),
+            'cc'  => array('email', array('required' => false, "trim" => true)),
+            'bcc' => array('email', array('required' => false, "trim" => true))
         );
     }
 
@@ -142,7 +142,7 @@ class EmailNotifier extends AbstractNotifier
                     'mail'     => 'mail'
                 )
             )),
-            'from'         => array('text',     array('required' => false)),
+            'from'         => array('email',    array('required' => false, "trim" => true)),
             'fromName'     => array('text',     array('required' => false)),
             'replyTo'      => array('text',     array('required' => false)),
             'server'       => array('text',     array('required' => false)),
