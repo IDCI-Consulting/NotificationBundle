@@ -45,7 +45,7 @@ Retrieve one notification parameters
 
 ## HTTP Response content examples
 Example : /notificationparameters/email
-### json
+
 ```json
 {
     "to":{
