@@ -21,9 +21,8 @@ API List
 ### NotificationParameters
 | Method | Path                                                                             | Description
 |--------|----------------------------------------------------------------------------------|------------
-| GET    | [/notificationsparameters](api/notificationparameters/get_notifications_parameters.md)     | List all
-| GEt    | [/notificationparameters/{type}](api/notificationparameters/get_notification_parameters.md)| Retrieve one
-
+| GET    | [/notificationsparameters](api/notificationparameters/get_notifications_parameters.md)     | List parameters of all type of notification
+| GEt    | [/notificationparameters/{type}](api/notificationparameters/get_notification_parameters.md)| Retrieve parameters of a specific type of notification
 
 API Client
 ----------

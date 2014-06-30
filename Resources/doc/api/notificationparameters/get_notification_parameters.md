@@ -11,10 +11,30 @@ Retrieve one notification parameters
 | **Formats** | json
 | **Secured** | false
 
+### Available type of notification
+
+| Type
+|-----
+| email
+| sms_ocito
+| twitter
+| push_ios
+| push_android
+| mail
+| facebook
+
 ## HTTP Request parameters
 | Name     | Optional | Description
 |----------|----------|------------
 | field    | true     | Notification field (to, from, content)
+
+### Available field
+
+| Field
+|------
+| to
+| from
+| content
 
 ## HTTP Response codes
 | Code | Description
