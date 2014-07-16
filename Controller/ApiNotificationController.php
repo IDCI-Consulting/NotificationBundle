@@ -98,8 +98,6 @@ class ApiNotificationController extends FOSRestController
         if (isset($data['sourceName'])) {
             unset($data['sourceName']);
         }
-        var_dump("sent data", $data);
-        var_dump("Notifies list", $notifiers);
 
         try {
             foreach ($data as $notificationType => $notificationData) {
