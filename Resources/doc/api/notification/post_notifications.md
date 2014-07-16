@@ -289,7 +289,7 @@ mail=[
 
 #### Case 1 : notification with notifier parameters
 ```
-smsOcito=[
+sms_ocito=[
     {
         "to": {"phoneNumber": "33612345678"},
         "from" : {
@@ -308,7 +308,7 @@ smsOcito=[
 ```
 #### Case 2 : notification without notifier parameters
 ```
-smsOcito=[
+sms_ocito=[
     {
         "notifierAlias" : "my_sms_alias",
         "to": {"phoneNumber": "33612345678"},
@@ -391,7 +391,7 @@ twitter=[
 #### Notification without notifier parameters
 
 ```
-pushIOS=[
+push_ios=[
     {
         "notifierAlias" : "my_push_ios_alias",
         "to": {
@@ -432,7 +432,7 @@ pushIOS=[
 
 #### Case 1 : notification with notifier parameters
 ```
-pushAndroid=[
+push_android=[
     {
         "to": {
             "deviceToken": "your_device_token"
@@ -449,7 +449,7 @@ pushAndroid=[
 #### Case 2 : notification without notifier parameters
 
 ```
-pushAndroid=[
+push_android=[
     {
         "notifierAlias" : "my_push_android_alias",
         "to": {
@@ -580,7 +580,7 @@ email=[
         }
     }
 ] &
-smsOcito=[
+sms_ocito=[
     {
         "to": {"phoneNumber": "33612345678"},
         "from" : {

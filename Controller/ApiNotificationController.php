@@ -80,70 +80,47 @@ class ApiNotificationController extends FOSRestController
 
     /**
      * [POST] /notifications
+     *
      * Create a notification
-     *
-     * @RequestParam(name="sourceName", nullable=true, description="Source name")
-     * @RequestParam(name="email", nullable=true, description="Email notification data")
-     * @RequestParam(name="facebook", nullable=true, description="Facebook notification data")
-     * @RequestParam(name="mail", nullable=true, description="Mail notification data")
-     * @RequestParam(name="twitter", nullable=true, description="Twitter notification data")
-     * @RequestParam(name="pushIOS", nullable=true, description="PushIOS notification data")
-     * @RequestParam(name="pushAndroid", nullable=true, description="push android notification data")
-     * @RequestParam(name="smsOcito", nullable=true, description="SMS Ocito notification data")
-     *
-     * @param string $sourceName
-     * @param array  $email
-     * @param array  $facebook
-     * @param array  $mail
-     * @param array  $sms
-     * @param array  $twitter
-     * @param array  $pushIOS
-     * @param array  $pushAndroid
-     * @param array  $smsOcito
      */
-    public function postNotificationsAction(
-        $sourceName  = null,
-        $email       = null,
-        $facebook    = null,
-        $mail        = null,
-        $twitter     = null,
-        $pushIOS     = null,
-        $pushAndroid = null,
-        $smsOcito    = null
-    )
+    public function postNotificationsAction()
     {
         // The default source name value is based on the request client IP
         $defaultSourceName = sprintf('[%s]', $this->get('request')->getClientIp());
-        if (null === $sourceName) {
-            $sourceName = $defaultSourceName;
-        } else {
-            $sourceName = sprintf('%s %s', $defaultSourceName, $sourceName);
+
+        $sourceName = sprintf('%s %s',
+            $defaultSourceName,
+            $this->get('request')->request->get('sourceName', '')
+        );
+
+        $notifiers = $this->container->getParameter('idci_notification.notifiers');
+        $data = $this->get('request')->request->all();
+        if (isset($data['sourceName'])) {
+            unset($data['sourceName']);
         }
+        var_dump("sent data", $data);
+        var_dump("Notifies list", $notifiers);
 
         try {
-            $notifications = array(
-                'email'        => $email,
-                'facebook'     => $facebook,
-                'mail'         => $mail,
-                'twitter'      => $twitter,
-                'push_ios'     => $pushIOS,
-                'push_android' => $pushAndroid,
-                'sms_ocito'    => $smsOcito
-            );
-
-            foreach ($notifications as $type => $data) {
-                if (null !== $data) {
-                    $this
-                        ->get('idci_notification.manager.notification')
-                        ->processData($type, $data, $sourceName)
-                    ;
+            foreach ($data as $notificationType => $notificationData) {
+                if (!in_array($notificationType, array_keys($notifiers))) {
+                    throw new UndefinedNotifierException($notificationType);
                 }
             }
-        } catch (UndefinedNotifierException $e) {
+        } catch(UndefinedNotifierException $e) {
             return $this->handleView($this->view(
                 array('message' => $e->getMessage()),
                 Codes::HTTP_NOT_IMPLEMENTED
             ));
+        }
+
+        try {
+            foreach ($data as $notificationType => $notificationData) {
+                $this
+                    ->get('idci_notification.manager.notification')
+                    ->processData($notificationType, $notificationData, $sourceName)
+                ;
+            }
         } catch (NotificationParametersParseErrorException $e) {
             return $this->handleView($this->view(
                 array('message' => $e->getMessage()),
