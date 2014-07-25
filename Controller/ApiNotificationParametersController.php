@@ -21,11 +21,11 @@ use JMS\Serializer\SerializationContext;
 class ApiNotificationParametersController extends FOSRestController
 {
     /**
-     * [GET] /notificationsparameters
+     * [GET] /notificationparameters
      * Return parameters for all type of notification
      *
      */
-    public function getNotificationsparametersAction()
+    public function getNotificationparametersAction()
     {
         $notifiers = $this->container->getParameter('idci_notification.notifiers');
         $notificationsParameters = array();
@@ -65,7 +65,7 @@ class ApiNotificationParametersController extends FOSRestController
      * @param string $type
      * @param string $field
      */
-    public function getNotificationparametersAction($type, $field = null)
+    public function getNotificationparameterAction($type, $field = null)
     {
         $notifiers = $this->container->getParameter('idci_notification.notifiers');
         $notificationParameters = array();

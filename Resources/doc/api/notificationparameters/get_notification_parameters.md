@@ -1,40 +1,15 @@
 IDCINotificationBundle API: [GET] Notification Parameters
-==========================================================
+=========================================================
 
-Retrieve one notification parameters
+List all notification parameters
 
 ## General
 |             | Values
 |-------------|-------
 | **Method**  | GET
-| **Path**    | /notificationparameters/{type}
+| **Path**    | /notificationparameters
 | **Formats** | json
 | **Secured** | false
-
-### Available type of notification
-
-| Type
-|-----
-| email
-| sms_ocito
-| twitter
-| push_ios
-| push_android
-| mail
-| facebook
-
-## HTTP Request parameters
-| Name     | Optional | Description
-|----------|----------|------------
-| field    | true     | Notification field (to, from, content)
-
-### Available field
-
-| Field
-|------
-| to
-| from
-| content
 
 ## HTTP Response codes
 | Code | Description
@@ -44,54 +19,54 @@ Retrieve one notification parameters
 | 500  | Server error
 
 ## HTTP Response content examples
-Example : /notificationparameters/email
 
+### json
 ```json
 {
-    "to":{
-        "to":["text",{"required":true}],
-        "cc":["text",{"required":false}],
-        "bcc":["text",{"required":false}]
+    "email":{
+        "to":{
+            "to":["text",{"required":true}],
+            "cc":["text",{"required":false}],
+            "bcc":["text",{"required":false}]
+        },
+        "from":{
+            "transport":["choice",{
+                "required":false,
+                "choices":{"smtp":"smtp","sendmail":"sendmail","mail":"mail"}
+            }],
+            "from":["text",{"required":false}],
+            "fromName":["text",{"required":false}],
+            "replyTo":["text",{"required":false}],
+            "server":["text",{"required":false}],
+            "login":["text",{"required":false}],
+            "password":["password",{"required":false}],
+            "port":["integer",{"required":false}],
+            "encryption":["choice",{"required":false,"choices":{"ssl":"ssl","tls":"tls"}}]
+        },
+        "content":{
+            "subject":["text",{"required":true}],
+            "message":["textarea",{"required":false}],
+            "htmlMessage":["textarea",{"required":false}],
+            "attachments":["text",{"required":false}]
+        }
     },
-    "from":{
-        "transport":["choice",{
-            "required":false,
-            "choices":{"smtp":"smtp","sendmail":"sendmail","mail":"mail"}
-        }],
-        "from":["text",{"required":false}],
-        "fromName":["text",{"required":false}],
-        "replyTo":["text",{"required":false}],
-        "server":["text",{"required":false}],
-        "login":["text",{"required":false}],
-        "password":["password",{"required":false}],
-        "port":["integer",{"required":false}],
-        "encryption":["choice",{"required":false,"choices":{"ssl":"ssl","tls":"tls"}}]
-    },
-    "content":{
-        "subject":["text",{"required":true}],
-        "message":["textarea",{"required":false}],
-        "htmlMessage":["textarea",{"required":false}],
-        "attachments":["text",{"required":false}]
-    }
-}
-```
-
-Example : /notificationparameters/email?field=from
-```json
-{
-    "from":{
-        "transport":["choice",{
-            "required":false,
-            "choices":{"smtp":"smtp","sendmail":"sendmail","mail":"mail"}
-        }],
-        "from":["text",{"required":false}],
-        "fromName":["text",{"required":false}],
-        "replyTo":["text",{"required":false}],
-        "server":["text",{"required":false}],
-        "login":["text",{"required":false}],
-        "password":["password",{"required":false}],
-        "port":["integer",{"required":false}],
-        "encryption":["choice",{"required":false,"choices":{"ssl":"ssl","tls":"tls"}}]
+    "sms_ocito":{
+        "to":{
+            "phoneNumber":["text",{"required":true,"max_length":30}]
+        },
+        "from":{
+            "userName":["text",{"required":false,"max_length":30}],
+            "password":["text",{"required":false,"max_length":30}],
+            "senderAppId":["text",{"required":false,"max_length":10}],
+            "senderId":["text",{"required":false,"max_length":11}],
+            "flag":["integer",{"required":false,"max_length":10,"data":3}],
+            "priority":["choice",{"required":false,"choices":{"H":"high","L":"low"}}],
+            "timeToLiveDuration":["integer",{"required":false}],
+            "timeToSendDuration":["integer",{"required":false}]
+        },
+        "content":{
+            "message":["text",{"required":true,"max_length":70}]
+        }
     }
 }
 ```

@@ -19,10 +19,10 @@ API List
 | GET    | [/notifierconfigurations/{id}.{_format}](api/notifierconfiguration/get_notifierconfiguration.md)   | Retrieve one notifierconfiguration
 
 ### NotificationParameters
-| Method | Path                                                                             | Description
-|--------|----------------------------------------------------------------------------------|------------
-| GET    | [/notificationsparameters](api/notificationparameters/get_notifications_parameters.md)     | List parameters of all type of notification
-| GET    | [/notificationparameters/{type}](api/notificationparameters/get_notification_parameters.md)| Retrieve parameters of a specific type of notification
+| Method | Path                                                                                      | Description
+|--------|-------------------------------------------------------------------------------------------|------------
+| GET    | [/notificationparameters](api/notificationparameters/get_notification_parameters.md)      | List parameters of all type of notification
+| GET    | [/notificationparameters/{type}](api/notificationparameters/get_notification_parameter.md)| Retrieve parameters of a specific type of notification
 
 API Client
 ----------
