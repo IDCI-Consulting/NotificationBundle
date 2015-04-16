@@ -19,7 +19,9 @@ use IDCI\Bundle\NotificationBundle\Exception\NotificationFieldParseErrorExceptio
  * @ORM\Entity(repositoryClass="IDCI\Bundle\NotificationBundle\Entity\Repository\NotificationRepository")
  * @ORM\Table(name="notification", indexes={
  *    @ORM\Index(name="notification_status", columns={"status"}),
- *    @ORM\Index(name="notification_source", columns={"source"})
+ *    @ORM\Index(name="notification_source", columns={"source"}),
+ *    @ORM\Index(name="notification_created_at", columns={"created_at"}),
+ *    @ORM\Index(name="notification_updated_at", columns={"updated_at"})
  * })
  * @ORM\HasLifecycleCallbacks()
  */
