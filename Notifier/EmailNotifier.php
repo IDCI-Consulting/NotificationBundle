@@ -35,7 +35,7 @@ class EmailNotifier extends AbstractNotifier
             ->setBody(isset($content['message']) ? $content['message'] : null)
         ;
 
-        if ($content['htmlMessage']) {
+        if (isset($content['htmlMessage'])) {
             $message->addPart($content['htmlMessage'], 'text/html');
         }
 
