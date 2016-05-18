@@ -20,6 +20,7 @@ use IDCI\Bundle\NotificationBundle\Exception\NotificationFieldParseErrorExceptio
  * @ORM\Table(name="notification", indexes={
  *    @ORM\Index(name="notification_status", columns={"status"}),
  *    @ORM\Index(name="notification_source", columns={"source"}),
+ *    @ORM\Index(name="notification_alias", columns={"notifier_alias"}),
  *    @ORM\Index(name="notification_created_at", columns={"created_at"}),
  *    @ORM\Index(name="notification_updated_at", columns={"updated_at"})
  * })
