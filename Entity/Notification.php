@@ -102,6 +102,11 @@ class Notification
     protected $log;
 
     /**
+     * @ORM\OneToMany(targetEntity="TrackingHistory", mappedBy="notification", cascade={"all"})
+     */
+    protected $trackingHistories;
+
+    /**
      * Get status list
      *
      * @return array
