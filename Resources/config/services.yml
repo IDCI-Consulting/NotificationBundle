@@ -29,6 +29,10 @@ services:
         arguments: [null, null]
         abstract:  true
 
+    idci_notification.manager.tracking_history:
+        class: IDCI\Bundle\NotificationBundle\Manager\TrackingHistoryManager
+        arguments: [@doctrine.orm.entity_manager, @event_dispatcher]
+
     ## Notifiers
 
     idci_notification.notifier.email:
