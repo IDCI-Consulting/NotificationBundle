@@ -510,4 +510,36 @@ class Notification
         return $this;
     }
 
+    /**
+     * Add trackingHistory
+     *
+     * @param \IDCI\Bundle\NotificationBundle\Entity\TrackingHistory $trackingHistory
+     * @return Complaint
+     */
+    public function addTrackingHistory(\IDCI\Bundle\NotificationBundle\Entity\TrackingHistory $trackingHistory)
+    {
+        $this->trackingHistories[] = $trackingHistory;
+        return $this;
+    }
+
+    /**
+     * Remove trackingHistory
+     *
+     * @param \IDCI\Bundle\NotificationBundle\Entity\TrackingHistory $trackingHistory
+     */
+    public function removeTrackingHistory(\IDCI\Bundle\NotificationBundle\Entity\TrackingHistory $trackingHistory)
+    {
+        $this->trackingHistories->removeElement($trackingHistory);
+    }
+
+    /**
+     * Get trackingHistories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTrackingHistories()
+    {
+        return $this->trackingHistories;
+    }
+
 }
