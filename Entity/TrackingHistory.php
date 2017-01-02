@@ -61,6 +61,17 @@ class TrackingHistory
     protected $notification;
 
     /**
+     * On create
+     *
+     * @ORM\PrePersist()
+     */
+    public function onCreate()
+    {
+        $date = new \DateTime('now');
+        $this->setCreatedAt($date);
+    }
+
+    /**
      * Get id
      *
      * @return integer
