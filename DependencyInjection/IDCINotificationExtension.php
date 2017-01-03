@@ -42,5 +42,11 @@ class IDCINotificationExtension extends Extension
             'idci_notification.notifiers.configuration',
             $config['notifiers']
         );
+
+        $container->setParameter(
+            'idci_notification.notifiers.email.tracking_url',
+            $config['notifiers']['email']['tracking_url']
+        );
+
     }
 }

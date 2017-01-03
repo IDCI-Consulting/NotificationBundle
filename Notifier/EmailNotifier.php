@@ -5,6 +5,7 @@
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
+ * @author:  Rémy MENCE <remy.mence@gmail.com>
  * @license: GPL
  *
  */
@@ -16,11 +17,20 @@ use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class EmailNotifier extends AbstractNotifier
 {
+
     /**
      * {@inheritdoc}
      */
     public function sendNotification(Notification $notification)
     {
+        //Build html tag "<img>" to track read with notification Id
+        $tracking = "";
+        if (isset($this->defaultConfiguration["tracking_url"]) && $this->defaultConfiguration["tracking_url"]) {
+            $tracking = sprintf('<img alt="picto" src="%s%s" width="1" height="1" border="0"/>',
+                $this->defaultConfiguration["tracking_url"],
+                $notification->getId());
+        }
+
         $to = json_decode($notification->getTo(), true);
         $content = json_decode($notification->getContent(), true);
         $configuration = $this->getConfiguration($notification);
@@ -36,7 +46,7 @@ class EmailNotifier extends AbstractNotifier
         ;
 
         if (isset($content['htmlMessage'])) {
-            $message->addPart($content['htmlMessage'], 'text/html');
+            $message->addPart($content['htmlMessage'].$tracking, 'text/html');
         }
 
         $mailer = $this->getMailer($configuration);
@@ -53,6 +63,7 @@ class EmailNotifier extends AbstractNotifier
      */
     protected function getMailer(array $configuration)
     {
+
         $initTransportMethod = sprintf('init%sTransport',
             ucfirst(strtolower($configuration['transport']))
         );

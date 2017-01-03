@@ -58,6 +58,9 @@ class Configuration implements ConfigurationInterface
 
         $emailNode
             ->children()
+                ->scalarNode('tracking_url')
+                    ->defaultValue(null)
+                ->end()
                 ->scalarNode('default_configuration')
                     ->defaultValue('default')
                 ->end()
