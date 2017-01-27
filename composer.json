@@ -16,11 +16,11 @@
         }
     ],
     "require": {
-        "php":                            ">=5.3.2",
-        "symfony/framework-bundle":       ">=2.1",
-        "twig/twig":                      "*",
-        "jms/serializer-bundle":          "~1.0",
-        "friendsofsymfony/rest-bundle":   "1.5.*"
+        "php":                          ">=5.3.2",
+        "symfony/framework-bundle":     ">=2.1",
+        "twig/twig":                    "*",
+        "jms/serializer-bundle":        "~1.0",
+        "friendsofsymfony/rest-bundle": "^1.7"
     },
     "autoload": {
         "psr-0": { "IDCI\\Bundle\\NotificationBundle": "" }
