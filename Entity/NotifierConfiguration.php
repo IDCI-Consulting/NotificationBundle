@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * NotifierConfiguration
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="IDCI\Bundle\NotificationBundle\Entity\Repository\NotifierConfigurationRepository")
  * @ORM\Table(name="notifier_configuration", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="unique_configuration", columns={"alias", "type"})
  * })
