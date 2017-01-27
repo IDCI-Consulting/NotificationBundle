@@ -1,11 +1,8 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
- * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
- * @license: GPL
- *
+ * @license: MIT
  */
 
 namespace IDCI\Bundle\NotificationBundle\Entity\Repository;
@@ -13,8 +10,8 @@ namespace IDCI\Bundle\NotificationBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * NotificationRepository
+ * NotifierConfigurationRepository
  */
-class NotificationRepository extends AbstractEntityRepository
+class NotifierConfigurationRepository extends AbstractEntityRepository
 {
 }
