@@ -171,7 +171,9 @@ class Notification
      * @param string $data
      * @param string $key
      * @param mixed  $default
+     * 
      * @return mixed
+     * @throws NotificationFieldParseErrorException
      */
     public static function getData($data, $key, $default)
     {
@@ -205,7 +207,8 @@ class Notification
      * Set type
      *
      * @param string $type
-     * @return NotificationEntity
+     *
+     * @return Notification
      */
     public function setType($type)
     {
@@ -228,7 +231,8 @@ class Notification
      * Set notifierAlias
      *
      * @param string $notifierAlias
-     * @return NotificationEntity
+     *
+     * @return Notification
      */
     public function setNotifierAlias($notifierAlias)
     {
@@ -250,7 +254,7 @@ class Notification
     /**
      * Has notifierAlias
      *
-     * @return booleen
+     * @return boolean
      */
     public function hasNotifierAlias()
     {
@@ -261,7 +265,8 @@ class Notification
      * Set from
      *
      * @param string $from
-     * @return NotificationEntity
+     *
+     * @return Notification
      */
     public function setFrom($from)
     {
@@ -275,6 +280,7 @@ class Notification
      *
      * @param  string|null $key
      * @param  mixed|null  $default
+     *
      * @return mixed|null
      */
     public function getFrom($key = null, $default = null)
@@ -286,6 +292,7 @@ class Notification
      * Get from json decoded
      *
      * @return array
+     * @throws NotificationFieldParseErrorException
      */
     public function getFromDecoded()
     {
@@ -301,7 +308,8 @@ class Notification
      * Set to
      *
      * @param mixed $to
-     * @return NotificationEntity
+     *
+     * @return Notification
      */
     public function setTo($to)
     {
@@ -315,6 +323,7 @@ class Notification
      *
      * @param  string|null $key
      * @param  mixed|null  $default
+     *
      * @return array
      */
     public function getTo($key = null, $default = null)
@@ -326,6 +335,7 @@ class Notification
      * Get to json decoded
      *
      * @return array
+     * @throws NotificationFieldParseErrorException
      */
     public function getToDecoded()
     {
@@ -341,7 +351,8 @@ class Notification
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return NotificationEntity
+     *
+     * @return Notification
      */
     public function setCreatedAt($createdAt)
     {
@@ -364,7 +375,8 @@ class Notification
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return NotificationEntity
+     *
+     * @return Notification
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -387,7 +399,8 @@ class Notification
      * Set status
      *
      * @param string $status
-     * @return NotificationEntity
+     *
+     * @return Notification
      */
     public function setStatus($status)
     {
@@ -410,7 +423,8 @@ class Notification
      * Set content
      *
      * @param array $content
-     * @return NotificationEntity
+     *
+     * @return Notification
      */
     public function setContent($content)
     {
@@ -424,6 +438,7 @@ class Notification
      *
      * @param  string|null $key
      * @param  mixed|null  $default
+     *
      * @return array
      */
     public function getContent($key = null, $default = null)
@@ -435,6 +450,7 @@ class Notification
      * Get content json decoded
      *
      * @return array
+     * @throws NotificationFieldParseErrorException
      */
     public function getContentDecoded()
     {
@@ -450,7 +466,8 @@ class Notification
      * Set source
      *
      * @param string $source
-     * @return NotificationEntity
+     *
+     * @return Notification
      */
     public function setSource($source)
     {
@@ -473,7 +490,8 @@ class Notification
      * Set log
      *
      * @param string $log
-     * @return NotificationEntity
+     *
+     * @return Notification
      */
     public function setLog($log)
     {
@@ -496,7 +514,8 @@ class Notification
      * Add log
      *
      * @param string $log
-     * @return NotificationEntity
+     *
+     * @return Notification
      */
     public function addLog($log)
     {
@@ -514,11 +533,13 @@ class Notification
      * Add trackingHistory
      *
      * @param \IDCI\Bundle\NotificationBundle\Entity\TrackingHistory $trackingHistory
-     * @return Complaint
+     *
+     * @return Notification
      */
     public function addTrackingHistory(\IDCI\Bundle\NotificationBundle\Entity\TrackingHistory $trackingHistory)
     {
         $this->trackingHistories[] = $trackingHistory;
+
         return $this;
     }
 

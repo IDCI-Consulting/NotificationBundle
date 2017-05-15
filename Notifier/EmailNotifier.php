@@ -26,9 +26,12 @@ class EmailNotifier extends AbstractNotifier
         //Build html tag "<img>" to track read with notification Id
         $tracking = "";
         if (isset($this->defaultConfiguration["tracking_url"]) && $this->defaultConfiguration["tracking_url"]) {
-            $tracking = sprintf('<img alt="picto" src="%s%s" width="1" height="1" border="0"/>',
+            $tracking = sprintf(
+                '<img alt="picto" src="%s?notification_id=%s&action=%s" width="1" height="1" border="0"/>',
                 $this->defaultConfiguration["tracking_url"],
-                $notification->getId());
+                $notification->getId(),
+                'open'
+            );
         }
 
         $to = json_decode($notification->getTo(), true);

@@ -25,8 +25,7 @@ class TrackingHistoryType extends AbstractType
             ->add('action')
             ->add('origin')
             ->add('context')
-            ->add('createdAt')
-        ;
+            ->add('createdAt');
     }
 
     /**
@@ -37,8 +36,7 @@ class TrackingHistoryType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'data_class' => 'IDCI\Bundle\NotificationBundle\Entity\TrackingHistory'
-            ))
-        ;
+            ));
     }
 
     /**
@@ -48,3 +46,4 @@ class TrackingHistoryType extends AbstractType
     {
         return 'idci_bundle_notificationbundle_trackinghistorytype';
     }
+}

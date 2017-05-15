@@ -7,7 +7,7 @@
  *
  */
 
-namespace IDCI\Bundle\NotificationBundle\Controller;
+namespace IDCI\Bundle\NotificationBundle\Controller\Rest;
 
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\FOSRestController;
