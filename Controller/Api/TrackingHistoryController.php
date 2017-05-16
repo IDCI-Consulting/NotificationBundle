@@ -47,7 +47,9 @@ class TrackingHistoryController extends Controller
                 ->setNotification($notification)
                 ->setAction($request->query->get('action'))
                 ->setOrigin($request->getClientIp())
-                ->setContext($request->headers->get('User-Agent'))
+                ->setContext(json_encode(
+                    array('user-agent' => $request->headers->get('User-Agent'), true)
+                ))
             ;
 
             $notification->addTrackingHistory($trackingHistory);
