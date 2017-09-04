@@ -49,7 +49,7 @@ class TrackingHistoryController extends Controller
                 ->setAction($request->query->get('action'))
                 ->setOrigin($request->getClientIp())
                 ->setContext(json_encode(
-                    array('user-agent' => $request->headers->get('User-Agent'), true)
+                    array('user-agent' => $request->headers->get('User-Agent'))
                 ))
             ;
 
