@@ -4,6 +4,7 @@ namespace IDCI\Bundle\NotificationBundle\Controller\Api;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Entity\TrackingHistory;
+use IDCI\Bundle\NotificationBundle\Controller\TrackingPixelResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
@@ -68,6 +69,6 @@ class TrackingHistoryController extends Controller
             $response->setContent($e->getMessage());
         }
 
-        return $response;
+        return new TrackingPixelResponse();
     }
 }
