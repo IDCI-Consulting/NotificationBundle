@@ -88,6 +88,7 @@ class Configuration implements ConfigurationInterface
                                     ->thenInvalid('Invalid encryption "%s"')
                                 ->end()
                             ->end()
+                            ->booleanNode('track')->end()
                         ->end()
                     ->end()
                 ->end()

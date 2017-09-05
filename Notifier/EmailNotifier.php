@@ -17,15 +17,16 @@ use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class EmailNotifier extends AbstractNotifier
 {
-
     /**
      * {@inheritdoc}
      */
     public function sendNotification(Notification $notification)
     {
+        $configuration = $this->getConfiguration($notification);
+
         //Build html tag "<img>" to track read with notification Id
         $tracking = "";
-        if (isset($this->defaultConfiguration["tracking_url"]) && $this->defaultConfiguration["tracking_url"]) {
+        if ($configuration['track']) {
             $tracking = sprintf(
                 '<img alt="picto" src="%s?notification_id=%s&action=%s" width="1" height="1" border="0"/>',
                 $this->defaultConfiguration["tracking_url"],
@@ -36,7 +37,6 @@ class EmailNotifier extends AbstractNotifier
 
         $to = json_decode($notification->getTo(), true);
         $content = json_decode($notification->getContent(), true);
-        $configuration = $this->getConfiguration($notification);
 
         $message = \Swift_Message::newInstance()
             ->setSubject(isset($content['subject']) ? $content['subject'] : null)
@@ -169,7 +169,8 @@ class EmailNotifier extends AbstractNotifier
                     'ssl'  => 'ssl',
                     'tls'  => 'tls'
                 )
-            ))
+            )),
+            'track'        => array('checkbox', array('required' => false))
         );
     }
 }
