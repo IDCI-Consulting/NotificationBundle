@@ -10,22 +10,83 @@
 
 namespace IDCI\Bundle\NotificationBundle\Tests\Notifier;
 
+use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\NotificationBundle\Notifier\EmailNotifier;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class EmailNotifierTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCleanDataWithValidData()
+    private $notifier;
+    private $notification;
+
+    public function setUp()
     {
-        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-        $optionResolver = $this->getMockBuilder('\Symfony\Component\OptionsResolver\OptionsResolver')
+        $entityManager = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalConstructor()
             ->getMock()
         ;
 
+        $this->notifier = new EmailNotifier($entityManager, array(
+            'tracking_url' => 'http://dummy_url'
+        ));
+
+        $this->notification = new Notification();
+        $this->notification
+            ->setType('email')
+            ->setFrom(json_encode(array(
+                'transport' => 'smtp',
+                "from" => "dummy@email.com",
+                "fromName" => "dummy@email.com",
+                "replyTo" => "dummy@email.com",
+                "server" => "server.smtp.fr",
+                "login" => "id_value",
+                "password" => "password",
+                "port" => 123,
+                "encryption" => "ssl",
+                "track" => true,
+            )))
+            ->setTo(json_encode(array(
+                'to' => 'test@mail.com',
+                'cc' => null,
+                'bcc' => null,
+            )))
+            ->setContent(json_encode(array(
+                'subject' => 'Test',
+                'message' => 'Test message',
+                'htmlMessage' => null,
+                'attachments' => null,
+            )))
+        ;
+    }
+
+    public function testBuildHTMLMessage()
+    {
+
+    }
+
+    public function testAddTracker()
+    {
+        $img = '<img alt="picto" src="http://dummy_url?notification_id=&action=open" width="1" height="1" border="0" />';
+        $this->assertEquals($img, $this->notifier->addTracker($this->notification));
+
+        $this->notification->setFrom(json_encode(array(
+            'transport' => 'smtp',
+            "from" => "dummy@email.com",
+            "fromName" => "dummy@email.com",
+            "replyTo" => "dummy@email.com",
+            "server" => "server.smtp.fr",
+            "login" => "id_value",
+            "password" => "password",
+            "port" => 123,
+            "encryption" => "ssl",
+            "track" => false,
+        )));
+
+        $this->assertEquals('', $this->notifier->addTracker($this->notification));
+    }
+
+    public function testCleanDataWithValidData()
+    {
         $data = array(
             'to' => array(
                 "to"  => "test@mail.com",
@@ -51,10 +112,9 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $emailNotifier = new EmailNotifier($entityManager, array());
         $this->assertEquals(
             $data,
-            $emailNotifier->cleanData($data)
+            $this->notifier->cleanData($data)
         );
     }
 
@@ -63,15 +123,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testCleanDataWithInvalidData()
     {
-        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-        $optionResolver = $this->getMockBuilder('\Symfony\Component\OptionsResolver\OptionsResolver')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-
         $data = array(
             'to' => array(
                 "to"  => "test@mail.com",
@@ -97,7 +148,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $emailNotifier = new EmailNotifier($entityManager, array());
-        $data = $emailNotifier->cleanData($data);
+        $data = $this->notifier->cleanData($data);
     }
 }
