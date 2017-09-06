@@ -59,15 +59,47 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         ;
     }
 
-    public function testBuildHTMLMessage()
+    public function testBuildMessage()
     {
+        $configuration = $this->notifier->getConfiguration($this->notification);
+        $to = json_decode($this->notification->getTo(), true);
+        $content = json_decode($this->notification->getContent(), true);
 
+        $message = \Swift_Message::newInstance()
+            ->setSubject(isset($content['subject']) ? $content['subject'] : null)
+            ->setFrom(array($configuration['from'] => $configuration['fromName']))
+            ->setReplyTo(isset($configuration['replyTo']) ? $configuration['replyTo'] : null)
+            ->setTo($to['to'])
+            ->setCc(isset($to['cc']) ? $to['cc'] : null)
+            ->setBcc(isset($to['bcc']) ? $to['bcc'] : null)
+            ->setBody(isset($content['message']) ? $content['message'] : null)
+        ;
+
+        $this->assertInstanceOf('Swift_Message', $message);
+        $this->assertEquals($message->getSubject(), $this->notifier->buildMessage($this->notification)->getSubject());
+        $this->assertEquals($message->getFrom(), $this->notifier->buildMessage($this->notification)->getFrom());
+        $this->assertEquals($message->getReplyTo(), $this->notifier->buildMessage($this->notification)->getReplyTo());
+        $this->assertEquals($message->getTo(), $this->notifier->buildMessage($this->notification)->getTo());
+        $this->assertEquals($message->getCc(), $this->notifier->buildMessage($this->notification)->getCc());
+        $this->assertEquals($message->getBcc(), $this->notifier->buildMessage($this->notification)->getBcc());
+        $this->assertEquals($message->getBody(), $this->notifier->buildMessage($this->notification)->getBody());
+
+    }
+
+    public function testBuildHTMLContent()
+    {
+        $this->assertEquals(
+            '<img alt="picto" src="http://dummy_url?notification_id=&action=open" width="1" height="1" border="0" />',
+            $this->notifier->buildHTMLContent($this->notification)
+        );
     }
 
     public function testAddTracker()
     {
-        $img = '<img alt="picto" src="http://dummy_url?notification_id=&action=open" width="1" height="1" border="0" />';
-        $this->assertEquals($img, $this->notifier->addTracker($this->notification));
+        $this->assertEquals(
+            '<img alt="picto" src="http://dummy_url?notification_id=&action=open" width="1" height="1" border="0" />',
+            $this->notifier->addTracker($this->notification)
+        );
 
         $this->notification->setFrom(json_encode(array(
             'transport' => 'smtp',
