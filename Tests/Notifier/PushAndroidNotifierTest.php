@@ -10,22 +10,34 @@
 
 namespace IDCI\Bundle\NotificationBundle\Tests\Notifier;
 
+use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\NotificationBundle\Notifier\PushAndroidNotifier;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCleanDataWithValidData()
+    private $notifier;
+    private $notification;
+
+    public function setUp()
     {
-        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-        $optionResolver = $this->getMockBuilder('\Symfony\Component\OptionsResolver\OptionsResolver')
+        $entityManager = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalConstructor()
             ->getMock()
         ;
 
+        $this->notifier = new PushAndroidNotifier($entityManager, array());
+
+        $this->notification = new Notification();
+        $this->notification
+            ->setType('push_android')
+            ->setFrom(json_encode(array('apiKey' => 'http://dummy_url')))
+            ->setTo(json_encode(array("deviceToken" => "abcd1234")))
+            ->setContent(json_encode(array("message" => "test")))
+        ;
+    }
+    public function testCleanDataWithValidData()
+    {
         $data = array(
             'to' => array(
                 "deviceToken" => "abcd1234"
@@ -38,10 +50,9 @@ class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $pushAndroidNotifier = new PushAndroidNotifier($entityManager, array());
         $this->assertEquals(
             $data,
-            $pushAndroidNotifier->cleanData($data)
+            $this->notifier->cleanData($data)
         );
     }
 
@@ -50,15 +61,6 @@ class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testCleanDataWithInvalidData()
     {
-        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-        $optionResolver = $this->getMockBuilder('\Symfony\Component\OptionsResolver\OptionsResolver')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-
         $data = array(
             // We simulate an missing required field.
             'to' => array(
@@ -72,35 +74,35 @@ class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $pushAndroidNotifier = new PushAndroidNotifier($entityManager, array());
-        $data = $pushAndroidNotifier->cleanData($data);
+        $data = $this->notifier->cleanData($data);
     }
 
     public function testBuildGcmMessage()
     {
-        $toData = array("deviceToken" => "abcd1234");
-        $contentData = array("message" => "test");
-        $pushAndroidNotification = new Notification();
-        $pushAndroidNotification
-            ->setTo(json_encode($toData))
-            ->setContent(json_encode($contentData))
-        ;
-
         $gcmMessage = array(
-            'message'    => $contentData['message'],
+            'message'    => "test",
             'vibrate'    => 1,
             'sound'      => 1
         );
 
         $gcmFields = array(
             'delay_while_idle' => true,
-            'registration_ids' => array($toData['deviceToken']),
+            'registration_ids' => array("abcd1234"),
             'data'             => $gcmMessage
         );
 
         $this->assertEquals(
             json_encode($gcmFields),
-            PushAndroidNotifier::buildGcmMessage($pushAndroidNotification)
+            $this->notifier->buildGcmMessage($this->notification)
         );
     }
+
+    /**
+     * @expectedException IDCI\Bundle\NotificationBundle\Exception\PushAndroidNotifierException
+     */
+    public function testPushAndroidNotifierException()
+    {
+        $this->notifier->sendPushAndroid($this->notification->getFrom(), $this->notification->getContent());
+    }
+
 }
