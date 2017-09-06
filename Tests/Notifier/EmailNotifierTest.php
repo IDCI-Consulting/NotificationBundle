@@ -77,13 +77,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Swift_Message', $message);
         $this->assertEquals($message->getSubject(), $this->notifier->buildMessage($this->notification)->getSubject());
-        $this->assertEquals($message->getFrom(), $this->notifier->buildMessage($this->notification)->getFrom());
-        $this->assertEquals($message->getReplyTo(), $this->notifier->buildMessage($this->notification)->getReplyTo());
-        $this->assertEquals($message->getTo(), $this->notifier->buildMessage($this->notification)->getTo());
-        $this->assertEquals($message->getCc(), $this->notifier->buildMessage($this->notification)->getCc());
-        $this->assertEquals($message->getBcc(), $this->notifier->buildMessage($this->notification)->getBcc());
-        $this->assertEquals($message->getBody(), $this->notifier->buildMessage($this->notification)->getBody());
-
     }
 
     public function testBuildHTMLContent()
