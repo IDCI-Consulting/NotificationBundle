@@ -36,6 +36,7 @@ class EmailNotifier extends AbstractNotifier
      */
     public function buildMessage(Notification $notification)
     {
+        $configuration = $this->getConfiguration($notification);
         $to = json_decode($notification->getTo(), true);
         $content = json_decode($notification->getContent(), true);
 
@@ -162,9 +163,9 @@ class EmailNotifier extends AbstractNotifier
     public function getToFields()
     {
         return array(
-            'to'  => array('email', array('required' => true,  "trim" => true)),
-            'cc'  => array('email', array('required' => false, "trim" => true)),
-            'bcc' => array('email', array('required' => false, "trim" => true))
+            'to'  => array('email', array('required' => true,  'trim' => true)),
+            'cc'  => array('email', array('required' => false, 'trim' => true)),
+            'bcc' => array('email', array('required' => false, 'trim' => true))
         );
     }
 
