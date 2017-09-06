@@ -22,19 +22,20 @@ class EmailNotifier extends AbstractNotifier
      */
     public function sendNotification(Notification $notification)
     {
-        $configuration = $this->getConfiguration($notification);
+        $mailer = $this->getMailer($this->getConfiguration($notification));
 
-        //Build html tag "<img>" to track read with notification Id
-        $tracking = "";
-        if ($configuration['track']) {
-            $tracking = sprintf(
-                '<img alt="picto" src="%s?notification_id=%s&action=%s" width="1" height="1" border="0"/>',
-                $this->defaultConfiguration["tracking_url"],
-                $notification->getId(),
-                'open'
-            );
-        }
+        return $mailer->send($this->buildMessage($notification)) > 0;
+    }
 
+    /**
+     * Build the message that will be sent by the mailer.
+     *
+     * @param Notification $notification
+     *
+     * @return string
+     */
+    public function buildMessage(Notification $notification)
+    {
         $to = json_decode($notification->getTo(), true);
         $content = json_decode($notification->getContent(), true);
 
@@ -49,12 +50,51 @@ class EmailNotifier extends AbstractNotifier
         ;
 
         if (isset($content['htmlMessage'])) {
-            $message->addPart($content['htmlMessage'].$tracking, 'text/html');
+            $message->addPart($this->buildHTMLContent($notification), 'text/html');
         }
 
-        $mailer = $this->getMailer($configuration);
+        return $message;
+    }
 
-        return $mailer->send($message) > 0;
+    /**
+     * Build html content.
+     *
+     * @param Notification $notification
+     *
+     * @return string
+     */
+    public function buildHTMLContent(Notification $notification)
+    {
+        $content = json_decode($notification->getContent(), true);
+
+        return sprintf(
+            '%s%s',
+            $content['htmlMessage'],
+            $this->addTracker($notification)
+        );
+    }
+
+    /**
+     * Build html tag "<img>" to track readed email with notification
+     *
+     * @param Notification $notification
+     *
+     * @return string
+     */
+    public function addTracker(Notification $notification)
+    {
+        $configuration = $this->getConfiguration($notification);
+
+        if (!$configuration['track']) {
+            return '';
+        }
+
+        return sprintf(
+            '<img alt="picto" src="%s?notification_id=%s&action=%s" width="1" height="1" border="0" />',
+            $this->defaultConfiguration["tracking_url"],
+            $notification->getId(),
+            'open'
+        );
     }
 
     /**
@@ -66,7 +106,6 @@ class EmailNotifier extends AbstractNotifier
      */
     protected function getMailer(array $configuration)
     {
-
         $initTransportMethod = sprintf('init%sTransport',
             ucfirst(strtolower($configuration['transport']))
         );
