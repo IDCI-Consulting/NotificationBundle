@@ -1,33 +1,30 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Tests\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Notifier\EmailNotifier;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
-use IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierConfigurationException;
 
 class AbstractNotifierTest extends \PHPUnit_Framework_TestCase
 {
     public function getNotificationWithNotifierParameters()
     {
         $fromData = array(
-            "transport"  => "smtp",
-            "from"       => "from_value",
-            "fromName"   => "from_name_value",
-            "replyTo"    => "reply_to_value",
-            "server"     => "server.smtp.fr",
-            "login"      => "id_value",
-            "password"   => "password",
-            "port"       => 123,
-            "encryption" => "ssl"
+            'transport' => 'smtp',
+            'from' => 'from_value',
+            'fromName' => 'from_name_value',
+            'replyTo' => 'reply_to_value',
+            'server' => 'server.smtp.fr',
+            'login' => 'id_value',
+            'password' => 'password',
+            'port' => 123,
+            'encryption' => 'ssl',
         );
 
         $emailNotificationWithNotifierParameters = new Notification();
@@ -42,15 +39,15 @@ class AbstractNotifierTest extends \PHPUnit_Framework_TestCase
     public function getNotificationWithNotifierAlias()
     {
         $fromData = array(
-            "transport"  => "smtp",
-            "from"       => "from_value",
-            "fromName"   => "from_name_value",
-            "replyTo"    => "reply_to_value",
-            "server"     => "server.smtp.fr",
-            "login"      => "id_value",
-            "password"   => "password",
-            "port"       => 123,
-            "encryption" => "ssl"
+            'transport' => 'smtp',
+            'from' => 'from_value',
+            'fromName' => 'from_name_value',
+            'replyTo' => 'reply_to_value',
+            'server' => 'server.smtp.fr',
+            'login' => 'id_value',
+            'password' => 'password',
+            'port' => 123,
+            'encryption' => 'ssl',
         );
 
         $emailNotificationWithAlias = new Notification();
@@ -68,7 +65,7 @@ class AbstractNotifierTest extends \PHPUnit_Framework_TestCase
 
         return array(
             array($emailNotificationWithAlias),
-            array($emailNotificationWithAllFields)
+            array($emailNotificationWithAllFields),
         );
     }
 
@@ -101,17 +98,17 @@ class AbstractNotifierTest extends \PHPUnit_Framework_TestCase
     public function testGetConfigurationWithNotifierAlias(Notification $notification)
     {
         $configurationData = array(
-            "notifier_alias_value" => array(
-                "transport"  => "smtp",
-                "from"       => "from_value",
-                "fromName"   => "from_name_value",
-                "replyTo"    => "reply_to_value",
-                "server"     => "smtp.mail.com",
-                "login"      => "login_value",
-                "password"   => "password",
-                "port"       => 123,
-                "encryption" => "ssl"
-            )
+            'notifier_alias_value' => array(
+                'transport' => 'smtp',
+                'from' => 'from_value',
+                'fromName' => 'from_name_value',
+                'replyTo' => 'reply_to_value',
+                'server' => 'smtp.mail.com',
+                'login' => 'login_value',
+                'password' => 'password',
+                'port' => 123,
+                'encryption' => 'ssl',
+            ),
         );
 
         $notifierConfiguration = $this
@@ -168,18 +165,18 @@ class AbstractNotifierTest extends \PHPUnit_Framework_TestCase
 
         $defaultConfiguration = array(
             'default_configuration' => 'default',
-            'configurations'        => array(
+            'configurations' => array(
                 'default' => array(
-                    'transport'  => 'smtp',
-                    'fromName'   => 'from_name_value',
-                    'from'       => 'from_value',
-                    'server'     => 'smtp.mail.com',
-                    'login'      => 'login_value',
-                    'password'   => 'password',
-                    'port'       => 123,
-                    'encryption' => 'ssl'
-                )
-            )
+                    'transport' => 'smtp',
+                    'fromName' => 'from_name_value',
+                    'from' => 'from_value',
+                    'server' => 'smtp.mail.com',
+                    'login' => 'login_value',
+                    'password' => 'password',
+                    'port' => 123,
+                    'encryption' => 'ssl',
+                ),
+            ),
         );
 
         $emailNotifier = new EmailNotifier($entityManager, $defaultConfiguration);

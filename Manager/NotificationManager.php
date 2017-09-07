@@ -1,11 +1,9 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Manager;
@@ -24,9 +22,9 @@ class NotificationManager extends AbstractManager
     protected $notifiers;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManager            $objectManager
      * @param EventDispatcherInterface $entityManager
      */
     public function __construct(ObjectManager $objectManager, EventDispatcherInterface $eventDispatcher)
@@ -36,18 +34,18 @@ class NotificationManager extends AbstractManager
     }
 
     /**
-     * Get Repository
+     * Get Repository.
      *
      * @return \Doctrine\ORM\EntityManager\EntityRepository
      */
     protected function getRepository()
     {
-        return $this->getObjectManager()->getRepository("IDCINotificationBundle:Notification");
+        return $this->getObjectManager()->getRepository('IDCINotificationBundle:Notification');
     }
 
     /**
      * Add
-     * Use the object manager to add (persist) the given object
+     * Use the object manager to add (persist) the given object.
      *
      * @param object $entity
      */
@@ -68,7 +66,7 @@ class NotificationManager extends AbstractManager
 
     /**
      * Update
-     * Use the object manager to update (persist) the given object
+     * Use the object manager to update (persist) the given object.
      *
      * @param object $entity
      */
@@ -89,7 +87,7 @@ class NotificationManager extends AbstractManager
 
     /**
      * Delete
-     * Use the object manager to delete (remove) the given object
+     * Use the object manager to delete (remove) the given object.
      *
      * @param object $entity
      */
@@ -109,7 +107,7 @@ class NotificationManager extends AbstractManager
     }
 
     /**
-     * Get notifiers
+     * Get notifiers.
      *
      * @return array
      */
@@ -119,10 +117,10 @@ class NotificationManager extends AbstractManager
     }
 
     /**
-     * Add notifier
+     * Add notifier.
      *
      * @param NotifierInterface $notifier
-     * @param string $alias
+     * @param string            $alias
      */
     public function addNotifier(NotifierInterface $notifier, $alias)
     {
@@ -130,9 +128,10 @@ class NotificationManager extends AbstractManager
     }
 
     /**
-     * Get notifier
+     * Get notifier.
      *
      * @param string $alias
+     *
      * @return NotifierInterface
      */
     public function getNotifier($alias)
@@ -145,10 +144,10 @@ class NotificationManager extends AbstractManager
     }
 
     /**
-     * Process data
+     * Process data.
      *
-     * @param string $type
-     * @param string $data in json format
+     * @param string      $type
+     * @param string      $data       in json format
      * @param string|null $sourceName
      */
     public function processData($type, $data, $sourceName = null)
@@ -168,10 +167,10 @@ class NotificationManager extends AbstractManager
     }
 
     /**
-     * Add Notification
+     * Add Notification.
      *
-     * @param string $type
-     * @param array $data
+     * @param string      $type
+     * @param array       $data
      * @param string|null $sourceName
      */
     public function addNotification($type, $data, $sourceName = null)
@@ -194,7 +193,7 @@ class NotificationManager extends AbstractManager
     }
 
     /**
-     * Notify
+     * Notify.
      *
      * @param Notification $notification
      */

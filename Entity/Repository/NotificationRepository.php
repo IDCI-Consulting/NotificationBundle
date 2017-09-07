@@ -7,19 +7,18 @@
 
 namespace IDCI\Bundle\NotificationBundle\Entity\Repository;
 
-use Doctrine\ORM\EntityRepository;
-
 /**
- * NotificationRepository
+ * NotificationRepository.
  */
 class NotificationRepository extends AbstractEntityRepository
 {
     /**
-     * Get the number of medias for each mime type
+     * Get the number of medias for each mime type.
      *
      * @param DateTime from
      * @param DateTime to
-     * @param String type
+     * @param string type
+     *
      * @return array
      */
     public function findNumberByStatusForType(\DateTime $from, \DateTime $to, $type)
@@ -43,7 +42,7 @@ class NotificationRepository extends AbstractEntityRepository
     }
 
     /**
-     * Get the number of medias for each mime type
+     * Get the number of medias for each mime type.
      *
      * @return array
      */

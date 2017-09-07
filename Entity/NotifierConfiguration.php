@@ -5,7 +5,7 @@ namespace IDCI\Bundle\NotificationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * NotifierConfiguration
+ * NotifierConfiguration.
  *
  * @ORM\Entity(repositoryClass="IDCI\Bundle\NotificationBundle\Entity\Repository\NotifierConfigurationRepository")
  * @ORM\Table(name="notifier_configuration", uniqueConstraints={
@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class NotifierConfiguration
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -45,7 +45,7 @@ class NotifierConfiguration
     private $configuration;
 
     /**
-     * toString
+     * toString.
      *
      * @return string
      */
@@ -59,9 +59,9 @@ class NotifierConfiguration
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -69,9 +69,10 @@ class NotifierConfiguration
     }
 
     /**
-     * Set alias
+     * Set alias.
      *
      * @param string $alias
+     *
      * @return NotifierConfiguration
      */
     public function setAlias($alias)
@@ -82,7 +83,7 @@ class NotifierConfiguration
     }
 
     /**
-     * Get alias
+     * Get alias.
      *
      * @return string
      */
@@ -92,9 +93,10 @@ class NotifierConfiguration
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param string $type
+     *
      * @return NotifierConfiguration
      */
     public function setType($type)
@@ -105,7 +107,7 @@ class NotifierConfiguration
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -115,9 +117,10 @@ class NotifierConfiguration
     }
 
     /**
-     * Set configuration
+     * Set configuration.
      *
      * @param string $configuration
+     *
      * @return NotifierConfiguration
      */
     public function setConfiguration($configuration)
@@ -128,7 +131,7 @@ class NotifierConfiguration
     }
 
     /**
-     * Get configuration
+     * Get configuration.
      *
      * @return string
      */

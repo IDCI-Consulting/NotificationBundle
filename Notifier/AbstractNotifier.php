@@ -1,12 +1,10 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
@@ -14,7 +12,6 @@ namespace IDCI\Bundle\NotificationBundle\Notifier;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Doctrine\ORM\EntityManager;
-use IDCI\Bundle\NotificationBundle\Util\Inflector;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\ConfigurationParseErrorException;
 use IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierConfigurationException;
@@ -25,7 +22,7 @@ abstract class AbstractNotifier implements NotifierInterface
     protected $defaultConfiguration;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param EntityManager $entityManager
      * @param array         $defaultConfiguration
@@ -37,7 +34,7 @@ abstract class AbstractNotifier implements NotifierInterface
     }
 
     /**
-     * Get EntityManager
+     * Get EntityManager.
      *
      * @return EntityManager
      */
@@ -57,7 +54,7 @@ abstract class AbstractNotifier implements NotifierInterface
                     $notification->getNotifierAlias(),
                     $notification->getType()
                 );
-            } catch(UndefinedNotifierConfigurationException $e) {
+            } catch (UndefinedNotifierConfigurationException $e) {
                 return $this->getFileConfiguration($notification->getNotifierAlias());
             }
         }
@@ -75,9 +72,10 @@ abstract class AbstractNotifier implements NotifierInterface
     }
 
     /**
-     * Get file configuration
+     * Get file configuration.
      *
-     * @param  string $alias
+     * @param string $alias
+     *
      * @return array
      * @throw  UndefinedNotifierConfigurationException
      */
@@ -87,7 +85,7 @@ abstract class AbstractNotifier implements NotifierInterface
             $alias = $this->defaultConfiguration['default_configuration'];
         }
 
-        if(!isset($this->defaultConfiguration['configurations'][$alias])) {
+        if (!isset($this->defaultConfiguration['configurations'][$alias])) {
             throw new UndefinedNotifierConfigurationException($alias);
         }
 
@@ -95,10 +93,11 @@ abstract class AbstractNotifier implements NotifierInterface
     }
 
     /**
-     * Get configuration from database
+     * Get configuration from database.
      *
-     * @param  string $alias
-     * @param  string $type
+     * @param string $alias
+     * @param string $type
+     *
      * @return array
      * @throw  UndefinedNotifierConfigurationException
      * @throw  ConfigurationParseErrorException
@@ -110,7 +109,7 @@ abstract class AbstractNotifier implements NotifierInterface
             ->getRepository('IDCINotificationBundle:NotifierConfiguration')
             ->findOneBy(array(
                 'alias' => $alias,
-                'type'  => $type
+                'type' => $type,
             ))
         ;
 
@@ -154,7 +153,7 @@ abstract class AbstractNotifier implements NotifierInterface
      */
     public function cleanEmptyValue($data)
     {
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             if (null === $value) {
                 unset($data[$key]);
             }
@@ -164,7 +163,7 @@ abstract class AbstractNotifier implements NotifierInterface
     }
 
     /**
-     * Get resolver
+     * Get resolver.
      *
      * @param array $fieldOptions
      *
@@ -179,7 +178,7 @@ abstract class AbstractNotifier implements NotifierInterface
     }
 
     /**
-     * Guess field options
+     * Guess field options.
      *
      * @param string $field The name of field("from", "to", "content")
      *
@@ -217,7 +216,7 @@ abstract class AbstractNotifier implements NotifierInterface
     }
 
     /**
-     * Configure OptionResolver with default options
+     * Configure OptionResolver with default options.
      *
      * @param OptionsResolver $resolver
      * @param array           $fieldOptions
@@ -234,7 +233,7 @@ abstract class AbstractNotifier implements NotifierInterface
             $hasChoices = isset($options[1]) && isset($options[1]['choices']) && count($options[1]['choices']) > 0 ? true : false;
             if ($hasChoices) {
                 $resolver->setAllowedValues(array(
-                    $name => array_keys($options[1]['choices'])
+                    $name => array_keys($options[1]['choices']),
                 ));
             }
         }

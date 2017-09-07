@@ -1,19 +1,16 @@
 <?php
 
 /**
- *
  * @author:  Rémy MENCE <remymence@gmail.com>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use IDCI\Bundle\NotificationBundle\Exception\NotificationFieldParseErrorException;
 
 /**
- * TrackingHistory
+ * TrackingHistory.
  *
  * @ORM\Entity(repositoryClass="IDCI\Bundle\NotificationBundle\Entity\Repository\TrackingHistoryRepository")
  * @ORM\Table(name="tracking_history")
@@ -21,9 +18,8 @@ use IDCI\Bundle\NotificationBundle\Exception\NotificationFieldParseErrorExceptio
  */
 class TrackingHistory
 {
-
     /**
-     * @var integer
+     * @var int
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -61,7 +57,7 @@ class TrackingHistory
     protected $notification;
 
     /**
-     * On create
+     * On create.
      *
      * @ORM\PrePersist()
      */
@@ -72,9 +68,9 @@ class TrackingHistory
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -82,7 +78,7 @@ class TrackingHistory
     }
 
     /**
-     * Set action
+     * Set action.
      *
      * @param string $action
      *
@@ -96,7 +92,7 @@ class TrackingHistory
     }
 
     /**
-     * Get action
+     * Get action.
      *
      * @return string
      */
@@ -106,7 +102,7 @@ class TrackingHistory
     }
 
     /**
-     * Set origin
+     * Set origin.
      *
      * @param string $origin
      *
@@ -120,7 +116,7 @@ class TrackingHistory
     }
 
     /**
-     * Get origin
+     * Get origin.
      *
      * @return string
      */
@@ -130,7 +126,7 @@ class TrackingHistory
     }
 
     /**
-     * Set context
+     * Set context.
      *
      * @param string $context
      *
@@ -144,7 +140,7 @@ class TrackingHistory
     }
 
     /**
-     * Get context
+     * Get context.
      *
      * @return string
      */
@@ -154,7 +150,7 @@ class TrackingHistory
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -168,7 +164,7 @@ class TrackingHistory
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -178,7 +174,7 @@ class TrackingHistory
     }
 
     /**
-     * Set notification
+     * Set notification.
      *
      * @param \IDCI\Bundle\NotificationBundle\Entity\Notification $notification
      *
@@ -192,7 +188,7 @@ class TrackingHistory
     }
 
     /**
-     * Get notification
+     * Get notification.
      *
      * @return \IDCI\Bundle\NotificationBundle\Entity\Notification
      */

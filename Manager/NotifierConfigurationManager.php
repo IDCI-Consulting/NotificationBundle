@@ -1,35 +1,31 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Manager;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use IDCI\Bundle\NotificationBundle\Event\NotifierConfigurationEvent;
 use IDCI\Bundle\NotificationBundle\Event\NotifierConfigurationEvents;
 
 class NotifierConfigurationManager extends AbstractManager
 {
     /**
-     * Get Repository
+     * Get Repository.
      *
      * @return \Doctrine\ORM\EntityManager\EntityRepository
      */
     protected function getRepository()
     {
-        return $this->getObjectManager()->getRepository("IDCINotificationBundle:NotifierConfiguration");
+        return $this->getObjectManager()->getRepository('IDCINotificationBundle:NotifierConfiguration');
     }
 
     /**
      * Add
-     * Use the object manager to add (persist) the given object
+     * Use the object manager to add (persist) the given object.
      *
      * @param object $entity
      */
@@ -50,7 +46,7 @@ class NotifierConfigurationManager extends AbstractManager
 
     /**
      * Update
-     * Use the object manager to update (persist) the given object
+     * Use the object manager to update (persist) the given object.
      *
      * @param object $entity
      */
@@ -71,7 +67,7 @@ class NotifierConfigurationManager extends AbstractManager
 
     /**
      * Delete
-     * Use the object manager to delete (remove) the given object
+     * Use the object manager to delete (remove) the given object.
      *
      * @param object $entity
      */

@@ -1,11 +1,9 @@
 <?php
 
 /**
- * 
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Exception;
@@ -13,7 +11,7 @@ namespace IDCI\Bundle\NotificationBundle\Exception;
 class UnavailableNotificationDataException extends \Exception
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $errorList
      */
@@ -22,4 +20,3 @@ class UnavailableNotificationDataException extends \Exception
         parent::__construct(print_r($errorList, true), 0, null);
     }
 }
-

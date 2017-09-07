@@ -1,17 +1,14 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Tests\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Notifier\TwitterNotifier;
-use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class TwitterNotifierTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,14 +28,14 @@ class TwitterNotifierTest extends \PHPUnit_Framework_TestCase
         ;
         $data = array(
             'from' => array(
-                'consumerKey'            => 'abcd1234',
-                'consumerSecret'         => 'efgh56789',
-                'oauthAccessToken'       => 'ihjk1234',
-                'oauthAccessTokenSecret' => 'lmjn56789'
+                'consumerKey' => 'abcd1234',
+                'consumerSecret' => 'efgh56789',
+                'oauthAccessToken' => 'ihjk1234',
+                'oauthAccessTokenSecret' => 'lmjn56789',
             ),
             'content' => array(
-                "status" => "test"
-            )
+                'status' => 'test',
+            ),
         );
 
         $twitterNotifier = new TwitterNotifier($entityManager, array(), $apiClient);
@@ -49,7 +46,7 @@ class TwitterNotifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\OptionsResolver\Exception\MissingOptionsException
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\MissingOptionsException
      */
     public function testCleanDataWithInvalidData()
     {
@@ -68,14 +65,14 @@ class TwitterNotifierTest extends \PHPUnit_Framework_TestCase
 
         $data = array(
             'from' => array(
-                'consumerKey'            => 'abcd1234',
-                'consumerSecret'         => 'efgh56789',
-                'oauthAccessToken'       => 'ihjk1234',
-                'oauthAccessTokenSecret' => 'lmjn56789'
+                'consumerKey' => 'abcd1234',
+                'consumerSecret' => 'efgh56789',
+                'oauthAccessToken' => 'ihjk1234',
+                'oauthAccessTokenSecret' => 'lmjn56789',
             ),
             'content' => array(
                 //"status" => "test" //Simulate a missing required field.
-            )
+            ),
         );
 
         $twitterNotifier = new TwitterNotifier($entityManager, array(), $apiClient);

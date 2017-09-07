@@ -8,7 +8,6 @@
 namespace IDCI\Bundle\NotificationBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class NotifierChoiceType extends AbstractType
@@ -19,7 +18,7 @@ class NotifierChoiceType extends AbstractType
     private $notifiers;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $notifiers
      */
@@ -34,7 +33,7 @@ class NotifierChoiceType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'choices' => $this->notifiers
+            'choices' => $this->notifiers,
         ));
     }
 

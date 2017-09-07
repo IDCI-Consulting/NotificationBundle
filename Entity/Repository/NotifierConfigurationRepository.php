@@ -7,10 +7,8 @@
 
 namespace IDCI\Bundle\NotificationBundle\Entity\Repository;
 
-use Doctrine\ORM\EntityRepository;
-
 /**
- * NotifierConfigurationRepository
+ * NotifierConfigurationRepository.
  */
 class NotifierConfigurationRepository extends AbstractEntityRepository
 {

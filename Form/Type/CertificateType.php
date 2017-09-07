@@ -9,7 +9,6 @@ namespace IDCI\Bundle\NotificationBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -18,7 +17,7 @@ class CertificateType extends AbstractType
     protected $configuration;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $configuration
      */
@@ -28,7 +27,7 @@ class CertificateType extends AbstractType
     }
 
     /**
-     * Get certificates directory
+     * Get certificates directory.
      *
      * @return string
      */
@@ -51,7 +50,7 @@ class CertificateType extends AbstractType
     }
 
     /**
-     * On pre bind data
+     * On pre bind data.
      *
      * @param FormEvent $event
      */
@@ -60,7 +59,7 @@ class CertificateType extends AbstractType
         $data = $event->getData();
         $uploadedCertificate = $data['file'];
 
-        if(null === $uploadedCertificate) {
+        if (null === $uploadedCertificate) {
             return;
         }
 
@@ -70,7 +69,7 @@ class CertificateType extends AbstractType
         );
 
         if (file_exists($certificatePath)) {
-            throw new \Exception("A certificate with the same name already exist");
+            throw new \Exception('A certificate with the same name already exist');
         }
 
         $certificate = $uploadedCertificate->move(
@@ -83,10 +82,6 @@ class CertificateType extends AbstractType
 
     /**
      * {@inheritdoc}
-    public function getParent()
-    {
-        return 'text';
-    }
      */
 
     /**

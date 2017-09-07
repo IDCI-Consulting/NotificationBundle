@@ -7,9 +7,7 @@
 
 namespace IDCI\Bundle\NotificationBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use IDCI\Bundle\NotificationBundle\Notifier\NotifierInterface;
 use IDCI\Bundle\NotificationBundle\Form\NotificationType;
 
@@ -19,9 +17,9 @@ class AbstractNotificationType extends NotificationType
     private $notifier;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param string $name
+     * @param string            $name
      * @param NotifierInterface $notifier
      */
     public function __construct($name, NotifierInterface $notifier)
@@ -45,7 +43,7 @@ class AbstractNotificationType extends NotificationType
             $builder->remove('from');
         } else {
             $builder->add('from', 'metadata', array(
-                'fields' => $this->notifier->getFromFields()
+                'fields' => $this->notifier->getFromFields(),
             ));
         }
 
@@ -53,7 +51,7 @@ class AbstractNotificationType extends NotificationType
             $builder->remove('to');
         } else {
             $builder->add('to', 'metadata', array(
-                'fields' => $this->notifier->getToFields()
+                'fields' => $this->notifier->getToFields(),
             ));
         }
 
@@ -61,7 +59,7 @@ class AbstractNotificationType extends NotificationType
             $builder->remove('content');
         } else {
             $builder->add('content', 'metadata', array(
-                'fields' => $this->notifier->getContentFields()
+                'fields' => $this->notifier->getContentFields(),
             ));
         }
     }

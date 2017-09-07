@@ -7,9 +7,7 @@
 
 namespace IDCI\Bundle\NotificationBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use IDCI\Bundle\NotificationBundle\Notifier\NotifierInterface;
 use IDCI\Bundle\NotificationBundle\Form\NotifierConfigurationType;
 
@@ -19,9 +17,9 @@ class AbstractNotifierConfigurationType extends NotifierConfigurationType
     private $notifier;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param string $name
+     * @param string            $name
      * @param NotifierInterface $notifier
      */
     public function __construct($name, NotifierInterface $notifier)
@@ -42,7 +40,7 @@ class AbstractNotifierConfigurationType extends NotifierConfigurationType
 
         if ($this->notifier->getFromFields()) {
             $builder->add('configuration', 'metadata', array(
-                'fields' => $this->notifier->getFromFields()
+                'fields' => $this->notifier->getFromFields(),
             ));
         }
     }

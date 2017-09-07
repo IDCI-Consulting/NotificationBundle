@@ -1,10 +1,8 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Form;
@@ -23,7 +21,7 @@ class NotificationType extends AbstractType
     {
         $builder
             ->add('status', 'choice', array(
-                'choices' => Notification::getStatusList()
+                'choices' => Notification::getStatusList(),
             ))
             ->add('type', 'notifier_choice')
             ->add('notifierAlias')
@@ -42,7 +40,7 @@ class NotificationType extends AbstractType
     {
         $resolver
             ->setDefaults(array(
-                'data_class' => 'IDCI\Bundle\NotificationBundle\Entity\Notification'
+                'data_class' => 'IDCI\Bundle\NotificationBundle\Entity\Notification',
             ))
         ;
     }

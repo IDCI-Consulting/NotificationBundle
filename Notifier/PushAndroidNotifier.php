@@ -1,18 +1,14 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
-use Doctrine\ORM\EntityManager;
-use Da\ApiClientBundle\Http\Rest\RestApiClientInterface;
 use IDCI\Bundle\NotificationBundle\Exception\PushAndroidNotifierException;
 
 class PushAndroidNotifier extends AbstractNotifier
@@ -29,40 +25,42 @@ class PushAndroidNotifier extends AbstractNotifier
     }
 
     /**
-     * Build the GCM message
+     * Build the GCM message.
      *
      * @param notification $notification
+     *
      * @return string
      */
     public static function buildGcmMessage(notification $notification)
     {
         $gcmMessage = array(
-            'message'    => $notification->getContent('message'),
-            'vibrate'    => 1,
-            'sound'      => 1
+            'message' => $notification->getContent('message'),
+            'vibrate' => 1,
+            'sound' => 1,
         );
 
         $gcmFields = array(
             'delay_while_idle' => true,
             'registration_ids' => array($notification->getTo('deviceToken')),
-            'data'             => $gcmMessage
+            'data' => $gcmMessage,
         );
 
         return json_encode($gcmFields);
     }
 
     /**
-     * Send push android
+     * Send push android.
      *
      * @param string $apiKey
      * @param string $message
-     * @return boolean
+     *
+     * @return bool
      */
     public static function sendPushAndroid($apiKey, $message)
     {
         $headers = array(
-            'Authorization: key=' . $apiKey,
-            'Content-Type: application/json'
+            'Authorization: key='.$apiKey,
+            'Content-Type: application/json',
         );
 
         $ch = curl_init();

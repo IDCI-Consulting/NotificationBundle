@@ -7,16 +7,13 @@ use IDCI\Bundle\NotificationBundle\Entity\TrackingHistory;
 use IDCI\Bundle\NotificationBundle\Controller\TrackingPixelResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class GeneratorController
- *
- * @package Tms\Bundle\DocumentBundle\Controller\Api
+ * Class GeneratorController.
  */
 class TrackingHistoryController extends Controller
 {

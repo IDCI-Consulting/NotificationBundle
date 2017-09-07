@@ -1,11 +1,9 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\DependencyInjection;
@@ -17,14 +15,14 @@ use Symfony\Component\DependencyInjection\Loader;
 use IDCI\Bundle\NotificationBundle\Exception\UndefindedArgumentException;
 
 /**
- * This is the class that loads and manages your bundle configuration
+ * This is the class that loads and manages your bundle configuration.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
 class IDCINotificationExtension extends Extension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -47,6 +45,5 @@ class IDCINotificationExtension extends Extension
             'idci_notification.notifiers.email.tracking_url',
             $config['notifiers']['email']['tracking_url']
         );
-
     }
 }

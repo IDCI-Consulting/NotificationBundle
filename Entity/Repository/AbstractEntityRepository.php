@@ -11,14 +11,14 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * AbstractEntityRepository
+ * AbstractEntityRepository.
  */
 abstract class AbstractEntityRepository extends EntityRepository
 {
     /**
-     * Find by query builder
+     * Find by query builder.
      *
-     * @param array $criteria
+     * @param array      $criteria
      * @param array|null $orderBy
      *
      * @return \Doctrine\ORM\QueryBuilder
@@ -27,9 +27,9 @@ abstract class AbstractEntityRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('entity');
 
-        if(!is_null($orderBy)) {
-            foreach($orderBy as $field => $order) {
-                $qb->addOrderBy(sprintf("entity.%s", $field), $order);
+        if (!is_null($orderBy)) {
+            foreach ($orderBy as $field => $order) {
+                $qb->addOrderBy(sprintf('entity.%s', $field), $order);
             }
         }
 
@@ -39,9 +39,9 @@ abstract class AbstractEntityRepository extends EntityRepository
     }
 
     /**
-     * Find by query
+     * Find by query.
      *
-     * @param array $criteria
+     * @param array      $criteria
      * @param array|null $orderBy
      *
      * @return \Doctrine\ORM\Query
@@ -52,7 +52,7 @@ abstract class AbstractEntityRepository extends EntityRepository
     }
 
     /**
-     * Find all query builder
+     * Find all query builder.
      *
      * @param array|null $orderBy
      *
@@ -64,7 +64,7 @@ abstract class AbstractEntityRepository extends EntityRepository
     }
 
     /**
-     * Find all query
+     * Find all query.
      *
      * @param array|null $orderBy
      *
@@ -76,13 +76,13 @@ abstract class AbstractEntityRepository extends EntityRepository
     }
 
     /**
-     * addCriteria
+     * addCriteria.
      *
      * @param QueryBuilder $qb
-     * @param string $sourceEntity
-     * @param array $criteria
+     * @param string       $sourceEntity
+     * @param array        $criteria
      */
-    public function addCriteria(QueryBuilder & $qb, $sourceEntity, array $criteria)
+    public function addCriteria(QueryBuilder &$qb, $sourceEntity, array $criteria)
     {
         foreach ($criteria as $field => $value) {
             if (null === $value || (is_array($value) && empty($value))) {
@@ -103,15 +103,15 @@ abstract class AbstractEntityRepository extends EntityRepository
     }
 
     /**
-     * addJoin
+     * addJoin.
      *
      * @param QueryBuilder $qb
      * @param string       $relatedEntity
      * @param string       $sourceEntity
      * @param array        $relatedEntityCriteria
-     * @param string       $operation (default 'eq')
+     * @param string       $operation             (default 'eq')
      */
-    protected static function addJoin(QueryBuilder & $qb, $sourceEntity, $relatedEntity, array $relatedEntityCriteria = array(), $operation = 'eq')
+    protected static function addJoin(QueryBuilder &$qb, $sourceEntity, $relatedEntity, array $relatedEntityCriteria = array(), $operation = 'eq')
     {
         $qb->join(sprintf('%s.%s', $sourceEntity, $relatedEntity), $relatedEntity);
 
@@ -121,21 +121,21 @@ abstract class AbstractEntityRepository extends EntityRepository
     }
 
     /**
-     * addWhere
+     * addWhere.
      *
      * @param QueryBuilder $qb
      * @param string       $relatedEntity
      * @param string       $field
      * @param string       $value
-     * @param string       $operation (default 'eq')
+     * @param string       $operation     (default 'eq')
      */
-    protected static function addWhere(QueryBuilder & $qb, $relatedEntity, $field, $value, $operation = 'eq')
+    protected static function addWhere(QueryBuilder &$qb, $relatedEntity, $field, $value, $operation = 'eq')
     {
         $qb->andWhere(call_user_func_array(
             array($qb->expr(), $operation),
             array(
                 sprintf('%s.%s', $relatedEntity, $field),
-                $value
+                $value,
             )
         ));
     }

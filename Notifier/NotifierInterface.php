@@ -1,32 +1,29 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 interface NotifierInterface
 {
     /**
-     * Send notification
+     * Send notification.
      *
      * @param Notification $notification
      *
-     * @return boolean
+     * @return bool
      */
     public function sendNotification(Notification $notification);
 
     /**
-     * Get configuration
+     * Get configuration.
      *
      * @param Notification $notification
      *
@@ -35,28 +32,28 @@ interface NotifierInterface
     public function getConfiguration(Notification $notification);
 
     /**
-     * Get To Fields
+     * Get To Fields.
      *
      * @return array|false
      */
     public function getToFields();
 
     /**
-     * Get Content Fields
+     * Get Content Fields.
      *
      * @return array|false
      */
     public function getContentFields();
 
     /**
-     * Get From Fields
+     * Get From Fields.
      *
      * @return array|false
      */
     public function getFromFields();
 
     /**
-     * Clean data
+     * Clean data.
      *
      * @param array $data The data to be checked
      *
@@ -65,7 +62,7 @@ interface NotifierInterface
     public function cleanData($data);
 
     /**
-     * Clean empty value
+     * Clean empty value.
      *
      * @param array $data The data to be cleaned
      *

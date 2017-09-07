@@ -1,9 +1,7 @@
 <?php
 /**
- *
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Exception;
@@ -11,7 +9,7 @@ namespace IDCI\Bundle\NotificationBundle\Exception;
 class EmptyFieldsConfigurationException extends \Exception
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $configuration
      */

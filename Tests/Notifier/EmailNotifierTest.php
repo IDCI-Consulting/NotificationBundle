@@ -1,11 +1,9 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Tests\Notifier;
@@ -27,7 +25,7 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->notifier = new EmailNotifier($entityManager, array(
-            'tracking_url' => 'http://dummy_url'
+            'tracking_url' => 'http://dummy_url',
         ));
 
         $this->notification = new Notification();
@@ -35,15 +33,15 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             ->setType('email')
             ->setFrom(json_encode(array(
                 'transport' => 'smtp',
-                "from" => "dummy@email.com",
-                "fromName" => "dummy@email.com",
-                "replyTo" => "dummy@email.com",
-                "server" => "server.smtp.fr",
-                "login" => "id_value",
-                "password" => "password",
-                "port" => 123,
-                "encryption" => "ssl",
-                "track" => true,
+                'from' => 'dummy@email.com',
+                'fromName' => 'dummy@email.com',
+                'replyTo' => 'dummy@email.com',
+                'server' => 'server.smtp.fr',
+                'login' => 'id_value',
+                'password' => 'password',
+                'port' => 123,
+                'encryption' => 'ssl',
+                'track' => true,
             )))
             ->setTo(json_encode(array(
                 'to' => 'test@mail.com',
@@ -96,15 +94,15 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
 
         $this->notification->setFrom(json_encode(array(
             'transport' => 'smtp',
-            "from" => "dummy@email.com",
-            "fromName" => "dummy@email.com",
-            "replyTo" => "dummy@email.com",
-            "server" => "server.smtp.fr",
-            "login" => "id_value",
-            "password" => "password",
-            "port" => 123,
-            "encryption" => "ssl",
-            "track" => false,
+            'from' => 'dummy@email.com',
+            'fromName' => 'dummy@email.com',
+            'replyTo' => 'dummy@email.com',
+            'server' => 'server.smtp.fr',
+            'login' => 'id_value',
+            'password' => 'password',
+            'port' => 123,
+            'encryption' => 'ssl',
+            'track' => false,
         )));
 
         $this->assertEquals('', $this->notifier->addTracker($this->notification));
@@ -114,27 +112,27 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
     {
         $data = array(
             'to' => array(
-                "to"  => "test@mail.com",
-                "cc"  => null,
-                "bcc" => null
+                'to' => 'test@mail.com',
+                'cc' => null,
+                'bcc' => null,
             ),
             'from' => array(
-                "transport"  => "smtp",
-                "from"       => "from_value",
-                "fromName"   => "from_name_value",
-                "replyTo"    => "reply_to_value",
-                "server"     => "server.smtp.fr",
-                "login"      => "id_value",
-                "password"   => "password",
-                "port"       => 123,
-                "encryption" => "ssl"
+                'transport' => 'smtp',
+                'from' => 'from_value',
+                'fromName' => 'from_name_value',
+                'replyTo' => 'reply_to_value',
+                'server' => 'server.smtp.fr',
+                'login' => 'id_value',
+                'password' => 'password',
+                'port' => 123,
+                'encryption' => 'ssl',
             ),
             'content' => array(
-                "subject"     => "Test",
-                "message"     => "Test message",
-                "htmlMessage" => null,
-                "attachments" => null
-            )
+                'subject' => 'Test',
+                'message' => 'Test message',
+                'htmlMessage' => null,
+                'attachments' => null,
+            ),
         );
 
         $this->assertEquals(
@@ -144,33 +142,33 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\OptionsResolver\Exception\MissingOptionsException
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\MissingOptionsException
      */
     public function testCleanDataWithInvalidData()
     {
         $data = array(
             'to' => array(
-                "to"  => "test@mail.com",
-                "cc"  => null,
-                "bcc" => null
+                'to' => 'test@mail.com',
+                'cc' => null,
+                'bcc' => null,
             ),
             'from' => array(
-                "transport"  => "smtp",
-                "from"       => "from_value",
-                "fromName"   => "from_name_value",
-                "replyTo"    => "reply_to_value",
-                "server"     => "server.smtp.fr",
-                "login"      => "id_value",
-                "password"   => "password",
-                "port"       => 123,
-                "encryption" => "ssl"
+                'transport' => 'smtp',
+                'from' => 'from_value',
+                'fromName' => 'from_name_value',
+                'replyTo' => 'reply_to_value',
+                'server' => 'server.smtp.fr',
+                'login' => 'id_value',
+                'password' => 'password',
+                'port' => 123,
+                'encryption' => 'ssl',
             ),
             'content' => array(
                 //"subject"     => "Test", //Simulate a missing required field.
-                "message"     => "Test message",
-                "htmlMessage" => null,
-                "attachments" => null
-            )
+                'message' => 'Test message',
+                'htmlMessage' => null,
+                'attachments' => null,
+            ),
         );
 
         $data = $this->notifier->cleanData($data);

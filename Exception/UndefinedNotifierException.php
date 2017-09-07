@@ -1,11 +1,9 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Exception;
@@ -13,7 +11,7 @@ namespace IDCI\Bundle\NotificationBundle\Exception;
 class UndefinedNotifierException extends \Exception
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $notifierServiceName
      */
@@ -29,4 +27,3 @@ class UndefinedNotifierException extends \Exception
         );
     }
 }
-

@@ -1,11 +1,9 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
@@ -45,11 +43,12 @@ class PushIOSNotifier extends AbstractNotifier
     }
 
     /**
-     * Init the socket connexion
+     * Init the socket connexion.
      *
-     * @param  bool              $useSandbox
-     * @param  string            $certificate
-     * @param  string            $passphrase
+     * @param bool   $useSandbox
+     * @param string $certificate
+     * @param string $passphrase
+     *
      * @return persistent stream $socket
      * @thrown IOSPushNotifierException
      */
@@ -69,7 +68,7 @@ class PushIOSNotifier extends AbstractNotifier
             $err,
             $errstr,
             60,
-            STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT,
+            STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT,
             $ctx
         );
 
@@ -85,11 +84,12 @@ class PushIOSNotifier extends AbstractNotifier
     }
 
     /**
-     * Send the payload using socket connexion
+     * Send the payload using socket connexion.
      *
-     * @param  persistent stream|false  $socket
-     * @param  string                   $binaryMessage
-     * @return boolean
+     * @param persistent stream|false $socket
+     * @param string                  $binaryMessage
+     *
+     * @return bool
      */
     public static function sendBinaryMessage($socket, $binaryMessage)
     {
@@ -100,10 +100,11 @@ class PushIOSNotifier extends AbstractNotifier
     }
 
     /**
-     * Build the binary notification
+     * Build the binary notification.
      *
      * @param string $deviceToken
      * @param string $message
+     *
      * @return string
      */
     protected function buildBinaryMessage($deviceToken, $message)
@@ -111,11 +112,11 @@ class PushIOSNotifier extends AbstractNotifier
         $payload = json_encode(array(
             'aps' => array(
                 'alert' => $message,
-                'sound' => 'default'
-            )
+                'sound' => 'default',
+            ),
         ));
 
-        return chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
+        return chr(0).pack('n', 32).pack('H*', $deviceToken).pack('n', strlen($payload)).$payload;
     }
 
     /**
@@ -124,7 +125,7 @@ class PushIOSNotifier extends AbstractNotifier
     public function getToFields()
     {
         return array(
-            'deviceToken' => array('text', array('required' => true))
+            'deviceToken' => array('text', array('required' => true)),
         );
     }
 
@@ -135,8 +136,8 @@ class PushIOSNotifier extends AbstractNotifier
     {
         return array(
             'certificate' => array('certificate', array('required' => false)),
-            'passphrase'  => array('text',        array('required' => false)),
-            'useSandbox'  => array('checkbox',    array('required' => false))
+            'passphrase' => array('text',        array('required' => false)),
+            'useSandbox' => array('checkbox',    array('required' => false)),
         );
     }
 
@@ -147,7 +148,7 @@ class PushIOSNotifier extends AbstractNotifier
     {
         //256 characters max (38 characters used for others fields)
         return array(
-            'message' => array('text', array('required' => true, 'max_length' => 218))
+            'message' => array('text', array('required' => true, 'max_length' => 218)),
         );
     }
 }

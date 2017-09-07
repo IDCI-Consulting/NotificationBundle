@@ -1,10 +1,8 @@
 <?php
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Exception;
@@ -12,7 +10,7 @@ namespace IDCI\Bundle\NotificationBundle\Exception;
 class UndefinedNotifierConfigurationException extends \Exception
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $alias
      * @param string $type
@@ -30,4 +28,3 @@ class UndefinedNotifierConfigurationException extends \Exception
         parent::__construct($message, 0, null);
     }
 }
-

@@ -1,18 +1,15 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @author:  Rémy MENCE <remy.mence@gmail.com>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class EmailNotifier extends AbstractNotifier
@@ -76,7 +73,7 @@ class EmailNotifier extends AbstractNotifier
     }
 
     /**
-     * Build html tag "<img>" to track readed email with notification
+     * Build html tag "<img>" to track readed email with notification.
      *
      * @param Notification $notification
      *
@@ -92,14 +89,14 @@ class EmailNotifier extends AbstractNotifier
 
         return sprintf(
             '<img alt="picto" src="%s?notification_id=%s&action=%s" width="1" height="1" border="0" />',
-            $this->defaultConfiguration["tracking_url"],
+            $this->defaultConfiguration['tracking_url'],
             $notification->getId(),
             'open'
         );
     }
 
     /**
-     * get mailer
+     * get mailer.
      *
      * @param array $configuration
      *
@@ -116,7 +113,7 @@ class EmailNotifier extends AbstractNotifier
     }
 
     /**
-     * Initialize a sendmail transport
+     * Initialize a sendmail transport.
      *
      * @return Swift_SendmailTransport
      */
@@ -126,7 +123,7 @@ class EmailNotifier extends AbstractNotifier
     }
 
     /**
-     * Initialize a mail transport
+     * Initialize a mail transport.
      *
      * @return Swift_MailTransport
      */
@@ -136,7 +133,7 @@ class EmailNotifier extends AbstractNotifier
     }
 
     /**
-     * Initialize a smtp transport
+     * Initialize a smtp transport.
      *
      * @param array $configuration
      *
@@ -163,9 +160,9 @@ class EmailNotifier extends AbstractNotifier
     public function getToFields()
     {
         return array(
-            'to'  => array('email', array('required' => true,  'trim' => true)),
-            'cc'  => array('email', array('required' => false, 'trim' => true)),
-            'bcc' => array('email', array('required' => false, 'trim' => true))
+            'to' => array('email', array('required' => true,  'trim' => true)),
+            'cc' => array('email', array('required' => false, 'trim' => true)),
+            'bcc' => array('email', array('required' => false, 'trim' => true)),
         );
     }
 
@@ -175,10 +172,10 @@ class EmailNotifier extends AbstractNotifier
     public function getContentFields()
     {
         return array(
-            'subject'     => array('text',     array('required' => true)),
-            'message'     => array('textarea', array('required' => false)),
+            'subject' => array('text',     array('required' => true)),
+            'message' => array('textarea', array('required' => false)),
             'htmlMessage' => array('textarea', array('required' => false)),
-            'attachments' => array('text',     array('required' => false))
+            'attachments' => array('text',     array('required' => false)),
         );
     }
 
@@ -188,29 +185,29 @@ class EmailNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'transport'    => array('choice', array(
+            'transport' => array('choice', array(
                 'required' => false,
-                'choices'  => array(
-                    'smtp'     => 'smtp',
+                'choices' => array(
+                    'smtp' => 'smtp',
                     'sendmail' => 'sendmail',
-                    'mail'     => 'mail'
-                )
+                    'mail' => 'mail',
+                ),
             )),
-            'from'         => array('email',    array('required' => false, "trim" => true)),
-            'fromName'     => array('text',     array('required' => false)),
-            'replyTo'      => array('text',     array('required' => false)),
-            'server'       => array('text',     array('required' => false)),
-            'login'        => array('text',     array('required' => false)),
-            'password'     => array('password', array('required' => false)),
-            'port'         => array('integer',  array('required' => false)),
-            'encryption'   => array('choice',   array(
+            'from' => array('email',    array('required' => false, 'trim' => true)),
+            'fromName' => array('text',     array('required' => false)),
+            'replyTo' => array('text',     array('required' => false)),
+            'server' => array('text',     array('required' => false)),
+            'login' => array('text',     array('required' => false)),
+            'password' => array('password', array('required' => false)),
+            'port' => array('integer',  array('required' => false)),
+            'encryption' => array('choice',   array(
                 'required' => false,
-                'choices'  => array(
-                    'ssl'  => 'ssl',
-                    'tls'  => 'tls'
-                )
+                'choices' => array(
+                    'ssl' => 'ssl',
+                    'tls' => 'tls',
+                ),
             )),
-            'track'        => array('checkbox', array('required' => false))
+            'track' => array('checkbox', array('required' => false)),
         );
     }
 }

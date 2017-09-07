@@ -1,11 +1,9 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
@@ -20,7 +18,7 @@ class SmsOcitoNotifier extends AbstractNotifier
     protected $apiClient;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param EntityManager          $entityManager
      * @param array                  $defaultConfiguration
@@ -30,15 +28,14 @@ class SmsOcitoNotifier extends AbstractNotifier
         EntityManager $entityManager,
         $defaultConfiguration,
         RestApiClientInterface $apiClient
-    )
-    {
+    ) {
         $this->entityManager = $entityManager;
         $this->defaultConfiguration = $defaultConfiguration;
         $this->apiClient = $apiClient;
     }
 
     /**
-     * Get ApiClient
+     * Get ApiClient.
      *
      * @return RestApiClientInterface
      */
@@ -57,23 +54,24 @@ class SmsOcitoNotifier extends AbstractNotifier
             $this->buildQueryStringParameters($notification)
         );
 
-        if(!ereg("Status=0", $response)) {
+        if (!ereg('Status=0', $response)) {
             throw new SmsOcitoNotifierException(sprintf(
-                "[FAILED] : %s",
+                '[FAILED] : %s',
                 strip_tags($response)
             ));
         } else {
             $notification->addLog(sprintf(
-                "[SUCCESS] : %s",
+                '[SUCCESS] : %s',
                 strip_tags($response)
             ));
         }
     }
 
     /**
-     * GetQueryStringParameters
+     * GetQueryStringParameters.
      *
      * @param Notification $notification
+     *
      * @return array
      */
     protected function buildQueryStringParameters(Notification $notification)
@@ -81,11 +79,11 @@ class SmsOcitoNotifier extends AbstractNotifier
         $configuration = $this->getConfiguration($notification);
 
         $queryStringParameters = array(
-            'UserName'    => $configuration['userName'],
-            'Password'    => $configuration['password'],
-            'Content'     => $notification->getContent('message'),
-            'DA'          => $notification->getTo('phoneNumber'),
-            'Flags'       => $configuration['flag'],
+            'UserName' => $configuration['userName'],
+            'Password' => $configuration['password'],
+            'Content' => $notification->getContent('message'),
+            'DA' => $notification->getTo('phoneNumber'),
+            'Flags' => $configuration['flag'],
             'SenderAppId' => $configuration['senderAppId'],
             'SOA' => isset($configuration['senderId'])
                 ? $configuration['senderId']
@@ -98,16 +96,17 @@ class SmsOcitoNotifier extends AbstractNotifier
                 : null,
             'TimeToSend' => isset($configuration['timeToSendDuration'])
                 ? self::computeDate($configuration['timeToSendDuration'])
-                : null
+                : null,
         );
 
         return self::cleanQueryString($queryStringParameters);
     }
 
     /**
-     * CleanArray
+     * CleanArray.
      *
-     * @param  array $queryStringParameters
+     * @param array $queryStringParameters
+     *
      * @return array $queryStringParameters
      */
     public static function cleanQueryString(array $queryStringParameters)
@@ -122,9 +121,10 @@ class SmsOcitoNotifier extends AbstractNotifier
     }
 
     /**
-     * ComputeDate
+     * ComputeDate.
      *
-     * @param integer $duration in seconds
+     * @param int $duration in seconds
+     *
      * @return string
      */
     protected static function computeDate($duration)
@@ -141,24 +141,24 @@ class SmsOcitoNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'userName'    => array('text',    array('required' => false, 'max_length' => 30)),
-            'password'    => array('text',    array('required' => false, 'max_length' => 30)),
+            'userName' => array('text',    array('required' => false, 'max_length' => 30)),
+            'password' => array('text',    array('required' => false, 'max_length' => 30)),
             'senderAppId' => array('text',    array('required' => false, 'max_length' => 10)),
-            'senderId'    => array('text',    array('required' => false, 'max_length' => 11)),
-            'flag'        => array('integer', array(
-                'required'   => false,
+            'senderId' => array('text',    array('required' => false, 'max_length' => 11)),
+            'flag' => array('integer', array(
+                'required' => false,
                 'max_length' => 10,
-                'data'       => 3
+                'data' => 3,
             )),
-            'priority'    => array('choice', array(
+            'priority' => array('choice', array(
                 'required' => false,
                 'choices' => array(
                     'H' => 'high',
-                    'L' => 'low'
-                )
+                    'L' => 'low',
+                ),
             )),
             'timeToLiveDuration' => array('integer', array('required' => false)),
-            'timeToSendDuration' => array('integer', array('required' => false))
+            'timeToSendDuration' => array('integer', array('required' => false)),
         );
     }
 
@@ -168,7 +168,7 @@ class SmsOcitoNotifier extends AbstractNotifier
     public function getToFields()
     {
         return array(
-            'phoneNumber' => array('text', array('required' => true, 'max_length' => 30))
+            'phoneNumber' => array('text', array('required' => true, 'max_length' => 30)),
         );
     }
 
@@ -178,7 +178,7 @@ class SmsOcitoNotifier extends AbstractNotifier
     public function getContentFields()
     {
         return array(
-            'message' => array('text', array('required' => true, 'max_length' => 70))
+            'message' => array('text', array('required' => true, 'max_length' => 70)),
         );
     }
 }

@@ -1,21 +1,17 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Tests\Entity;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
-use IDCI\Bundle\NotificationBundle\Exception\NotificationFieldParseErrorException;
 
 class NotificationTest extends \PHPUnit_Framework_TestCase
 {
-
     public function getProvidedData()
     {
         $emailNotification = new Notification();
@@ -27,7 +23,7 @@ class NotificationTest extends \PHPUnit_Framework_TestCase
         ;
 
         return array(
-            array($emailNotification)
+            array($emailNotification),
         );
     }
 

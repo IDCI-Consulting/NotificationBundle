@@ -1,10 +1,8 @@
 <?php
 
 /**
- *
  * @author:  Remy MENCE <remy.mence@gmail.com>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Tests\Manager;
@@ -12,8 +10,6 @@ namespace IDCI\Bundle\NotificationBundle\Tests\Manager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\EntityManager;
-
-use IDCI\Bundle\NotificationBundle\Notifier\NotifierInterface;
 use IDCI\Bundle\NotificationBundle\Manager\NotificationManager;
 use IDCI\Bundle\NotificationBundle\Notifier\EmailNotifier;
 

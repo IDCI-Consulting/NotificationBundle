@@ -6,7 +6,7 @@ use Symfony\Component\EventDispatcher\Event;
 use IDCI\Bundle\NotificationBundle\Entity\TrackingHistory;
 
 /**
- * TrackingHistoryEvent
+ * TrackingHistoryEvent.
  *
  * @author Rémy MENCE <remymence@gmail.com>
  */
@@ -15,7 +15,7 @@ class TrackingHistoryEvent extends Event
     protected $trackingHistory;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param TrackingHistory $trackingHistory
      */
@@ -25,7 +25,7 @@ class TrackingHistoryEvent extends Event
     }
 
     /**
-     * Get Object
+     * Get Object.
      *
      * @return TrackingHistory
      */

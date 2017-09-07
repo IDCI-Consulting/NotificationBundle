@@ -1,10 +1,8 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Controller\Rest;
@@ -12,7 +10,6 @@ namespace IDCI\Bundle\NotificationBundle\Controller\Rest;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Util\Codes;
 use JMS\Serializer\SerializationContext;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
@@ -20,13 +17,13 @@ use IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierException;
 use IDCI\Bundle\NotificationBundle\Exception\NotificationParametersParseErrorException;
 
 /**
- * Notification API REST controller
+ * Notification API REST controller.
  */
 class ApiNotificationController extends FOSRestController
 {
     /**
      * [GET] /notifications
-     * Retrieve a set of notifications
+     * Retrieve a set of notifications.
      *
      * @QueryParam(name="limit", requirements="\d+", default=20, strict=true, nullable=true, description="(optional) Pagination limit")
      * @QueryParam(name="offset", requirements="\d+", strict=true, nullable=true, description="(optional) Pagination offet")
@@ -35,10 +32,9 @@ class ApiNotificationController extends FOSRestController
      * @param string $offset
      */
     public function getNotificationsAction(
-        $limit    = null,
-        $offset   = null
-    )
-    {
+        $limit = null,
+        $offset = null
+    ) {
         $criteria = array();
         $entities = $this
             ->get('idci_notification.manager.notification')
@@ -53,7 +49,7 @@ class ApiNotificationController extends FOSRestController
 
     /**
      * [GET] /notifications/{id}
-     * Retrieve a notification
+     * Retrieve a notification.
      *
      * @param string $id
      */
@@ -69,7 +65,7 @@ class ApiNotificationController extends FOSRestController
         $context = SerializationContext::create()->setGroups(array('details'));
         $view = $this->view(
             array('class' => get_class($entity),
-                  'data'  => $entity,
+                  'data' => $entity,
             ),
             Codes::HTTP_OK
         );
@@ -79,7 +75,7 @@ class ApiNotificationController extends FOSRestController
     }
 
     /**
-     * [POST] /notifications
+     * [POST] /notifications.
      *
      * Create a notification
      */
@@ -105,7 +101,7 @@ class ApiNotificationController extends FOSRestController
                     throw new UndefinedNotifierException($notificationType);
                 }
             }
-        } catch(UndefinedNotifierException $e) {
+        } catch (UndefinedNotifierException $e) {
             return $this->handleView($this->view(
                 array('message' => $e->getMessage()),
                 Codes::HTTP_NOT_IMPLEMENTED

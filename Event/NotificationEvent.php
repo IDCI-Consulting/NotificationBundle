@@ -6,7 +6,7 @@ use Symfony\Component\EventDispatcher\Event;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 /**
- * NotificationEvent
+ * NotificationEvent.
  *
  * @author Gabriel Bondaz <gabriel.bondaz@idci-consulting.fr>
  */
@@ -15,7 +15,7 @@ class NotificationEvent extends Event
     protected $notification;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Notification $notification
      */
@@ -25,7 +25,7 @@ class NotificationEvent extends Event
     }
 
     /**
-     * Get Object
+     * Get Object.
      *
      * @return Notification
      */

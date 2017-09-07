@@ -1,11 +1,9 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Tests\Notifier;
@@ -32,22 +30,23 @@ class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
         $this->notification
             ->setType('push_android')
             ->setFrom(json_encode(array('apiKey' => 'http://dummy_url')))
-            ->setTo(json_encode(array("deviceToken" => "abcd1234")))
-            ->setContent(json_encode(array("message" => "test")))
+            ->setTo(json_encode(array('deviceToken' => 'abcd1234')))
+            ->setContent(json_encode(array('message' => 'test')))
         ;
     }
+
     public function testCleanDataWithValidData()
     {
         $data = array(
             'to' => array(
-                "deviceToken" => "abcd1234"
+                'deviceToken' => 'abcd1234',
             ),
             'from' => array(
-                "apiKey" => "123456"
+                'apiKey' => '123456',
             ),
             'content' => array(
-                "message" => "test"
-            )
+                'message' => 'test',
+            ),
         );
 
         $this->assertEquals(
@@ -57,7 +56,7 @@ class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\OptionsResolver\Exception\MissingOptionsException
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\MissingOptionsException
      */
     public function testCleanDataWithInvalidData()
     {
@@ -67,11 +66,11 @@ class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
                 //"deviceToken" => "abcd1234"
             ),
             'from' => array(
-                "apiKey" => "123456"
+                'apiKey' => '123456',
             ),
             'content' => array(
-                "message" => "test"
-            )
+                'message' => 'test',
+            ),
         );
 
         $data = $this->notifier->cleanData($data);
@@ -80,15 +79,15 @@ class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
     public function testBuildGcmMessage()
     {
         $gcmMessage = array(
-            'message'    => "test",
-            'vibrate'    => 1,
-            'sound'      => 1
+            'message' => 'test',
+            'vibrate' => 1,
+            'sound' => 1,
         );
 
         $gcmFields = array(
             'delay_while_idle' => true,
-            'registration_ids' => array("abcd1234"),
-            'data'             => $gcmMessage
+            'registration_ids' => array('abcd1234'),
+            'data' => $gcmMessage,
         );
 
         $this->assertEquals(
@@ -98,11 +97,10 @@ class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException IDCI\Bundle\NotificationBundle\Exception\PushAndroidNotifierException
+     * @expectedException \IDCI\Bundle\NotificationBundle\Exception\PushAndroidNotifierException
      */
     public function testPushAndroidNotifierException()
     {
         $this->notifier->sendPushAndroid($this->notification->getFrom(), $this->notification->getContent());
     }
-
 }

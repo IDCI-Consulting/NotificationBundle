@@ -1,10 +1,8 @@
 <?php
 
 /**
- *
  * @author:  Rémy MENCE <remymence@gmail.com>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Form;
@@ -12,7 +10,6 @@ namespace IDCI\Bundle\NotificationBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use IDCI\Bundle\NotificationBundle\Entity\TrackingHistory;
 
 class TrackingHistoryType extends AbstractType
 {
@@ -35,7 +32,7 @@ class TrackingHistoryType extends AbstractType
     {
         $resolver
             ->setDefaults(array(
-                'data_class' => 'IDCI\Bundle\NotificationBundle\Entity\TrackingHistory'
+                'data_class' => 'IDCI\Bundle\NotificationBundle\Entity\TrackingHistory',
             ));
     }
 

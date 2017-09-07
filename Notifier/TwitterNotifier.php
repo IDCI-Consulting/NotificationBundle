@@ -1,12 +1,10 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Notifier;
@@ -14,14 +12,13 @@ namespace IDCI\Bundle\NotificationBundle\Notifier;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use Doctrine\ORM\EntityManager;
 use Da\ApiClientBundle\Http\Rest\RestApiClientInterface;
-use IDCI\Bundle\NotificationBundle\Exception\UndefindedArgumentException;
 
 class TwitterNotifier extends AbstractNotifier
 {
     protected $apiClient;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param EntityManager          $entityManager
      * @param array                  $defaultConfiguration
@@ -35,7 +32,7 @@ class TwitterNotifier extends AbstractNotifier
     }
 
     /**
-     * Get ApiClient
+     * Get ApiClient.
      *
      * @return RestApiClientInterface
      */
@@ -53,18 +50,19 @@ class TwitterNotifier extends AbstractNotifier
         $response = $this->getApiClient()->post(
             $path,
             $notification->getContentDecoded(),
-            $this->buildHeaders($path, "POST", $notification)
+            $this->buildHeaders($path, 'POST', $notification)
         );
 
         return (null !== $response) ? true : false;
     }
 
     /**
-     * Build headers
+     * Build headers.
      *
      * @param string       $path
      * @param string       $requestMethod
      * @param Notification $notification
+     *
      * @return array
      */
     protected function buildHeaders($path, $requestMethod, Notification $notification)
@@ -78,22 +76,23 @@ class TwitterNotifier extends AbstractNotifier
     }
 
     /**
-     * Build an Oauth object
+     * Build an Oauth object.
      *
      * @param string $path
      * @param string $requestMethod
      * @param array  $configuration
+     *
      * @return array $oauth
      */
     protected function buildOauth($path, $requestMethod, $configuration)
     {
         $oauth = array(
-            'oauth_consumer_key'     => $configuration['consumerKey'],
-            'oauth_nonce'            => time(),
+            'oauth_consumer_key' => $configuration['consumerKey'],
+            'oauth_nonce' => time(),
             'oauth_signature_method' => 'HMAC-SHA1',
-            'oauth_token'            => $configuration['oauthAccessToken'],
-            'oauth_timestamp'        => time(),
-            'oauth_version'          => '1.0'
+            'oauth_token' => $configuration['oauthAccessToken'],
+            'oauth_timestamp' => time(),
+            'oauth_version' => '1.0',
         );
 
         $baseStringCurl = $this->buildBaseStringCurl(
@@ -102,7 +101,7 @@ class TwitterNotifier extends AbstractNotifier
             $oauth
         );
 
-        $compositeKey = rawurlencode($configuration['consumerSecret']). '&' . rawurlencode($configuration['oauthAccessTokenSecret']);
+        $compositeKey = rawurlencode($configuration['consumerSecret']).'&'.rawurlencode($configuration['oauthAccessTokenSecret']);
         $oauthSignature = base64_encode(hash_hmac('sha1', $baseStringCurl, $compositeKey, true));
         $oauth['oauth_signature'] = $oauthSignature;
 
@@ -110,11 +109,12 @@ class TwitterNotifier extends AbstractNotifier
     }
 
     /**
-     * Build the base string in order to generate oauth signature
+     * Build the base string in order to generate oauth signature.
      *
      * @param string $path
      * @param string $requestMethod
      * @param array  $oauth
+     *
      * @return string
      */
     protected function buildBaseStringCurl($path, $requestMethod, $oauth)
@@ -123,30 +123,32 @@ class TwitterNotifier extends AbstractNotifier
         $baseStringValues = array();
         ksort($oauth);
 
-        foreach($oauth as $key => $value) {
-            $baseStringValues[] = $key. "=" . $value;
+        foreach ($oauth as $key => $value) {
+            $baseStringValues[] = $key.'='.$value;
         }
 
-        return $requestMethod . '&' . rawurlencode($absolutePath) . '&' . rawurlencode(implode('&', $baseStringValues));
+        return $requestMethod.'&'.rawurlencode($absolutePath).'&'.rawurlencode(implode('&', $baseStringValues));
     }
 
     /**
-     * Build absolute path
+     * Build absolute path.
      *
      * @param string $path
+     *
      * @return string
      */
     protected function buildAbsolutePath($path)
     {
         $endPointRoot = $this->getApiClient()->getEndpointRoot();
 
-        return $endPointRoot . $path;
+        return $endPointRoot.$path;
     }
 
     /**
-     * Build the authorization header
+     * Build the authorization header.
      *
-     * @param  array  $oauth
+     * @param array $oauth
+     *
      * @return string $authorizationHeader
      */
     protected function buildAuthorizationHeader($oauth)
@@ -155,7 +157,7 @@ class TwitterNotifier extends AbstractNotifier
         $values = array();
 
         foreach ($oauth as $key => $value) {
-            $values[] = $key . "=\"" . rawurlencode($value) . "\"";
+            $values[] = $key.'="'.rawurlencode($value).'"';
         }
 
         $authorizationHeader .= implode(',', $values);
@@ -169,10 +171,10 @@ class TwitterNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'consumerKey'            => array('text', array('required' => false)),
-            'consumerSecret'         => array('text', array('required' => false)),
-            'oauthAccessToken'       => array('text', array('required' => false)),
-            'oauthAccessTokenSecret' => array('text', array('required' => false))
+            'consumerKey' => array('text', array('required' => false)),
+            'consumerSecret' => array('text', array('required' => false)),
+            'oauthAccessToken' => array('text', array('required' => false)),
+            'oauthAccessTokenSecret' => array('text', array('required' => false)),
         );
     }
 
@@ -182,7 +184,7 @@ class TwitterNotifier extends AbstractNotifier
     public function getContentFields()
     {
         return array(
-            'status' => array('textarea', array('required' => true))
+            'status' => array('textarea', array('required' => true)),
         );
     }
 

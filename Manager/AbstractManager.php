@@ -1,10 +1,8 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Manager;
@@ -18,9 +16,9 @@ abstract class AbstractManager
     protected $eventDispatcher;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManager            $objectManager
      * @param EventDispatcherInterface $entityManager
      */
     public function __construct(ObjectManager $objectManager, EventDispatcherInterface $eventDispatcher)
@@ -30,7 +28,7 @@ abstract class AbstractManager
     }
 
     /**
-     * Get the object manager
+     * Get the object manager.
      *
      * @return ObjectManager
      */
@@ -40,7 +38,7 @@ abstract class AbstractManager
     }
 
     /**
-     * Get the event dispatcher
+     * Get the event dispatcher.
      *
      * @return EventDispatcherInterface
      */
@@ -51,7 +49,7 @@ abstract class AbstractManager
 
     /**
      * Magic call
-     * Triger to repository methods call
+     * Triger to repository methods call.
      */
     public function __call($method, $args)
     {
@@ -60,7 +58,7 @@ abstract class AbstractManager
 
     /**
      * Add
-     * Use the object manager to add (persist) the given object
+     * Use the object manager to add (persist) the given object.
      *
      * @param object $entity
      */
@@ -72,7 +70,7 @@ abstract class AbstractManager
 
     /**
      * Update
-     * Use the object manager to update (persist) the given object
+     * Use the object manager to update (persist) the given object.
      *
      * @param object $entity
      */
@@ -84,7 +82,7 @@ abstract class AbstractManager
 
     /**
      * Delete
-     * Use the object manager to delete (remove) the given object
+     * Use the object manager to delete (remove) the given object.
      *
      * @param object $entity
      */
@@ -95,7 +93,7 @@ abstract class AbstractManager
     }
 
     /**
-     * Get Repository
+     * Get Repository.
      *
      * @return \Doctrine\ORM\EntityManager\EntityRepository
      */

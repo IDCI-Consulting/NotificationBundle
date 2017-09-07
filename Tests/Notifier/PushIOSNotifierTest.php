@@ -1,17 +1,14 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Tests\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Notifier\PushIOSNotifier;
-use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class PushIOSNotifierTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,16 +25,16 @@ class PushIOSNotifierTest extends \PHPUnit_Framework_TestCase
 
         $data = array(
             'to' => array(
-                "deviceToken" => "abcd1234"
+                'deviceToken' => 'abcd1234',
             ),
             'from' => array(
-                'certificate' => "/path/to/the/certificate",
-                'passphrase'  => "passphrase",
-                'useSandbox'  => false
+                'certificate' => '/path/to/the/certificate',
+                'passphrase' => 'passphrase',
+                'useSandbox' => false,
             ),
             'content' => array(
-                "message" => "test"
-            )
+                'message' => 'test',
+            ),
         );
 
         $pushIOSNotifier = new PushIOSNotifier($entityManager, array());
@@ -48,7 +45,7 @@ class PushIOSNotifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\OptionsResolver\Exception\MissingOptionsException
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\MissingOptionsException
      */
     public function testCleanDataWithInvalidData()
     {
@@ -66,13 +63,13 @@ class PushIOSNotifierTest extends \PHPUnit_Framework_TestCase
                 //"deviceToken" => "abcd1234" //Simulate a mission required field
             ),
             'from' => array(
-                'certificate' => "/path/to/the/certificate",
-                'passphrase'  => "passphrase",
-                'useSandbox'  => false
+                'certificate' => '/path/to/the/certificate',
+                'passphrase' => 'passphrase',
+                'useSandbox' => false,
             ),
             'content' => array(
-                "message" => "test"
-            )
+                'message' => 'test',
+            ),
         );
 
         $pushIOSNotifier = new PushIOSNotifier($entityManager, array());

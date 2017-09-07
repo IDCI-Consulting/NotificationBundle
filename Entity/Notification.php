@@ -1,11 +1,9 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Entity;
@@ -14,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use IDCI\Bundle\NotificationBundle\Exception\NotificationFieldParseErrorException;
 
 /**
- * Notification
+ * Notification.
  *
  * @ORM\Entity(repositoryClass="IDCI\Bundle\NotificationBundle\Entity\Repository\NotificationRepository")
  * @ORM\Table(name="notification", indexes={
@@ -28,13 +26,13 @@ use IDCI\Bundle\NotificationBundle\Exception\NotificationFieldParseErrorExceptio
  */
 class Notification
 {
-    const STATUS_NEW      = "NEW";
-    const STATUS_DONE     = "DONE";
-    const STATUS_ERROR    = "ERROR";
-    const STATUS_PENDING  = "PENDING";
+    const STATUS_NEW = 'NEW';
+    const STATUS_DONE = 'DONE';
+    const STATUS_ERROR = 'ERROR';
+    const STATUS_PENDING = 'PENDING';
 
     /**
-     * @var integer
+     * @var int
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -107,7 +105,7 @@ class Notification
     protected $trackingHistories;
 
     /**
-     * Get status list
+     * Get status list.
      *
      * @return array
      */
@@ -117,12 +115,12 @@ class Notification
             self::STATUS_NEW => self::STATUS_NEW,
             self::STATUS_DONE => self::STATUS_DONE,
             self::STATUS_ERROR => self::STATUS_ERROR,
-            self::STATUS_PENDING => self::STATUS_PENDING
+            self::STATUS_PENDING => self::STATUS_PENDING,
         );
     }
 
     /**
-     * On create
+     * On create.
      *
      * @ORM\PrePersist()
      */
@@ -134,7 +132,7 @@ class Notification
     }
 
     /**
-     * On update
+     * On update.
      *
      * @ORM\PreUpdate()
      */
@@ -145,7 +143,7 @@ class Notification
     }
 
     /**
-     * toString
+     * toString.
      *
      * @return string
      */
@@ -158,21 +156,22 @@ class Notification
     }
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
-        $this->setStatus(Notification::STATUS_NEW);
+        $this->setStatus(self::STATUS_NEW);
     }
 
     /**
-     * Get data
+     * Get data.
      *
      * @param string $data
      * @param string $key
      * @param mixed  $default
-     * 
+     *
      * @return mixed
+     *
      * @throws NotificationFieldParseErrorException
      */
     public static function getData($data, $key, $default)
@@ -194,9 +193,9 @@ class Notification
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -204,7 +203,7 @@ class Notification
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param string $type
      *
@@ -218,7 +217,7 @@ class Notification
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -228,7 +227,7 @@ class Notification
     }
 
     /**
-     * Set notifierAlias
+     * Set notifierAlias.
      *
      * @param string $notifierAlias
      *
@@ -242,7 +241,7 @@ class Notification
     }
 
     /**
-     * Get notifierAlias
+     * Get notifierAlias.
      *
      * @return string
      */
@@ -252,9 +251,9 @@ class Notification
     }
 
     /**
-     * Has notifierAlias
+     * Has notifierAlias.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasNotifierAlias()
     {
@@ -262,7 +261,7 @@ class Notification
     }
 
     /**
-     * Set from
+     * Set from.
      *
      * @param string $from
      *
@@ -276,10 +275,10 @@ class Notification
     }
 
     /**
-     * Get from
+     * Get from.
      *
-     * @param  string|null $key
-     * @param  mixed|null  $default
+     * @param string|null $key
+     * @param mixed|null  $default
      *
      * @return mixed|null
      */
@@ -289,9 +288,10 @@ class Notification
     }
 
     /**
-     * Get from json decoded
+     * Get from json decoded.
      *
      * @return array
+     *
      * @throws NotificationFieldParseErrorException
      */
     public function getFromDecoded()
@@ -305,7 +305,7 @@ class Notification
     }
 
     /**
-     * Set to
+     * Set to.
      *
      * @param mixed $to
      *
@@ -319,10 +319,10 @@ class Notification
     }
 
     /**
-     * Get to
+     * Get to.
      *
-     * @param  string|null $key
-     * @param  mixed|null  $default
+     * @param string|null $key
+     * @param mixed|null  $default
      *
      * @return array
      */
@@ -332,9 +332,10 @@ class Notification
     }
 
     /**
-     * Get to json decoded
+     * Get to json decoded.
      *
      * @return array
+     *
      * @throws NotificationFieldParseErrorException
      */
     public function getToDecoded()
@@ -348,7 +349,7 @@ class Notification
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -362,7 +363,7 @@ class Notification
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -372,7 +373,7 @@ class Notification
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -386,7 +387,7 @@ class Notification
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -396,7 +397,7 @@ class Notification
     }
 
     /**
-     * Set status
+     * Set status.
      *
      * @param string $status
      *
@@ -410,7 +411,7 @@ class Notification
     }
 
     /**
-     * Get status
+     * Get status.
      *
      * @return string
      */
@@ -420,7 +421,7 @@ class Notification
     }
 
     /**
-     * Set content
+     * Set content.
      *
      * @param array $content
      *
@@ -434,10 +435,10 @@ class Notification
     }
 
     /**
-     * Get content
+     * Get content.
      *
-     * @param  string|null $key
-     * @param  mixed|null  $default
+     * @param string|null $key
+     * @param mixed|null  $default
      *
      * @return array
      */
@@ -447,9 +448,10 @@ class Notification
     }
 
     /**
-     * Get content json decoded
+     * Get content json decoded.
      *
      * @return array
+     *
      * @throws NotificationFieldParseErrorException
      */
     public function getContentDecoded()
@@ -463,7 +465,7 @@ class Notification
     }
 
     /**
-     * Set source
+     * Set source.
      *
      * @param string $source
      *
@@ -477,7 +479,7 @@ class Notification
     }
 
     /**
-     * Get source
+     * Get source.
      *
      * @return string
      */
@@ -487,7 +489,7 @@ class Notification
     }
 
     /**
-     * Set log
+     * Set log.
      *
      * @param string $log
      *
@@ -501,7 +503,7 @@ class Notification
     }
 
     /**
-     * Get log
+     * Get log.
      *
      * @return string
      */
@@ -511,7 +513,7 @@ class Notification
     }
 
     /**
-     * Add log
+     * Add log.
      *
      * @param string $log
      *
@@ -530,7 +532,7 @@ class Notification
     }
 
     /**
-     * Add trackingHistory
+     * Add trackingHistory.
      *
      * @param \IDCI\Bundle\NotificationBundle\Entity\TrackingHistory $trackingHistory
      *
@@ -544,7 +546,7 @@ class Notification
     }
 
     /**
-     * Remove trackingHistory
+     * Remove trackingHistory.
      *
      * @param \IDCI\Bundle\NotificationBundle\Entity\TrackingHistory $trackingHistory
      */
@@ -554,7 +556,7 @@ class Notification
     }
 
     /**
-     * Get trackingHistories
+     * Get trackingHistories.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -562,5 +564,4 @@ class Notification
     {
         return $this->trackingHistories;
     }
-
 }

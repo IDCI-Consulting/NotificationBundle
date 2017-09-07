@@ -1,11 +1,9 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Exception;
@@ -13,7 +11,7 @@ namespace IDCI\Bundle\NotificationBundle\Exception;
 class UndefindedArgumentException extends \Exception
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $errorMessage
      */

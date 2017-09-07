@@ -1,11 +1,9 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\Controller\Rest;
@@ -16,30 +14,29 @@ use FOS\RestBundle\Util\Codes;
 use JMS\Serializer\SerializationContext;
 
 /**
- * NotificationParameters API REST controller
+ * NotificationParameters API REST controller.
  */
 class ApiNotificationParametersController extends FOSRestController
 {
     /**
      * [GET] /notificationparameters
-     * Return parameters for all type of notification
-     *
+     * Return parameters for all type of notification.
      */
     public function getNotificationparametersAction()
     {
         $notifiers = $this->container->getParameter('idci_notification.notifiers');
         $notificationsParameters = array();
-        foreach($notifiers as $key => $value) {
-            $notifier = $this->get(sprintf("idci_notification.notifier.%s", $value));
-            $notificationsParameters[$value]["to"] = ($notifier->getToFields())
+        foreach ($notifiers as $key => $value) {
+            $notifier = $this->get(sprintf('idci_notification.notifier.%s', $value));
+            $notificationsParameters[$value]['to'] = ($notifier->getToFields())
                 ? $notifier->getToFields()
                 : null
             ;
-            $notificationsParameters[$value]["from"] = ($notifier->getFromFields())
+            $notificationsParameters[$value]['from'] = ($notifier->getFromFields())
                 ? $notifier->getFromFields()
                 : null
             ;
-            $notificationsParameters[$value]["content"] = ($notifier->getContentFields())
+            $notificationsParameters[$value]['content'] = ($notifier->getContentFields())
                 ? $notifier->getContentFields()
                 : null
             ;
@@ -58,7 +55,7 @@ class ApiNotificationParametersController extends FOSRestController
 
     /**
      * [GET] /notificationparameters/{type}
-     * Return parameters of a specific notification
+     * Return parameters of a specific notification.
      *
      * @QueryParam(name="field", nullable=true, description="(optional) notification field (to, from, content)")
      *
@@ -72,18 +69,18 @@ class ApiNotificationParametersController extends FOSRestController
 
         if (!in_array($type, $notifiers)) {
             $view = $this->view(
-                array("Error" => $type . " is not a valide type."),
+                array('Error' => $type.' is not a valide type.'),
                 Codes::HTTP_NOT_FOUND
             );
 
             return $this->handleView($view);
         }
 
-        $notifier = $this->get(sprintf("idci_notification.notifier.%s", $type));
+        $notifier = $this->get(sprintf('idci_notification.notifier.%s', $type));
 
         if ($field) {
             $getField = sprintf(
-                "get%sFields",
+                'get%sFields',
                 ucfirst($field)
             );
             try {
@@ -96,7 +93,7 @@ class ApiNotificationParametersController extends FOSRestController
                 ;
                 if (empty($cleanedNotificationParameters)) {
                     return $this->handleView($this->view(
-                        array("message" => "No data associated with the field : " . $field),
+                        array('message' => 'No data associated with the field : '.$field),
                         Codes::HTTP_NOT_FOUND
                     ));
                 }
@@ -105,9 +102,9 @@ class ApiNotificationParametersController extends FOSRestController
                     $notifier->cleanEmptyValue($notificationParameters),
                     Codes::HTTP_OK
                 ));
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $view = $this->view(
-                    array("message" => $e->getMessage()),
+                    array('message' => $e->getMessage()),
                     Codes::HTTP_NOT_FOUND
                 );
 
@@ -115,15 +112,15 @@ class ApiNotificationParametersController extends FOSRestController
             }
         }
 
-        $notificationParameters["to"] = ($notifier->getToFields())
+        $notificationParameters['to'] = ($notifier->getToFields())
             ? $notifier->getToFields()
             : null
         ;
-        $notificationParameters["from"] = $notifier->getFromFields()
+        $notificationParameters['from'] = $notifier->getFromFields()
             ? $notifier->getFromFields()
             : null
         ;
-        $notificationParameters["content"] = $notifier->getContentFields()
+        $notificationParameters['content'] = $notifier->getContentFields()
             ? $notifier->getContentFields()
             : null
         ;
