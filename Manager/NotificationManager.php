@@ -121,10 +121,14 @@ class NotificationManager extends AbstractManager
      *
      * @param NotifierInterface $notifier
      * @param string            $alias
+     *
+     * @return NotificationManager
      */
     public function addNotifier(NotifierInterface $notifier, $alias)
     {
         $this->notifiers[$alias] = $notifier;
+
+        return $this;
     }
 
     /**
