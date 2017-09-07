@@ -58,6 +58,9 @@ class Configuration implements ConfigurationInterface
 
         $emailNode
             ->children()
+                ->scalarNode('tracking_url')
+                    ->defaultValue(null)
+                ->end()
                 ->scalarNode('default_configuration')
                     ->defaultValue('default')
                 ->end()
@@ -85,6 +88,7 @@ class Configuration implements ConfigurationInterface
                                     ->thenInvalid('Invalid encryption "%s"')
                                 ->end()
                             ->end()
+                            ->booleanNode('track')->end()
                         ->end()
                     ->end()
                 ->end()

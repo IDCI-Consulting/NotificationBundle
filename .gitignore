@@ -1,2 +1,2 @@
-# Gedit temp files
-*~
+vendor/
+composer.lock

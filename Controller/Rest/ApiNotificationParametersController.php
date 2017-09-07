@@ -8,7 +8,7 @@
  *
  */
 
-namespace IDCI\Bundle\NotificationBundle\Controller;
+namespace IDCI\Bundle\NotificationBundle\Controller\Rest;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\QueryParam;

@@ -114,7 +114,11 @@ class AbstractNotifierTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $notifierConfiguration = $this->getMock('\IDCI\Bundle\NotificationBundle\Entity\NotifierConfiguration');
+        $notifierConfiguration = $this
+            ->getMockBuilder('\IDCI\Bundle\NotificationBundle\Entity\NotifierConfiguration')
+            ->getMock()
+        ;
+
         $notifierConfiguration
             ->expects($this->any())
             ->method('getConfiguration')
@@ -125,6 +129,7 @@ class AbstractNotifierTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock()
         ;
+
         $notifierConfigurationRepository
             ->expects($this->once())
             ->method('findOneBy')
@@ -135,6 +140,7 @@ class AbstractNotifierTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock()
         ;
+
         $entityManager
             ->expects($this->once())
             ->method('getRepository')

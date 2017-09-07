@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+
+  php:
+    build:
+      context: .docker/build/php5.6
+    volumes:
+      - ./:/var/www/html

@@ -5,6 +5,7 @@
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Sekou KOÏTA <sekou.koita@supinfo.com>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
+ * @author:  Rémy MENCE <remy.mence@gmail.com>
  * @license: GPL
  *
  */
@@ -21,9 +22,23 @@ class EmailNotifier extends AbstractNotifier
      */
     public function sendNotification(Notification $notification)
     {
+        $mailer = $this->getMailer($this->getConfiguration($notification));
+
+        return $mailer->send($this->buildMessage($notification)) > 0;
+    }
+
+    /**
+     * Build the message that will be sent by the mailer.
+     *
+     * @param Notification $notification
+     *
+     * @return string
+     */
+    public function buildMessage(Notification $notification)
+    {
+        $configuration = $this->getConfiguration($notification);
         $to = json_decode($notification->getTo(), true);
         $content = json_decode($notification->getContent(), true);
-        $configuration = $this->getConfiguration($notification);
 
         $message = \Swift_Message::newInstance()
             ->setSubject(isset($content['subject']) ? $content['subject'] : null)
@@ -36,12 +51,51 @@ class EmailNotifier extends AbstractNotifier
         ;
 
         if (isset($content['htmlMessage'])) {
-            $message->addPart($content['htmlMessage'], 'text/html');
+            $message->addPart($this->buildHTMLContent($notification), 'text/html');
         }
 
-        $mailer = $this->getMailer($configuration);
+        return $message;
+    }
 
-        return $mailer->send($message) > 0;
+    /**
+     * Build html content.
+     *
+     * @param Notification $notification
+     *
+     * @return string
+     */
+    public function buildHTMLContent(Notification $notification)
+    {
+        $content = json_decode($notification->getContent(), true);
+
+        return sprintf(
+            '%s%s',
+            $content['htmlMessage'],
+            $this->addTracker($notification)
+        );
+    }
+
+    /**
+     * Build html tag "<img>" to track readed email with notification
+     *
+     * @param Notification $notification
+     *
+     * @return string
+     */
+    public function addTracker(Notification $notification)
+    {
+        $configuration = $this->getConfiguration($notification);
+
+        if (!$configuration['track']) {
+            return '';
+        }
+
+        return sprintf(
+            '<img alt="picto" src="%s?notification_id=%s&action=%s" width="1" height="1" border="0" />',
+            $this->defaultConfiguration["tracking_url"],
+            $notification->getId(),
+            'open'
+        );
     }
 
     /**
@@ -109,9 +163,9 @@ class EmailNotifier extends AbstractNotifier
     public function getToFields()
     {
         return array(
-            'to'  => array('email', array('required' => true,  "trim" => true)),
-            'cc'  => array('email', array('required' => false, "trim" => true)),
-            'bcc' => array('email', array('required' => false, "trim" => true))
+            'to'  => array('email', array('required' => true,  'trim' => true)),
+            'cc'  => array('email', array('required' => false, 'trim' => true)),
+            'bcc' => array('email', array('required' => false, 'trim' => true))
         );
     }
 
@@ -155,7 +209,8 @@ class EmailNotifier extends AbstractNotifier
                     'ssl'  => 'ssl',
                     'tls'  => 'tls'
                 )
-            ))
+            )),
+            'track'        => array('checkbox', array('required' => false))
         );
     }
 }

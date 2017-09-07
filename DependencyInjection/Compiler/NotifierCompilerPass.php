@@ -24,12 +24,12 @@ class NotifierCompilerPass implements CompilerPassInterface
             return;
         }
 
-        $definition = $container->getDefinition('idci_notification.manager.notification');
+        $definition = $container->findDefinition('idci_notification.manager.notification');
         $taggedServices = $container->findTaggedServiceIds('idci_notification.notifier');
         $notifiers = array();
         $notifiersConfiguration = $container->getParameter('idci_notification.notifiers.configuration');
         // In order to declare untagged 'form.type' directly to the form.extension
-        $formExtensionDefinition = $container->getDefinition('form.extension');
+        $formExtensionDefinition = $container->findDefinition('form.extension');
 
         foreach ($taggedServices as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
@@ -45,7 +45,7 @@ class NotifierCompilerPass implements CompilerPassInterface
                 if(!$container->hasDefinition($id)) {
                     throw new UndefindedDefinitionException($id);
                 }
-                $notifierDefinition = $container->getDefinition($id);
+                $notifierDefinition = $container->findDefinition($id);
                 $notifierDefinition->replaceArgument(1, $notifiersConfiguration[$alias]);
 
                 // Define Notification form
