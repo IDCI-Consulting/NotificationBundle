@@ -15,6 +15,74 @@ use IDCI\Bundle\NotificationBundle\Entity\Notification;
 class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
 {
     private $notifier;
+
+    public function setUp()
+    {
+        $entityManager = $this->getMockBuilder(EntityManager::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->notifier = new PushAndroidNotifier($entityManager, array());
+    }
+
+    // Test NotifierInterface methods:
+
+    public function testSendNotification()
+    {
+    }
+
+    public function testGetConfiguration()
+    {
+    }
+
+    public function testGetToFields()
+    {
+        $expectingKeys = array(
+            'deviceToken',
+        );
+
+        $configureKeys = array_keys($this->notifier->getToFields());
+
+        asort($expectingKeys);
+        asort($configureKeys);
+
+        $this->assertEquals($expectingKeys, $configureKeys);
+    }
+
+    public function testGetContentFields()
+    {
+        $expectingKeys = array(
+            'message',
+        );
+
+        $configureKeys = array_keys($this->notifier->getContentFields());
+
+        asort($expectingKeys);
+        asort($configureKeys);
+
+        $this->assertEquals($expectingKeys, $configureKeys);
+    }
+
+    public function testGetFromFields()
+    {
+        $expectingKeys = array(
+            'apiKey',
+        );
+
+        $configureKeys = array_keys($this->notifier->getFromFields());
+
+        asort($expectingKeys);
+        asort($configureKeys);
+
+        $this->assertEquals($expectingKeys, $configureKeys);
+    }
+
+    public function testCleanData()
+    {
+    }
+/*
+    private $notifier;
     private $notification;
 
     public function setUp()
@@ -55,9 +123,6 @@ class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \Symfony\Component\OptionsResolver\Exception\MissingOptionsException
-     */
     public function testCleanDataWithInvalidData()
     {
         $data = array(
@@ -96,11 +161,9 @@ class PushAndroidNotifierTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \IDCI\Bundle\NotificationBundle\Exception\PushAndroidNotifierException
-     */
     public function testPushAndroidNotifierException()
     {
         $this->notifier->sendPushAndroid($this->notification->getFrom(), $this->notification->getContent());
     }
+*/
 }

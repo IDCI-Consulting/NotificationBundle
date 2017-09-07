@@ -16,7 +16,6 @@ use IDCI\Bundle\NotificationBundle\Notifier\EmailNotifier;
 class NotificationManagerTest extends \PHPUnit_Framework_TestCase
 {
     private $notificationManager;
-    private $notifier;
 
     public function setUp()
     {
@@ -31,21 +30,37 @@ class NotificationManagerTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->notificationManager = new NotificationManager($objectManager, $eventDispatcher);
+    }
 
+    public function testGetNotifier()
+    {
         $entityManager = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalConstructor()
             ->getMock()
         ;
 
-        $this->notifier = new EmailNotifier($entityManager, array('tracking_url' => 'http://dummy_url'));
-        $this->notificationManager->addNotifier($this->notifier, 'test');
-    }
+        $notifier1 = new EmailNotifier($entityManager, array('a' => 'b'));
+        $notifier2 = new EmailNotifier($entityManager, array('c' => 'd'));
+        $notifier3 = new EmailNotifier($entityManager, array('e' => 'f'));
 
-    public function testGetNotifier()
-    {
-        $this->assertEquals($this->notifier, $this->notificationManager->getNotifier('test'));
+        $this->notificationManager
+            ->addNotifier($notifier1, 'notifier1')
+            ->addNotifier($notifier2, 'notifier2')
+            ->addNotifier($notifier3, 'notifier3')
+        ;
+
+        $this->assertEquals($notifier1, $this->notificationManager->getNotifier('notifier1'));
+        $this->assertEquals($notifier2, $this->notificationManager->getNotifier('notifier2'));
+        $this->assertEquals($notifier3, $this->notificationManager->getNotifier('notifier3'));
+
+        $this->notificationManager
+            ->addNotifier($notifier3, 'notifier1')
+        ;
+
+        $this->assertEquals($notifier3, $this->notificationManager->getNotifier('notifier1'));
+        $this->assertNotEquals($notifier1, $this->notificationManager->getNotifier('notifier1'));
 
         $this->expectException('IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierException');
-        $this->notificationManager->getNotifier('tes');
+        $this->notificationManager->getNotifier('dummy');
     }
 }
