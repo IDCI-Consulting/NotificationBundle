@@ -35,14 +35,15 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('notifiers')
                     ->children()
                         ->append($this->addEmailParametersNode())
-                        ->append($this->addSmsOcitoParametersNode())
                         ->append($this->addFacebookParametersNode())
-                        ->append($this->addTwitterParametersNode())
                         ->append($this->addMailParametersNode())
-                        ->append($this->addPushIOSParameterNode())
                         ->append($this->addPushAndroidParameterNode())
+                        ->append($this->addPushIOSParameterNode())
+                        ->append($this->addSmsOcitoParametersNode())
+                        ->append($this->addTwitterParametersNode())
                     ->end()
                 ->end()
+                ->scalarNode('tracking_url')->defaultNull()->end()
             ->end()
         ;
 
@@ -94,37 +95,6 @@ class Configuration implements ConfigurationInterface
         return $emailNode;
     }
 
-    public function addSmsOcitoParametersNode()
-    {
-        $builder = new TreeBuilder();
-        $smsOcitoNode = $builder->root('sms_ocito');
-
-        $smsOcitoNode
-            ->children()
-                ->scalarNode('default_configuration')
-                    ->defaultValue('default')
-                ->end()
-                ->arrayNode('configurations')
-                    ->useAttributeAsKey('')
-                    ->prototype('array')
-                        ->children()
-                            ->scalarNode('userName')->isRequired()->end()
-                            ->scalarNode('password')->isrequired()->end()
-                            ->scalarNode('senderAppId')->isRequired()->end()
-                            ->scalarNode('senderId')->end()
-                            ->integerNode('flag')->defaultValue(3)->end()
-                            ->scalarNode('priority')->end()
-                            ->integerNode('timeToLiveDuration')->min(0)->end()
-                            ->integerNode('timeToSendDuration')->min(0)->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
-        ;
-
-        return $smsOcitoNode;
-    }
-
     public function addFacebookParametersNode()
     {
         $builder = new TreeBuilder();
@@ -148,33 +118,6 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $facebookNode;
-    }
-
-    public function addTwitterParametersNode()
-    {
-        $builder = new TreeBuilder();
-        $twitterNode = $builder->root('twitter');
-
-        $twitterNode
-            ->children()
-                ->scalarNode('default_configuration')
-                    ->defaultValue('default')
-                ->end()
-                ->arrayNode('configurations')
-                    ->useAttributeAsKey('')
-                    ->prototype('array')
-                        ->children()
-                            ->scalarNode('consumerKey')->isRequired()->end()
-                            ->scalarNode('consumerSecret')->isRequired()->end()
-                            ->scalarNode('oauthAccessToken')->isRequired()->end()
-                            ->scalarNode('oauthAccessTokenSecret')->isRequired()->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
-        ;
-
-        return $twitterNode;
     }
 
     public function addMailParametersNode()
@@ -206,6 +149,30 @@ class Configuration implements ConfigurationInterface
         return $mailNode;
     }
 
+    public function addPushAndroidParameterNode()
+    {
+        $builder = new TreeBuilder();
+        $pushAndroidNode = $builder->root('push_android');
+
+        $pushAndroidNode
+            ->children()
+                ->scalarNode('default_configuration')
+                    ->defaultValue('default')
+                ->end()
+                ->arrayNode('configurations')
+                    ->useAttributeAsKey('')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('apiKey')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $pushAndroidNode;
+    }
+
     public function addPushIOSParameterNode()
     {
         $builder = new TreeBuilder();
@@ -235,12 +202,12 @@ class Configuration implements ConfigurationInterface
         return $pushIOSNode;
     }
 
-    public function addPushAndroidParameterNode()
+    public function addSmsOcitoParametersNode()
     {
         $builder = new TreeBuilder();
-        $pushAndroidNode = $builder->root('push_android');
+        $smsOcitoNode = $builder->root('sms_ocito');
 
-        $pushAndroidNode
+        $smsOcitoNode
             ->children()
                 ->scalarNode('default_configuration')
                     ->defaultValue('default')
@@ -249,13 +216,47 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('')
                     ->prototype('array')
                         ->children()
-                            ->scalarNode('apiKey')->isRequired()->end()
+                            ->scalarNode('userName')->isRequired()->end()
+                            ->scalarNode('password')->isrequired()->end()
+                            ->scalarNode('senderAppId')->isRequired()->end()
+                            ->scalarNode('senderId')->end()
+                            ->integerNode('flag')->defaultValue(3)->end()
+                            ->scalarNode('priority')->end()
+                            ->integerNode('timeToLiveDuration')->min(0)->end()
+                            ->integerNode('timeToSendDuration')->min(0)->end()
                         ->end()
                     ->end()
                 ->end()
             ->end()
         ;
 
-        return $pushAndroidNode;
+        return $smsOcitoNode;
+    }
+
+    public function addTwitterParametersNode()
+    {
+        $builder = new TreeBuilder();
+        $twitterNode = $builder->root('twitter');
+
+        $twitterNode
+            ->children()
+                ->scalarNode('default_configuration')
+                    ->defaultValue('default')
+                ->end()
+                ->arrayNode('configurations')
+                    ->useAttributeAsKey('')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('consumerKey')->isRequired()->end()
+                            ->scalarNode('consumerSecret')->isRequired()->end()
+                            ->scalarNode('oauthAccessToken')->isRequired()->end()
+                            ->scalarNode('oauthAccessTokenSecret')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $twitterNode;
     }
 }
