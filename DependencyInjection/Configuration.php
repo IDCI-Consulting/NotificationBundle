@@ -1,11 +1,9 @@
 <?php
 
 /**
- *
  * @author:  Gabriel BONDAZ <gabriel.bondaz@idci-consulting.fr>
  * @author:  Pichet PUTH <pichet.puth@utt.fr>
  * @license: GPL
- *
  */
 
 namespace IDCI\Bundle\NotificationBundle\DependencyInjection;
@@ -14,14 +12,14 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This is the class that validates and merges configuration from your app/config files
+ * This is the class that validates and merges configuration from your app/config files.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
  */
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
@@ -58,9 +56,6 @@ class Configuration implements ConfigurationInterface
 
         $emailNode
             ->children()
-                ->scalarNode('tracking_url')
-                    ->defaultValue(null)
-                ->end()
                 ->scalarNode('default_configuration')
                     ->defaultValue('default')
                 ->end()
@@ -88,7 +83,8 @@ class Configuration implements ConfigurationInterface
                                     ->thenInvalid('Invalid encryption "%s"')
                                 ->end()
                             ->end()
-                            ->booleanNode('track')->end()
+                            ->booleanNode('tracking_enabled')->defaultFalse()->end()
+                            ->booleanNode('mirror_link_enabled')->defaultFalse()->end()
                         ->end()
                     ->end()
                 ->end()
@@ -218,7 +214,7 @@ class Configuration implements ConfigurationInterface
         $pushIOSNode
             ->children()
                 ->scalarNode('certificates_directory')
-                    ->defaultValue("%kernel.root_dir%/../bin/certificates")
+                    ->defaultValue('%kernel.root_dir%/../bin/certificates')
                 ->end()
                 ->scalarNode('default_configuration')
                     ->defaultValue('default')
