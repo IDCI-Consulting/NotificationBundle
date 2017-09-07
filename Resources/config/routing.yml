@@ -1,20 +1,11 @@
 #API REST
 
 notification:
+    resource:     IDCI\Bundle\NotificationBundle\Controller\Api\NotificationController
     type:         rest
-    resource:     IDCI\Bundle\NotificationBundle\Controller\Rest\ApiNotificationController
     name_prefix:  api_notification_
 
-notifier_configuration:
-    type:         rest
-    resource:     IDCI\Bundle\NotificationBundle\Controller\Rest\ApiNotifierConfigurationController
-    name_prefix:  api_notifier_configuration_
-
-notification_parameters:
-    type:        rest
-    resource:    IDCI\Bundle\NotificationBundle\Controller\Rest\ApiNotificationParametersController
-    name_prefix: api_notification_parameters_
-
 tracking_history:
-    resource: IDCI\Bundle\NotificationBundle\Controller\Api\TrackingHistoryController
-    type:  annotation
+    resource:     IDCI\Bundle\NotificationBundle\Controller\Api\TrackingHistoryController
+    type:         annotation
+    name_prefix:  api_tracking_
