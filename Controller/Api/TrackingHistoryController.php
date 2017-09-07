@@ -36,7 +36,10 @@ class TrackingHistoryController extends Controller
             ;
 
             if (!$notification) {
-                $this->createNotFoundException(sprintf('Unable to find Notification entity.'));
+                $this->createNotFoundException(sprintf(
+                    'Notification %s not found.',
+                    $request->query->get('notification_id')
+                ));
             }
 
             $trackingHistory = new TrackingHistory();
