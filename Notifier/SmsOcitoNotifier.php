@@ -24,13 +24,9 @@ class SmsOcitoNotifier extends AbstractNotifier
      * @param array                  $defaultConfiguration
      * @param RestApiClientInterface $apiClient
      */
-    public function __construct(
-        EntityManager $entityManager,
-        $defaultConfiguration,
-        RestApiClientInterface $apiClient
-    ) {
-        $this->entityManager = $entityManager;
-        $this->defaultConfiguration = $defaultConfiguration;
+    public function __construct(EntityManager $entityManager, $defaultConfiguration, RestApiClientInterface $apiClient)
+    {
+        parent::__construct($entityManager, $defaultConfiguration);
         $this->apiClient = $apiClient;
     }
 
@@ -138,6 +134,26 @@ class SmsOcitoNotifier extends AbstractNotifier
     /**
      * {@inheritdoc}
      */
+    public function getToFields()
+    {
+        return array(
+            'phoneNumber' => array('text', array('required' => true, 'max_length' => 30)),
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContentFields()
+    {
+        return array(
+            'message' => array('text', array('required' => true, 'max_length' => 70)),
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getFromFields()
     {
         return array(
@@ -159,26 +175,6 @@ class SmsOcitoNotifier extends AbstractNotifier
             )),
             'timeToLiveDuration' => array('integer', array('required' => false)),
             'timeToSendDuration' => array('integer', array('required' => false)),
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getToFields()
-    {
-        return array(
-            'phoneNumber' => array('text', array('required' => true, 'max_length' => 30)),
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContentFields()
-    {
-        return array(
-            'message' => array('text', array('required' => true, 'max_length' => 70)),
         );
     }
 }

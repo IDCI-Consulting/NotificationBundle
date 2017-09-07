@@ -27,7 +27,7 @@ abstract class AbstractNotifier implements NotifierInterface
      * @param EntityManager $entityManager
      * @param array         $defaultConfiguration
      */
-    public function __construct(EntityManager $entityManager, $defaultConfiguration)
+    public function __construct(EntityManager $entityManager, array $defaultConfiguration = array())
     {
         $this->entityManager = $entityManager;
         $this->defaultConfiguration = $defaultConfiguration;
@@ -49,23 +49,19 @@ abstract class AbstractNotifier implements NotifierInterface
     public function getConfiguration(Notification $notification)
     {
         if ($notification->hasNotifierAlias()) {
-            try {
-                return $this->getDataBaseConfiguration(
-                    $notification->getNotifierAlias(),
-                    $notification->getType()
-                );
-            } catch (UndefinedNotifierConfigurationException $e) {
-                return $this->getFileConfiguration($notification->getNotifierAlias());
-            }
+            return $this->getDataBaseConfiguration(
+                $notification->getNotifierAlias(),
+                $notification->getType()
+            );
         }
 
         if (null !== $notification->getFrom()) {
             $from = json_decode($notification->getFrom(), true);
             if (null === $from) {
                 throw new ConfigurationParseErrorException($notification->getFrom());
-            } elseif (count($from) > 0) {
-                return $from;
             }
+
+            return $from;
         }
 
         return $this->getFileConfiguration();
@@ -114,10 +110,11 @@ abstract class AbstractNotifier implements NotifierInterface
         ;
 
         if (null === $notifierConfiguration) {
-            throw new UndefinedNotifierConfigurationException($alias, $type);
+            return $this->getFileConfiguration($alias);
         }
 
-        if ($configuration = json_decode($notifierConfiguration->getConfiguration(), true)) {
+        $configuration = json_decode($notifierConfiguration->getConfiguration(), true);
+        if (null !== $configuration) {
             return $configuration;
         }
 
@@ -132,31 +129,9 @@ abstract class AbstractNotifier implements NotifierInterface
         foreach ($data as $field => $options) {
             if (is_array($options)) {
                 $fieldOptions = $this->guessFieldOptions($field);
-                try {
-                    $options = $this->getResolver($fieldOptions)->resolve($options);
-                } catch (MissingOptionsException $e) {
-                    throw new MissingOptionsException(sprintf(
-                        'Error in "%s" field: %s',
-                        $field,
-                        $e->getMessage()
-                    ));
-                }
+                $options = $this->getResolver($fieldOptions)->resolve($options);
             }
             $data[$field] = $options;
-        }
-
-        return $data;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function cleanEmptyValue($data)
-    {
-        foreach ($data as $key => $value) {
-            if (null === $value) {
-                unset($data[$key]);
-            }
         }
 
         return $data;

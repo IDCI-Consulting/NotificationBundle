@@ -83,13 +83,13 @@ class EmailNotifier extends AbstractNotifier
     {
         $configuration = $this->getConfiguration($notification);
 
-        if (!$configuration['track']) {
+        if (!$configuration['tracking_enabled']) {
             return '';
         }
 
         return sprintf(
             '<img alt="picto" src="%s?notification_id=%s&action=%s" width="1" height="1" border="0" />',
-            $this->defaultConfiguration['tracking_url'],
+            //$this->defaultConfiguration['tracking_url'],
             $notification->getId(),
             'open'
         );
@@ -160,7 +160,7 @@ class EmailNotifier extends AbstractNotifier
     public function getToFields()
     {
         return array(
-            'to' => array('email', array('required' => true,  'trim' => true)),
+            'to' => array('email', array('required' => true, 'trim' => true)),
             'cc' => array('email', array('required' => false, 'trim' => true)),
             'bcc' => array('email', array('required' => false, 'trim' => true)),
         );
@@ -172,10 +172,10 @@ class EmailNotifier extends AbstractNotifier
     public function getContentFields()
     {
         return array(
-            'subject' => array('text',     array('required' => true)),
+            'subject' => array('text', array('required' => true)),
             'message' => array('textarea', array('required' => false)),
             'htmlMessage' => array('textarea', array('required' => false)),
-            'attachments' => array('text',     array('required' => false)),
+            'attachments' => array('text', array('required' => false)),
         );
     }
 
@@ -193,21 +193,22 @@ class EmailNotifier extends AbstractNotifier
                     'mail' => 'mail',
                 ),
             )),
-            'from' => array('email',    array('required' => false, 'trim' => true)),
-            'fromName' => array('text',     array('required' => false)),
-            'replyTo' => array('text',     array('required' => false)),
-            'server' => array('text',     array('required' => false)),
-            'login' => array('text',     array('required' => false)),
+            'from' => array('email', array('required' => false, 'trim' => true)),
+            'fromName' => array('text', array('required' => false)),
+            'replyTo' => array('text', array('required' => false)),
+            'server' => array('text', array('required' => false)),
+            'login' => array('text', array('required' => false)),
             'password' => array('password', array('required' => false)),
-            'port' => array('integer',  array('required' => false)),
-            'encryption' => array('choice',   array(
+            'port' => array('integer', array('required' => false)),
+            'encryption' => array('choice', array(
                 'required' => false,
                 'choices' => array(
                     'ssl' => 'ssl',
                     'tls' => 'tls',
                 ),
             )),
-            'track' => array('checkbox', array('required' => false)),
+            'tracking_enabled' => array('checkbox', array('required' => false)),
+            'mirror_link_enabled' => array('checkbox', array('required' => false)),
         );
     }
 }

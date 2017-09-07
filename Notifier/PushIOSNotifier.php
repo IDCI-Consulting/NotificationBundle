@@ -132,23 +132,23 @@ class PushIOSNotifier extends AbstractNotifier
     /**
      * {@inheritdoc}
      */
-    public function getFromFields()
+    public function getContentFields()
     {
+        //256 characters max (38 characters used for others fields)
         return array(
-            'certificate' => array('certificate', array('required' => false)),
-            'passphrase' => array('text',        array('required' => false)),
-            'useSandbox' => array('checkbox',    array('required' => false)),
+            'message' => array('text', array('required' => true, 'max_length' => 218)),
         );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getContentFields()
+    public function getFromFields()
     {
-        //256 characters max (38 characters used for others fields)
         return array(
-            'message' => array('text', array('required' => true, 'max_length' => 218)),
+            'certificate' => array('certificate', array('required' => false)),
+            'passphrase' => array('text',        array('required' => false)),
+            'useSandbox' => array('checkbox',    array('required' => false)),
         );
     }
 }

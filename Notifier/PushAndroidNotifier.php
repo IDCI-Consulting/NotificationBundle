@@ -97,14 +97,6 @@ class PushAndroidNotifier extends AbstractNotifier
     /**
      * {@inheritdoc}
      */
-    public function getFromFields()
-    {
-        return array('apiKey' => array('text', array('required' => false)));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getToFields()
     {
         return array('deviceToken' => array('text', array('required' => true)));
@@ -116,5 +108,13 @@ class PushAndroidNotifier extends AbstractNotifier
     public function getContentFields()
     {
         return array('message' => array('textarea', array('required' => true)));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFromFields()
+    {
+        return array('apiKey' => array('text', array('required' => false)));
     }
 }

@@ -26,8 +26,7 @@ class TwitterNotifier extends AbstractNotifier
      */
     public function __construct(EntityManager $entityManager, $defaultConfiguration, RestApiClientInterface $apiClient)
     {
-        $this->entityManager = $entityManager;
-        $this->defaultConfiguration = $defaultConfiguration;
+        parent::__construct($entityManager, $defaultConfiguration);
         $this->apiClient = $apiClient;
     }
 
@@ -168,14 +167,9 @@ class TwitterNotifier extends AbstractNotifier
     /**
      * {@inheritdoc}
      */
-    public function getFromFields()
+    public function getToFields()
     {
-        return array(
-            'consumerKey' => array('text', array('required' => false)),
-            'consumerSecret' => array('text', array('required' => false)),
-            'oauthAccessToken' => array('text', array('required' => false)),
-            'oauthAccessTokenSecret' => array('text', array('required' => false)),
-        );
+        return false;
     }
 
     /**
@@ -191,8 +185,13 @@ class TwitterNotifier extends AbstractNotifier
     /**
      * {@inheritdoc}
      */
-    public function getToFields()
+    public function getFromFields()
     {
-        return false;
+        return array(
+            'consumerKey' => array('text', array('required' => false)),
+            'consumerSecret' => array('text', array('required' => false)),
+            'oauthAccessToken' => array('text', array('required' => false)),
+            'oauthAccessTokenSecret' => array('text', array('required' => false)),
+        );
     }
 }
