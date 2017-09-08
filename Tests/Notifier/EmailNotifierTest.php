@@ -22,6 +22,8 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
 
     private $defaultDatabaseConfiguration;
 
+    private $mailConfiguration;
+
     public function setUp()
     {
         $this->defaultConfiguration = array(
@@ -54,7 +56,16 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             'port' => 12345,
             'encryption' => null,
             'tracking_enabled' => false,
-            'mirror_link_enabled' => false
+            'mirror_link_enabled' => false,
+        );
+
+        $this->mailConfiguration = array(
+            'transport' => 'mail',
+            'fromName' => 'IDCINotificationBundle Unit Test',
+            'from' => 'idci_notification_test@yopmail.com',
+            'replyTo' => 'idci_notification_test@yopmail.com',
+            'tracking_enabled' => false,
+            'mirror_link_enabled' => false,
         );
 
         $entityManager = $this->getMockBuilder(EntityManager::class)
@@ -77,22 +88,35 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('findOneBy')
             ->will($this->returnCallback(function($args) {
-                    if ('email' == $args['type'] && 'my_alias_test' == $args['alias']) {
-                        $notifierConfiguration = new NotifierConfiguration();
-                        $notifierConfiguration
-                            ->setType('email')
-                            ->setConfiguration(json_encode($this->defaultDatabaseConfiguration))
-                        ;
+                    $notifierConfiguration = new NotifierConfiguration();
+                    $notifierConfiguration->setType('email');
+
+                    if ('email' == $args['type']) {
+                        if ('my_alias_test' == $args['alias']) {
+                            $notifierConfiguration->setConfiguration(json_encode($this->defaultDatabaseConfiguration));
+                        }
+
+                        if ('test_sendmail' == $args['alias']) {
+                            $notifierConfiguration->setConfiguration(json_encode($this->mailConfiguration));
+                        }
+
+                        if ('test_sendmail_tracking' == $args['alias']) {
+                            $conf = $this->mailConfiguration;
+                            $conf['tracking_enabled'] = true;
+                            $notifierConfiguration->setConfiguration(json_encode($conf));
+                        }
+
+                        if ('test_sendmail_mirror_link' == $args['alias']) {
+                            $conf = $this->mailConfiguration;
+                            $conf['mirror_link_enabled'] = true;
+                            $notifierConfiguration->setConfiguration(json_encode($conf));
+                        }
 
                         return $notifierConfiguration;
                     }
 
                     if ('wrong_json' == $args['alias']) {
-                        $notifierConfiguration = new NotifierConfiguration();
-                        $notifierConfiguration
-                            ->setType('email')
-                            ->setConfiguration('{"bad_json": bad:(}')
-                        ;
+                        $notifierConfiguration->setConfiguration('{"bad_json": bad:(}');
 
                         return $notifierConfiguration;
                     }
@@ -109,6 +133,13 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
 
     public function testSendNotification()
     {
+        $notification = new Notification();
+        $notification
+            ->setType('email')
+            ->setNotifierAlias('test_sendmail')
+        ;
+
+        //var_dump($this->notifier->sendNotification($notification)); die;
     }
 
     public function testGetConfiguration()
@@ -334,54 +365,69 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildMessage()
     {
+        $to = array(
+            'to' => 'to-idci-notification@yopmail.com',
+            'cc' => 'cc-idci-notification@yopmail.com',
+            'bcc' => 'bcc-idci-notification@yopmail.com',
+        );
+
+        // Without HTML message
+        $contentWithoutHtml = array(
+            'subject' => 'Test',
+            'message' => 'Test message',
+            'htmlMessage' => null,
+            'attachments' => null,
+        );
         $notification = new Notification();
         $notification
             ->setType('email')
-            ->setFrom(json_encode(array(
-                'transport' => 'smtp',
-                'from' => 'dummy@email.com',
-                'fromName' => 'dummy@email.com',
-                'replyTo' => 'dummy@email.com',
-                'server' => 'server.smtp.fr',
-                'login' => 'id_value',
-                'password' => 'password',
-                'port' => 123,
-                'encryption' => 'ssl',
-                'tracking_enabled' => true,
-                'mirror_link_enabled' => true,
-            )))
-            ->setTo(json_encode(array(
-                'to' => 'test@mail.com',
-                'cc' => null,
-                'bcc' => null,
-            )))
-            ->setContent(json_encode(array(
-                'subject' => 'Test',
-                'message' => 'Test message',
-                'htmlMessage' => null,
-                'attachments' => null,
-            )))
+            ->setNotifierAlias('test_sendmail')
+            ->setTo(json_encode($to))
+            ->setContent(json_encode($contentWithoutHtml))
         ;
 
-        $configuration = $this->notifier->getConfiguration($notification);
-        //var_dump($configuration); die;
-        /*
-        $to = json_decode($this->notification->getTo(), true);
-        $content = json_decode($this->notification->getContent(), true);
+        $message = $this->notifier->buildMessage($notification);
 
-        $message = \Swift_Message::newInstance()
-            ->setSubject(isset($content['subject']) ? $content['subject'] : null)
-            ->setFrom(array($configuration['from'] => $configuration['fromName']))
-            ->setReplyTo(isset($configuration['replyTo']) ? $configuration['replyTo'] : null)
-            ->setTo($to['to'])
-            ->setCc(isset($to['cc']) ? $to['cc'] : null)
-            ->setBcc(isset($to['bcc']) ? $to['bcc'] : null)
-            ->setBody(isset($content['message']) ? $content['message'] : null)
+        $this->assertEquals(
+            array($this->mailConfiguration['from'] => $this->mailConfiguration['fromName']),
+            $message->getFrom()
+        );
+        $this->assertEquals(array($to['to'] => null), $message->getTo());
+        $this->assertEquals(array($to['cc'] => null), $message->getCc());
+        $this->assertEquals(array($to['bcc'] => null), $message->getBcc());
+        $this->assertEquals(array($this->mailConfiguration['replyTo'] => null), $message->getReplyTo());
+        $this->assertEquals($contentWithoutHtml['subject'], $message->getSubject());
+        $this->assertEquals($contentWithoutHtml['message'], $message->getBody());
+        $this->assertEquals('text/plain', $message->getContentType());
+
+        // With HTML message but tracking disabled
+        $contentWithHtml = array(
+            'subject' => 'Test',
+            'message' => 'Test message',
+            'htmlMessage' => '<h1>Test message</h1>',
+            'attachments' => null,
+        );
+        $notification->setContent(json_encode($contentWithHtml));
+
+        $message = $this->notifier->buildMessage($notification);
+
+        $this->assertEquals('multipart/alternative', $message->getContentType());
+        $children = $message->getChildren();
+        $this->assertEquals('text/html', $children[0]->getContentType());
+        $this->assertEquals($contentWithHtml['htmlMessage'], $children[0]->getBody());
+
+        // With HTML message but tracking enabled
+        $notification
+            ->setNotifierAlias('test_sendmail_tracking')
+            ->setContent(json_encode($contentWithHtml))
         ;
 
-        $this->assertInstanceOf('Swift_Message', $message);
-        $this->assertEquals($message->getSubject(), $this->notifier->buildMessage($this->notification)->getSubject());
-        */
+        $message = $this->notifier->buildMessage($notification);
+
+        $this->assertEquals('multipart/alternative', $message->getContentType());
+        $children = $message->getChildren();
+        $this->assertEquals('text/html', $children[0]->getContentType());
+        var_dump($children[0]->getBody()); die;
     }
 
     public function testBuildHTMLContent()

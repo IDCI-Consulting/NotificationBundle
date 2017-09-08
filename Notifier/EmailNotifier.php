@@ -83,13 +83,13 @@ class EmailNotifier extends AbstractNotifier
     {
         $configuration = $this->getConfiguration($notification);
 
-        if (!$configuration['tracking_enabled']) {
+        if (!isset($configuration['tracking_enabled']) || !$configuration['tracking_enabled']) {
             return '';
         }
 
         return sprintf(
             '<img alt="picto" src="%s?notification_id=%s&action=%s" width="1" height="1" border="0" />',
-            //$this->defaultConfiguration['tracking_url'],
+            $this->defaultConfiguration['tracking_url'],
             $notification->getId(),
             'open'
         );
