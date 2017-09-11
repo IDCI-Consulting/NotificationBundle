@@ -25,22 +25,42 @@ abstract class AbstractNotifier implements NotifierInterface
      * Constructor.
      *
      * @param EntityManager $entityManager
-     * @param array         $defaultConfiguration
      */
-    public function __construct(EntityManager $entityManager, array $defaultConfiguration = array())
+    public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->defaultConfiguration = $defaultConfiguration;
     }
 
     /**
-     * Get EntityManager.
-     *
-     * @return EntityManager
+     * {@inheritdoc}
      */
-    protected function getEntityManager()
+    public function getToFields()
     {
-        return $this->entityManager;
+        return array('to' => array('textarea', array('required' => false)));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContentFields()
+    {
+        return array('message' => array('textarea', array('required' => false)));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFromFields()
+    {
+        return array('from' => array('text', array('required' => false)));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultConfiguration(array $configuration)
+    {
+        $this->defaultConfiguration = $configuration;
     }
 
     /**
@@ -65,6 +85,32 @@ abstract class AbstractNotifier implements NotifierInterface
         }
 
         return $this->getFileConfiguration();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function cleanData($data)
+    {
+        foreach ($data as $field => $options) {
+            if (is_array($options)) {
+                $fieldOptions = $this->guessFieldOptions($field);
+                $options = $this->getResolver($fieldOptions)->resolve($options);
+            }
+            $data[$field] = $options;
+        }
+
+        return $data;
+    }
+
+    /**
+     * Get EntityManager.
+     *
+     * @return EntityManager
+     */
+    protected function getEntityManager()
+    {
+        return $this->entityManager;
     }
 
     /**
@@ -122,22 +168,6 @@ abstract class AbstractNotifier implements NotifierInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function cleanData($data)
-    {
-        foreach ($data as $field => $options) {
-            if (is_array($options)) {
-                $fieldOptions = $this->guessFieldOptions($field);
-                $options = $this->getResolver($fieldOptions)->resolve($options);
-            }
-            $data[$field] = $options;
-        }
-
-        return $data;
-    }
-
-    /**
      * Get resolver.
      *
      * @param array $fieldOptions
@@ -164,30 +194,6 @@ abstract class AbstractNotifier implements NotifierInterface
         $method = sprintf('get%sFields', ucfirst(strtolower($field)));
 
         return $this->$method();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getToFields()
-    {
-        return array('to' => array('textarea', array('required' => false)));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContentFields()
-    {
-        return array('message' => array('textarea', array('required' => false)));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFromFields()
-    {
-        return array('from' => array('text', array('required' => false)));
     }
 
     /**

@@ -29,7 +29,8 @@ class TwitterNotifierTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
-        $this->notifier = new TwitterNotifier($entityManager, array(), $restApiClient);
+        $this->notifier = new TwitterNotifier($entityManager, $restApiClient);
+        $this->notifier->setDefaultConfiguration(array());
     }
 
     // Test NotifierInterface methods:

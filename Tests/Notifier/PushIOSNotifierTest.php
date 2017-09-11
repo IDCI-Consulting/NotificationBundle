@@ -23,7 +23,8 @@ class PushIOSNotifierTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
-        $this->notifier = new PushIOSNotifier($entityManager, array());
+        $this->notifier = new PushIOSNotifier($entityManager);
+        $this->notifier->setDefaultConfiguration(array());
     }
 
     // Test NotifierInterface methods:

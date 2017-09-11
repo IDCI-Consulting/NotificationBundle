@@ -27,6 +27,7 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->defaultConfiguration = array(
+            'tracking_url' => 'http://notification-manager.test/tracking',
             'default_configuration' => 'default',
             'configurations' => array(
                 'default' => array(
@@ -46,6 +47,7 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->defaultDatabaseConfiguration = array(
+            'tracking_url' => 'http://notification-manager.test/tracking',
             'transport' => 'db_smtp',
             'fromName' => 'db_test',
             'from' => 'db_test',
@@ -60,10 +62,11 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->mailConfiguration = array(
+            'tracking_url' => 'http://notification-manager.test/tracking',
             'transport' => 'mail',
             'fromName' => 'IDCINotificationBundle Unit Test',
-            'from' => 'idci_notification_test@yopmail.com',
-            'replyTo' => 'idci_notification_test@yopmail.com',
+            'from' => 'no-reply@idci-consulting.fr',
+            'replyTo' => 'no-reply@idci-consulting.fr',
             'tracking_enabled' => false,
             'mirror_link_enabled' => false,
         );
@@ -126,7 +129,8 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             ))
         ;
 
-        $this->notifier = new EmailNotifier($entityManager, $this->defaultConfiguration);
+        $this->notifier = new EmailNotifier($entityManager);
+        $this->notifier->setDefaultConfiguration($this->defaultConfiguration);
     }
 
     // Test NotifierInterface methods:
@@ -137,9 +141,20 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         $notification
             ->setType('email')
             ->setNotifierAlias('test_sendmail')
+            ->setTo(json_encode(array(
+                'to' => 'idci_notification_test@yopmail.com'
+            )))
+            ->setContent(json_encode(array(
+                'subject' => 'Test',
+                'message' => 'Test message',
+                'htmlMessage' => null,
+                'attachments' => null,
+            )))
         ;
 
-        //var_dump($this->notifier->sendNotification($notification)); die;
+        // Until sendmail is not install in the docker container
+        $this->assertFalse($this->notifier->sendNotification($notification));
+        //$this->assertTrue($this->notifier->sendNotification($notification));
     }
 
     public function testGetConfiguration()
@@ -427,41 +442,31 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('multipart/alternative', $message->getContentType());
         $children = $message->getChildren();
         $this->assertEquals('text/html', $children[0]->getContentType());
-        var_dump($children[0]->getBody()); die;
+        $this->assertEquals(
+            '<h1>Test message</h1><img alt="tracker" src="http://notification-manager.test/tracking?notification_id=&action=open" width="1" height="1" border="0" />',
+            $children[0]->getBody()
+        );
     }
 
-    public function testBuildHTMLContent()
+    public function testGetMailer()
     {
-        /*
-        $this->assertEquals(
-            '<img alt="picto" src="http://dummy_url?notification_id=&action=open" width="1" height="1" border="0" />',
-            $this->notifier->buildHTMLContent($this->notification)
-        );
-        */
-    }
+        // Mail
+        $mailer = EmailNotifier::getMailer(array('transport' => 'mail'));
+        $this->assertInstanceOf('\Swift_MailTransport', $mailer->getTransport());
 
-    public function testAddTracker()
-    {
-    /*
-        $this->assertEquals(
-            '<img alt="picto" src="http://dummy_url?notification_id=&action=open" width="1" height="1" border="0" />',
-            $this->notifier->addTracker($this->notification)
-        );
+        // Sendmail
+        $mailer = EmailNotifier::getMailer(array('transport' => 'sendmail'));
+        $this->assertInstanceOf('\Swift_SendmailTransport', $mailer->getTransport());
 
-        $this->notification->setFrom(json_encode(array(
+        // Smtp
+        $mailer = EmailNotifier::getMailer(array(
             'transport' => 'smtp',
-            'from' => 'dummy@email.com',
-            'fromName' => 'dummy@email.com',
-            'replyTo' => 'dummy@email.com',
-            'server' => 'server.smtp.fr',
-            'login' => 'id_value',
-            'password' => 'password',
-            'port' => 123,
-            'encryption' => 'ssl',
-            'track' => false,
-        )));
-
-        $this->assertEquals('', $this->notifier->addTracker($this->notification));
-        */
+            'server' => 'db_test.local',
+            'login' => 'db_test',
+            'password' => 'db_test',
+            'port' => 12345,
+            'encryption' => null,
+        ));
+        $this->assertInstanceOf('\Swift_SmtpTransport', $mailer->getTransport());
     }
 }

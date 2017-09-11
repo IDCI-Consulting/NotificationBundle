@@ -39,9 +39,12 @@ class NotificationManagerTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
-        $notifier1 = new EmailNotifier($entityManager, array('a' => 'b'));
-        $notifier2 = new EmailNotifier($entityManager, array('c' => 'd'));
-        $notifier3 = new EmailNotifier($entityManager, array('e' => 'f'));
+        $notifier1 = new EmailNotifier($entityManager);
+        $notifier1->setDefaultConfiguration(array('a' => 'b'));
+        $notifier2 = new EmailNotifier($entityManager);
+        $notifier2->setDefaultConfiguration(array('c' => 'd'));
+        $notifier3 = new EmailNotifier($entityManager);
+        $notifier3->setDefaultConfiguration(array('e' => 'f'));
 
         $this->notificationManager
             ->addNotifier($notifier1, 'notifier1')

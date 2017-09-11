@@ -23,6 +23,13 @@ interface NotifierInterface
     public function sendNotification(Notification $notification);
 
     /**
+     * Set default configuration.
+     *
+     * @param array $configuration
+     */
+    public function setDefaultConfiguration(array $configuration);
+
+    /**
      * Get configuration.
      *
      * @param Notification $notification

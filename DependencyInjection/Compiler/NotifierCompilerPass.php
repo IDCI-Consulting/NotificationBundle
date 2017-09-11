@@ -44,7 +44,13 @@ class NotifierCompilerPass implements CompilerPassInterface
                     throw new UndefindedDefinitionException($id);
                 }
                 $notifierDefinition = $container->findDefinition($id);
-                $notifierDefinition->replaceArgument(1, $notifiersConfiguration[$alias]);
+                $notifierDefinition->addMethodCall(
+                    'setDefaultConfiguration',
+                    array(array_merge(
+                        array('tracking_url' => $container->getParameter('idci_notification.notifiers.tracking_url')),
+                        $notifiersConfiguration[$alias]
+                    ))
+                );
 
                 // Define Notification form
                 $notificationFormAlias = sprintf('notification_%s', $alias);

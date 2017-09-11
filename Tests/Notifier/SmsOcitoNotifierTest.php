@@ -29,7 +29,8 @@ class SmsOcitoNotifierTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
-        $this->notifier = new SmsOcitoNotifier($entityManager, array(), $restApiClient);
+        $this->notifier = new SmsOcitoNotifier($entityManager, $restApiClient);
+        $this->notifier->setDefaultConfiguration(array());
     }
 
     // Test NotifierInterface methods:

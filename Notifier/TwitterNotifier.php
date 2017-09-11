@@ -21,12 +21,11 @@ class TwitterNotifier extends AbstractNotifier
      * Constructor.
      *
      * @param EntityManager          $entityManager
-     * @param array                  $defaultConfiguration
      * @param RestApiClientInterface $apiClient
      */
-    public function __construct(EntityManager $entityManager, $defaultConfiguration, RestApiClientInterface $apiClient)
+    public function __construct(EntityManager $entityManager, RestApiClientInterface $apiClient)
     {
-        parent::__construct($entityManager, $defaultConfiguration);
+        parent::__construct($entityManager);
         $this->apiClient = $apiClient;
     }
 

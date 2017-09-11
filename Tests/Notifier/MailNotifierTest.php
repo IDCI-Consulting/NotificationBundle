@@ -22,7 +22,8 @@ class MailNotifierTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
-        $this->notifier = new MailNotifier($entityManager, array());
+        $this->notifier = new MailNotifier($entityManager);
+        $this->notifier->setDefaultConfiguration(array());
     }
 
     // Test NotifierInterface methods:

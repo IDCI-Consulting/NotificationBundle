@@ -22,7 +22,8 @@ class FacebookNotifierTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
-        $this->notifier = new FacebookNotifier($entityManager, array());
+        $this->notifier = new FacebookNotifier($entityManager);
+        $this->notifier->setDefaultConfiguration(array());
     }
 
     // Test NotifierInterface methods:
