@@ -46,21 +46,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->defaultDatabaseConfiguration = array(
-            'tracking_url' => 'http://notification-manager.test/tracking',
-            'transport' => 'db_smtp',
-            'fromName' => 'db_test',
-            'from' => 'db_test',
-            'replyTo' => 'db_test',
-            'server' => 'db_test.local',
-            'login' => 'db_test',
-            'password' => 'db_test',
-            'port' => 12345,
-            'encryption' => null,
-            'tracking_enabled' => false,
-            'mirror_link_enabled' => false,
-        );
-
         $this->mailConfiguration = array(
             'tracking_url' => 'http://notification-manager.test/tracking',
             'transport' => 'mail',
@@ -95,10 +80,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
                     $notifierConfiguration->setType('email');
 
                     if ('email' == $args['type']) {
-                        if ('my_alias_test' == $args['alias']) {
-                            $notifierConfiguration->setConfiguration(json_encode($this->defaultDatabaseConfiguration));
-                        }
-
                         if ('test_sendmail' == $args['alias']) {
                             $notifierConfiguration->setConfiguration(json_encode($this->mailConfiguration));
                         }
@@ -114,12 +95,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
                             $conf['mirror_link_enabled'] = true;
                             $notifierConfiguration->setConfiguration(json_encode($conf));
                         }
-
-                        return $notifierConfiguration;
-                    }
-
-                    if ('wrong_json' == $args['alias']) {
-                        $notifierConfiguration->setConfiguration('{"bad_json": bad:(}');
 
                         return $notifierConfiguration;
                     }
@@ -155,69 +130,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         // Until sendmail is not install in the docker container
         $this->assertFalse($this->notifier->sendNotification($notification));
         //$this->assertTrue($this->notifier->sendNotification($notification));
-    }
-
-    public function testGetConfiguration()
-    {
-        $notification = new Notification();
-
-        // Default
-        $this->assertEquals(
-            $this->defaultConfiguration['configurations']['default'],
-            $this->notifier->getConfiguration($notification)
-        );
-
-        // Notification from setted
-        $itemFrom = array(
-            'transport' => 'from_smtp',
-            'fromName' => 'from_test',
-            'from' => 'from_test',
-        );
-        $notification->setFrom(json_encode($itemFrom));
-        $this->assertEquals($itemFrom, $this->notifier->getConfiguration($notification));
-
-        // Notification from setted but not valid json
-        $notification->setFrom('{"bad_json": bad:(}');
-        try {
-            $configuration = $this->notifier->getConfiguration($notification);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
-            $this->assertInstanceOf('IDCI\Bundle\NotificationBundle\Exception\ConfigurationParseErrorException', $e);
-        }
-
-        // Notification alias undefined
-        $notification->setNotifierAlias('dummy');
-        try {
-            $configuration = $this->notifier->getConfiguration($notification);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
-            $this->assertInstanceOf('IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierConfigurationException', $e);
-        }
-
-        // Notification alias defined but not the right type
-        $notification->setNotifierAlias('my_alias_test');
-        try {
-            $configuration = $this->notifier->getConfiguration($notification);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
-            $this->assertInstanceOf('IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierConfigurationException', $e);
-        }
-
-        // Valid json from database (alias and type ok)
-        $notification->setType('email');
-        $this->assertEquals(
-            $this->defaultDatabaseConfiguration,
-            $this->notifier->getConfiguration($notification)
-        );
-
-        // Wrong json from Database
-        $notification->setNotifierAlias('wrong_json');
-        try {
-            $configuration = $this->notifier->getConfiguration($notification);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
-            $this->assertInstanceOf('IDCI\Bundle\NotificationBundle\Exception\ConfigurationParseErrorException', $e);
-        }
     }
 
     public function testGetToFields()

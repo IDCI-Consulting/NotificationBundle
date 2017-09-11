@@ -15,8 +15,21 @@ class FacebookNotifierTest extends \PHPUnit_Framework_TestCase
 {
     private $notifier;
 
+    private $defaultConfiguration;
+
     public function setUp()
     {
+        $this->defaultConfiguration = array(
+            'tracking_url' => 'http://notification-manager.test/tracking',
+            'default_configuration' => 'default',
+            'configurations' => array(
+                'default' => array(
+                    'login' => 'default_login',
+                    'password' => 'default_password',
+                )
+            )
+        );
+
         $entityManager = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalConstructor()
             ->getMock()
@@ -30,6 +43,7 @@ class FacebookNotifierTest extends \PHPUnit_Framework_TestCase
 
     public function testSendNotification()
     {
+        // TODO
     }
 
     public function testGetConfiguration()
@@ -81,5 +95,64 @@ class FacebookNotifierTest extends \PHPUnit_Framework_TestCase
 
     public function testCleanData()
     {
+        $data = array(
+            'to' => array(
+                'to' => 'test@mail.com',
+            ),
+            'from' => array(
+                'login' => 'from_login',
+                'password' => 'from_password',
+            ),
+            'content' => array(
+                'message' => 'Test message',
+            ),
+        );
+
+        $this->assertEquals(
+            $data,
+            $this->notifier->cleanData($data)
+        );
+
+        // Missing from:login
+        $data = array(
+            'to' => array(
+                'to' => 'test@mail.com',
+            ),
+            'from' => array(
+                'password' => 'from_password',
+            ),
+            'content' => array(
+                'message' => 'Test message',
+            ),
+        );
+
+        try {
+            $data = $this->notifier->cleanData($data);
+            $this->fail("Expected exception not thrown");
+        } catch(\Exception $e) {
+            $this->assertInstanceOf('\Symfony\Component\OptionsResolver\Exception\MissingOptionsException', $e);
+        }
+
+        // Missing from:password
+        $data = array(
+            'to' => array(
+                'to' => 'test@mail.com',
+            ),
+            'from' => array(
+                'login' => 'from_login',
+            ),
+            'content' => array(
+                'message' => 'Test message',
+            ),
+        );
+
+        try {
+            $data = $this->notifier->cleanData($data);
+            $this->fail("Expected exception not thrown");
+        } catch(\Exception $e) {
+            $this->assertInstanceOf('\Symfony\Component\OptionsResolver\Exception\MissingOptionsException', $e);
+        }
     }
+
+    // Test specific methods:
 }

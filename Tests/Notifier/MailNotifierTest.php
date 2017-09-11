@@ -30,10 +30,7 @@ class MailNotifierTest extends \PHPUnit_Framework_TestCase
 
     public function testSendNotification()
     {
-    }
-
-    public function testGetConfiguration()
-    {
+        // TODO
     }
 
     public function testGetToFields()
@@ -90,5 +87,62 @@ class MailNotifierTest extends \PHPUnit_Framework_TestCase
 
     public function testCleanData()
     {
+        $data = array(
+            'to' => array(
+                'firstName' => 'to_firstName',
+                'lastName' => 'to_lastName',
+                'address' => 'to_address',
+                'postalCode' => 'to_postalCode',
+                'city' => 'to_city',
+                'country' => 'to_country',
+            ),
+            'from' => array(
+                'firstName' => 'from_firstName',
+                'lastName' => 'from_lastName',
+                'address' => 'from_address',
+                'postalCode' => 'from_postalCode',
+                'city' => 'from_city',
+                'country' => 'from_country',
+            ),
+            'content' => array(
+                'message' => 'Test message',
+            ),
+        );
+
+        $this->assertEquals(
+            $data,
+            $this->notifier->cleanData($data)
+        );
+
+        // Missing to:city
+        $data = array(
+            'to' => array(
+                'firstName' => 'to_firstName',
+                'lastName' => 'to_lastName',
+                'address' => 'to_address',
+                'postalCode' => 'to_postalCode',
+                'country' => 'to_country',
+            ),
+            'from' => array(
+                'firstName' => 'from_firstName',
+                'lastName' => 'from_lastName',
+                'address' => 'from_address',
+                'postalCode' => 'from_postalCode',
+                'city' => 'from_city',
+                'country' => 'from_country',
+            ),
+            'content' => array(
+                'message' => 'Test message',
+            ),
+        );
+
+        try {
+            $data = $this->notifier->cleanData($data);
+            $this->fail("Expected exception not thrown");
+        } catch(\Exception $e) {
+            $this->assertInstanceOf('\Symfony\Component\OptionsResolver\Exception\MissingOptionsException', $e);
+        }
     }
+
+    // Test specific methods:
 }
