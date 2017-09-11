@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author:  Remi MENCE <remi.mence@tessi.fr>
+ * @license: GPL
+ */
+
 namespace IDCI\Bundle\NotificationBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;

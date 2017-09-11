@@ -47,7 +47,10 @@ class NotifierCompilerPass implements CompilerPassInterface
                 $notifierDefinition->addMethodCall(
                     'setDefaultConfiguration',
                     array(array_merge(
-                        array('tracking_url' => $container->getParameter('idci_notification.notifiers.tracking_url')),
+                        array(
+                            'mirror_link_url' => $container->getParameter('idci_notification.mirror_link_url'),
+                            'tracking_url' => $container->getParameter('idci_notification.tracking_url'),
+                        ),
                         $notifiersConfiguration[$alias]
                     ))
                 );

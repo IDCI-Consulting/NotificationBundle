@@ -1,11 +1,7 @@
-#API REST
-
-notification:
-    resource:     IDCI\Bundle\NotificationBundle\Controller\Api\NotificationController
-    type:         rest
-    name_prefix:  api_notification_
-
 tracking_history:
-    resource:     IDCI\Bundle\NotificationBundle\Controller\Api\TrackingHistoryController
-    type:         annotation
-    name_prefix:  api_tracking_
+    resource: IDCI\Bundle\NotificationBundle\Controller\TrackingHistoryController
+    type:     annotation
+
+mirror_link:
+    resource: IDCI\Bundle\NotificationBundle\Controller\MirrorLinkController
+    type:     annotation

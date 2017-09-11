@@ -42,7 +42,12 @@ class IDCINotificationExtension extends Extension
         );
 
         $container->setParameter(
-            'idci_notification.notifiers.tracking_url',
+            'idci_notification.mirror_link_url',
+            $config['mirror_link_url']
+        );
+
+        $container->setParameter(
+            'idci_notification.tracking_url',
             $config['tracking_url']
         );
     }

@@ -27,6 +27,7 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->defaultConfiguration = array(
+            'mirror_link_url' => 'http://notification-manager.test/mirror-link',
             'tracking_url' => 'http://notification-manager.test/tracking',
             'default_configuration' => 'default',
             'configurations' => array(
@@ -47,6 +48,7 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->mailConfiguration = array(
+            'mirror_link_url' => 'http://notification-manager.test/mirror-link',
             'tracking_url' => 'http://notification-manager.test/tracking',
             'transport' => 'mail',
             'fromName' => 'IDCINotificationBundle Unit Test',
@@ -327,7 +329,7 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($contentWithoutHtml['message'], $message->getBody());
         $this->assertEquals('text/plain', $message->getContentType());
 
-        // With HTML message but tracking disabled
+        // With HTML message and tracking disabled
         $contentWithHtml = array(
             'subject' => 'Test',
             'message' => 'Test message',
@@ -343,7 +345,7 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('text/html', $children[0]->getContentType());
         $this->assertEquals($contentWithHtml['htmlMessage'], $children[0]->getBody());
 
-        // With HTML message but tracking enabled
+        // With HTML message and tracking enabled
         $notification
             ->setNotifierAlias('test_sendmail_tracking')
             ->setContent(json_encode($contentWithHtml))
@@ -355,7 +357,23 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         $children = $message->getChildren();
         $this->assertEquals('text/html', $children[0]->getContentType());
         $this->assertEquals(
-            '<h1>Test message</h1><img alt="tracker" src="http://notification-manager.test/tracking?notification_id=&action=open" width="1" height="1" border="0" />',
+            '<h1>Test message</h1><img alt="tracker" src="http://notification-manager.test/tracking/?action=open" width="1" height="1" border="0" />',
+            $children[0]->getBody()
+        );
+
+        // With HTML message and mirror_link enabled
+        $notification
+            ->setNotifierAlias('test_sendmail_mirror_link')
+            ->setContent(json_encode($contentWithHtml))
+        ;
+
+        $message = $this->notifier->buildMessage($notification);
+
+        $this->assertEquals('multipart/alternative', $message->getContentType());
+        $children = $message->getChildren();
+        $this->assertEquals('text/html', $children[0]->getContentType());
+        $this->assertEquals(
+            '<a href="http://notification-manager.test/mirror-link/">lien mirroir</a><h1>Test message</h1>',
             $children[0]->getBody()
         );
     }

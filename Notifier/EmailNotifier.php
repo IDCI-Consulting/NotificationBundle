@@ -141,9 +141,32 @@ class EmailNotifier extends AbstractNotifier
         $content = json_decode($notification->getContent(), true);
 
         return sprintf(
-            '%s%s',
+            '%s%s%s',
+            $this->buildMirrorLink($notification),
             $content['htmlMessage'],
             $this->buildTracker($notification)
+        );
+    }
+
+    /**
+     * Build html tag "<a href>" to allow viewing the notification in a web browser.
+     *
+     * @param Notification $notification
+     *
+     * @return string
+     */
+    protected function buildMirrorLink(Notification $notification)
+    {
+        $configuration = $this->getConfiguration($notification);
+
+        if (!isset($configuration['mirror_link_enabled']) || !$configuration['mirror_link_enabled']) {
+            return '';
+        }
+
+        return sprintf(
+            '<a href="%s/%s">lien mirroir</a>',
+            $this->defaultConfiguration["mirror_link_url"],
+            $notification->getId()
         );
     }
 
@@ -163,7 +186,7 @@ class EmailNotifier extends AbstractNotifier
         }
 
         return sprintf(
-            '<img alt="tracker" src="%s?notification_id=%s&action=%s" width="1" height="1" border="0" />',
+            '<img alt="tracker" src="%s/%s?action=%s" width="1" height="1" border="0" />',
             $this->defaultConfiguration['tracking_url'],
             $notification->getId(),
             'open'

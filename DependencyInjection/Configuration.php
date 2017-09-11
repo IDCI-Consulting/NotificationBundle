@@ -43,6 +43,7 @@ class Configuration implements ConfigurationInterface
                         ->append($this->addTwitterParametersNode())
                     ->end()
                 ->end()
+                ->scalarNode('mirror_link_url')->defaultNull()->end()
                 ->scalarNode('tracking_url')->defaultNull()->end()
             ->end()
         ;

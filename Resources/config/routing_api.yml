@@ -1,0 +1,6 @@
+#API REST
+
+notification:
+    resource:     IDCI\Bundle\NotificationBundle\Controller\Api\NotificationController
+    type:         rest
+    name_prefix:  api_notification_
