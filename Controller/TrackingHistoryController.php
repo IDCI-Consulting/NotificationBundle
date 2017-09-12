@@ -19,7 +19,7 @@ use IDCI\Bundle\NotificationBundle\Entity\TrackingHistory;
 class TrackingHistoryController extends Controller
 {
     /**
-     * @Route("/tracking/{id}", name="idci_notification_tracking")
+     * @Route("/tracking/{hash}", name="idci_notification_tracking")
      * @ParamConverter("notification", class="IDCINotificationBundle:Notification")
      * @Method({"GET"})
      *

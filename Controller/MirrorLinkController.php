@@ -14,7 +14,7 @@ use IDCI\Bundle\NotificationBundle\Entity\TrackingHistory;
 class MirrorLinkController extends Controller
 {
     /**
-     * @Route("/mirror-link/{id}", name="idci_notification_mirror_link")
+     * @Route("/mirror-link/{hash}", name="idci_notification_mirror_link")
      * @ParamConverter("notification", class="IDCINotificationBundle:Notification")
      * @Method({"GET"})
      *
