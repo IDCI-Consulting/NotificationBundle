@@ -166,7 +166,7 @@ class EmailNotifier extends AbstractNotifier
         return sprintf(
             '<a href="%s/%s">lien mirroir</a>',
             $this->defaultConfiguration["mirror_link_url"],
-            $notification->getId()
+            $notification->getHash()
         );
     }
 
@@ -188,7 +188,7 @@ class EmailNotifier extends AbstractNotifier
         return sprintf(
             '<img alt="tracker" src="%s/%s?action=%s" width="1" height="1" border="0" />',
             $this->defaultConfiguration['tracking_url'],
-            $notification->getId(),
+            $notification->getHash(),
             'open'
         );
     }

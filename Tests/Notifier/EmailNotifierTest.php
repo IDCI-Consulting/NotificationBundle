@@ -309,6 +309,7 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         );
         $notification = new Notification();
         $notification
+            ->setHash('this_is_a_md5_hash_value')
             ->setType('email')
             ->setNotifierAlias('test_sendmail')
             ->setTo(json_encode($to))
@@ -355,11 +356,12 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('multipart/alternative', $message->getContentType());
         $children = $message->getChildren();
-        $this->assertEquals('text/html', $children[0]->getContentType());
-        $this->assertEquals(
-            '<h1>Test message</h1><img alt="tracker" src="http://notification-manager.test/tracking/?action=open" width="1" height="1" border="0" />',
-            $children[0]->getBody()
+        $expectedBody = sprintf(
+            '<h1>Test message</h1><img alt="tracker" src="http://notification-manager.test/tracking/%s?action=open" width="1" height="1" border="0" />',
+            $notification->getHash()
         );
+        $this->assertEquals('text/html', $children[0]->getContentType());
+        $this->assertEquals($expectedBody, $children[0]->getBody());
 
         // With HTML message and mirror_link enabled
         $notification
@@ -371,11 +373,12 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('multipart/alternative', $message->getContentType());
         $children = $message->getChildren();
-        $this->assertEquals('text/html', $children[0]->getContentType());
-        $this->assertEquals(
-            '<a href="http://notification-manager.test/mirror-link/">lien mirroir</a><h1>Test message</h1>',
-            $children[0]->getBody()
+        $expectedBody = sprintf(
+            '<a href="http://notification-manager.test/mirror-link/%s">lien mirroir</a><h1>Test message</h1>',
+            $notification->getHash()
         );
+        $this->assertEquals('text/html', $children[0]->getContentType());
+        $this->assertEquals($expectedBody, $children[0]->getBody());
     }
 
     public function testGetMailer()

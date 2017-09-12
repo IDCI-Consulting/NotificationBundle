@@ -41,9 +41,21 @@ class Notification
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=128, nullable=false, unique=true)
+     */
+    protected $hash;
+
+    /**
+     * @var string
      * @ORM\Column(type="string", length=128, nullable=false)
      */
     protected $type;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    protected $status;
 
     /**
      * @var string
@@ -62,24 +74,6 @@ class Notification
      * @ORM\Column(name="_to", type="text", nullable=true)
      */
     protected $to;
-
-    /**
-     * @var \DateTime
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
-     */
-    protected $updatedAt;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=64, nullable=false)
-     */
-    protected $status;
 
     /**
      * @var string
@@ -103,6 +97,18 @@ class Notification
      * @ORM\OneToMany(targetEntity="TrackingHistory", mappedBy="notification", cascade={"all"})
      */
     protected $trackingHistories;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     */
+    protected $updatedAt;
 
     /**
      * Get status list.
@@ -203,6 +209,30 @@ class Notification
     }
 
     /**
+     * Set hash
+     *
+     * @param string $hash
+     *
+     * @return Notification
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
+
+        return $this;
+    }
+
+    /**
+     * Get hash
+     *
+     * @return string
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
+    /**
      * Set type.
      *
      * @param string $type
@@ -224,6 +254,30 @@ class Notification
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set status.
+     *
+     * @param string $status
+     *
+     * @return Notification
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -346,78 +400,6 @@ class Notification
         }
 
         return $toValues;
-    }
-
-    /**
-     * Set createdAt.
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Notification
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt.
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt.
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return Notification
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt.
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * Set status.
-     *
-     * @param string $status
-     *
-     * @return Notification
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status.
-     *
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->status;
     }
 
     /**
@@ -563,5 +545,53 @@ class Notification
     public function getTrackingHistories()
     {
         return $this->trackingHistories;
+    }
+
+    /**
+     * Set createdAt.
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Notification
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt.
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt.
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Notification
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt.
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }
