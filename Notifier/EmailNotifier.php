@@ -139,58 +139,82 @@ class EmailNotifier extends AbstractNotifier
     protected function buildHTMLContent(Notification $notification)
     {
         $content = json_decode($notification->getContent(), true);
+        $htmlContent = $content['htmlMessage'];
 
-        return sprintf(
-            '%s%s%s',
-            $this->buildMirrorLink($notification),
-            $content['htmlMessage'],
-            $this->buildTracker($notification)
-        );
+        $this
+            ->buildMirrorLink($notification, $htmlContent)
+            ->buildTracker($notification, $htmlContent)
+        ;
+
+        return $htmlContent;
     }
 
     /**
      * Build html tag "<a href>" to allow viewing the notification in a web browser.
      *
      * @param Notification $notification
+     * @param string       $content
      *
-     * @return string
+     * @return self
      */
-    protected function buildMirrorLink(Notification $notification)
+    protected function buildMirrorLink(Notification $notification, &$content)
     {
         $configuration = $this->getConfiguration($notification);
 
         if (!isset($configuration['mirror_link_enabled']) || !$configuration['mirror_link_enabled']) {
-            return '';
+            return $this;
         }
 
-        return sprintf(
-            '<a href="%s/%s">lien mirroir</a>',
-            $this->defaultConfiguration["mirror_link_url"],
+        $count = 0;
+        $mirrorLink = sprintf(
+            '%s/%s',
+            $this->defaultConfiguration['mirror_link_url'],
             $notification->getHash()
         );
+
+        $content = preg_replace(array('#\[\[mirrorlink\]\]#'), $mirrorLink, $content, -1, $count);
+
+        if (0 === $count) {
+            $content = sprintf(
+                '<a href="%s">lien mirroir</a>%s',
+                $mirrorLink,
+                $content
+            );
+        }
+
+        return $this;
     }
 
     /**
-     * Build html tag "<img>" to track readed email with notification.
+     * Build html tag "<img src>" to track readed email with notification.
      *
      * @param Notification $notification
+     * @param string       $content
      *
-     * @return string
+     * @return self
      */
-    protected function buildTracker(Notification $notification)
+    protected function buildTracker(Notification $notification, &$content)
     {
         $configuration = $this->getConfiguration($notification);
 
         if (!isset($configuration['tracking_enabled']) || !$configuration['tracking_enabled']) {
-            return '';
+            return $this;
         }
 
-        return sprintf(
+        $imgTracker = sprintf(
             '<img alt="tracker" src="%s/%s?action=%s" width="1" height="1" border="0" />',
             $this->defaultConfiguration['tracking_url'],
             $notification->getHash(),
             'open'
         );
+
+        $content = preg_replace(array('#</body>#'), $imgTracker.'</body>', $content, -1, $count);
+
+        if (0 === $count) {
+            $content .= $imgTracker;
+        }
+
+        return $this;
     }
 
     /**

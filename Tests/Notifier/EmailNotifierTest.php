@@ -42,9 +42,9 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
                     'port' => 12345,
                     'encryption' => null,
                     'tracking_enabled' => false,
-                    'mirror_link_enabled' => false
-                )
-            )
+                    'mirror_link_enabled' => false,
+                ),
+            ),
         );
 
         $this->mailConfiguration = array(
@@ -77,32 +77,32 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         $repository
             ->expects($this->any())
             ->method('findOneBy')
-            ->will($this->returnCallback(function($args) {
-                    $notifierConfiguration = new NotifierConfiguration();
-                    $notifierConfiguration->setType('email');
+            ->will($this->returnCallback(function ($args) {
+                $notifierConfiguration = new NotifierConfiguration();
+                $notifierConfiguration->setType('email');
 
-                    if ('email' == $args['type']) {
-                        if ('test_sendmail' == $args['alias']) {
-                            $notifierConfiguration->setConfiguration(json_encode($this->mailConfiguration));
-                        }
-
-                        if ('test_sendmail_tracking' == $args['alias']) {
-                            $conf = $this->mailConfiguration;
-                            $conf['tracking_enabled'] = true;
-                            $notifierConfiguration->setConfiguration(json_encode($conf));
-                        }
-
-                        if ('test_sendmail_mirror_link' == $args['alias']) {
-                            $conf = $this->mailConfiguration;
-                            $conf['mirror_link_enabled'] = true;
-                            $notifierConfiguration->setConfiguration(json_encode($conf));
-                        }
-
-                        return $notifierConfiguration;
+                if ('email' == $args['type']) {
+                    if ('test_sendmail' == $args['alias']) {
+                        $notifierConfiguration->setConfiguration(json_encode($this->mailConfiguration));
                     }
 
-                    return null;
+                    if ('test_sendmail_tracking' == $args['alias']) {
+                        $conf = $this->mailConfiguration;
+                        $conf['tracking_enabled'] = true;
+                        $notifierConfiguration->setConfiguration(json_encode($conf));
+                    }
+
+                    if ('test_sendmail_mirror_link' == $args['alias']) {
+                        $conf = $this->mailConfiguration;
+                        $conf['mirror_link_enabled'] = true;
+                        $notifierConfiguration->setConfiguration(json_encode($conf));
+                    }
+
+                    return $notifierConfiguration;
                 }
+
+                return null;
+            }
             ))
         ;
 
@@ -119,7 +119,7 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             ->setType('email')
             ->setNotifierAlias('test_sendmail')
             ->setTo(json_encode(array(
-                'to' => 'idci_notification_test@yopmail.com'
+                'to' => 'idci_notification_test@yopmail.com',
             )))
             ->setContent(json_encode(array(
                 'subject' => 'Test',
@@ -252,8 +252,8 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
 
         try {
             $data = $this->notifier->cleanData($data);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
+            $this->fail('Expected exception not thrown');
+        } catch (\Exception $e) {
             $this->assertInstanceOf('\Symfony\Component\OptionsResolver\Exception\MissingOptionsException', $e);
         }
 
@@ -275,7 +275,7 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
                 'encryption' => 'ssl',
             ),
             'content' => array(
-                "subject"     => "Test",
+                'subject' => 'Test',
                 'message' => 'Test message',
                 'htmlMessage' => null,
                 'attachments' => null,
@@ -284,8 +284,8 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
 
         try {
             $data = $this->notifier->cleanData($data);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
+            $this->fail('Expected exception not thrown');
+        } catch (\Exception $e) {
             $this->assertInstanceOf('\Symfony\Component\OptionsResolver\Exception\MissingOptionsException', $e);
         }
     }
@@ -346,7 +346,7 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('text/html', $children[0]->getContentType());
         $this->assertEquals($contentWithHtml['htmlMessage'], $children[0]->getBody());
 
-        // With HTML message and tracking enabled
+        // With bad HTML message and tracking enabled
         $notification
             ->setNotifierAlias('test_sendmail_tracking')
             ->setContent(json_encode($contentWithHtml))
@@ -375,6 +375,42 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         $children = $message->getChildren();
         $expectedBody = sprintf(
             '<a href="http://notification-manager.test/mirror-link/%s">lien mirroir</a><h1>Test message</h1>',
+            $notification->getHash()
+        );
+        $this->assertEquals('text/html', $children[0]->getContentType());
+        $this->assertEquals($expectedBody, $children[0]->getBody());
+
+        // With good HTML message and tracking enabled
+        $contentWithHtml['htmlMessage'] = '<html><body><h1>Test message</h1></body></html>';
+        $notification
+            ->setNotifierAlias('test_sendmail_tracking')
+            ->setContent(json_encode($contentWithHtml))
+        ;
+
+        $message = $this->notifier->buildMessage($notification);
+
+        $this->assertEquals('multipart/alternative', $message->getContentType());
+        $children = $message->getChildren();
+        $expectedBody = sprintf(
+            '<html><body><h1>Test message</h1><img alt="tracker" src="http://notification-manager.test/tracking/%s?action=open" width="1" height="1" border="0" /></body></html>',
+            $notification->getHash()
+        );
+        $this->assertEquals('text/html', $children[0]->getContentType());
+        $this->assertEquals($expectedBody, $children[0]->getBody());
+
+        // With HTML message using token [[mirrorlink]] and mirror_link enabled
+        $contentWithHtml['htmlMessage'] = '<html><body><a href="[[mirrorlink]]">MIRROR</a><h1>Test message</h1></body></html>';
+        $notification
+            ->setNotifierAlias('test_sendmail_mirror_link')
+            ->setContent(json_encode($contentWithHtml))
+        ;
+
+        $message = $this->notifier->buildMessage($notification);
+
+        $this->assertEquals('multipart/alternative', $message->getContentType());
+        $children = $message->getChildren();
+        $expectedBody = sprintf(
+            '<html><body><a href="http://notification-manager.test/mirror-link/%s">MIRROR</a><h1>Test message</h1></body></html>',
             $notification->getHash()
         );
         $this->assertEquals('text/html', $children[0]->getContentType());
