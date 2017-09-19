@@ -9,9 +9,7 @@ namespace IDCI\Bundle\NotificationBundle\Controller\Api;
 
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Util\Codes;
-use JMS\Serializer\SerializationContext;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierException;
 use IDCI\Bundle\NotificationBundle\Exception\NotificationParametersParseErrorException;

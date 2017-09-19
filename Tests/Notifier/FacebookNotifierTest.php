@@ -26,8 +26,8 @@ class FacebookNotifierTest extends \PHPUnit_Framework_TestCase
                 'default' => array(
                     'login' => 'default_login',
                     'password' => 'default_password',
-                )
-            )
+                ),
+            ),
         );
 
         $entityManager = $this->getMockBuilder(EntityManager::class)
@@ -128,8 +128,8 @@ class FacebookNotifierTest extends \PHPUnit_Framework_TestCase
 
         try {
             $data = $this->notifier->cleanData($data);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
+            $this->fail('Expected exception not thrown');
+        } catch (\Exception $e) {
             $this->assertInstanceOf('\Symfony\Component\OptionsResolver\Exception\MissingOptionsException', $e);
         }
 
@@ -148,8 +148,8 @@ class FacebookNotifierTest extends \PHPUnit_Framework_TestCase
 
         try {
             $data = $this->notifier->cleanData($data);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
+            $this->fail('Expected exception not thrown');
+        } catch (\Exception $e) {
             $this->assertInstanceOf('\Symfony\Component\OptionsResolver\Exception\MissingOptionsException', $e);
         }
     }

@@ -9,7 +9,6 @@ namespace IDCI\Bundle\NotificationBundle\Tests\Notifier;
 
 use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\NotificationBundle\Notifier\MailNotifier;
-use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class MailNotifierTest extends \PHPUnit_Framework_TestCase
 {
@@ -138,8 +137,8 @@ class MailNotifierTest extends \PHPUnit_Framework_TestCase
 
         try {
             $data = $this->notifier->cleanData($data);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
+            $this->fail('Expected exception not thrown');
+        } catch (\Exception $e) {
             $this->assertInstanceOf('\Symfony\Component\OptionsResolver\Exception\MissingOptionsException', $e);
         }
     }

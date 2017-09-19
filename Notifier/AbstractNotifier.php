@@ -10,7 +10,6 @@
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\ConfigurationParseErrorException;

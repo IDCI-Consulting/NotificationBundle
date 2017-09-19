@@ -9,7 +9,6 @@ namespace IDCI\Bundle\NotificationBundle\Event;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class NotificationEventSubscriber implements EventSubscriber

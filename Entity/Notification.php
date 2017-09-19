@@ -209,7 +209,7 @@ class Notification
     }
 
     /**
-     * Set hash
+     * Set hash.
      *
      * @param string $hash
      *
@@ -223,7 +223,7 @@ class Notification
     }
 
     /**
-     * Get hash
+     * Get hash.
      *
      * @return string
      */

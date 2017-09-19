@@ -16,7 +16,7 @@ use IDCI\Bundle\NotificationBundle\Entity\NotifierConfiguration;
 
 class AbstractNotifierTest extends \PHPUnit_Framework_TestCase
 {
-private $notifier;
+    private $notifier;
 
     private $defaultConfiguration;
 
@@ -39,9 +39,9 @@ private $notifier;
                     'port' => 12345,
                     'encryption' => null,
                     'tracking_enabled' => false,
-                    'mirror_link_enabled' => false
-                )
-            )
+                    'mirror_link_enabled' => false,
+                ),
+            ),
         );
 
         $this->defaultDatabaseConfiguration = array(
@@ -78,25 +78,24 @@ private $notifier;
         $repository
             ->expects($this->any())
             ->method('findOneBy')
-            ->will($this->returnCallback(function($args) {
-                    $notifierConfiguration = new NotifierConfiguration();
-                    $notifierConfiguration->setType('email');
+            ->will($this->returnCallback(function ($args) {
+                $notifierConfiguration = new NotifierConfiguration();
+                $notifierConfiguration->setType('email');
 
-                    if ('email' == $args['type'] && 'my_alias_test' == $args['alias']) {
-                        $notifierConfiguration->setConfiguration(json_encode($this->defaultDatabaseConfiguration));
+                if ('email' == $args['type'] && 'my_alias_test' == $args['alias']) {
+                    $notifierConfiguration->setConfiguration(json_encode($this->defaultDatabaseConfiguration));
 
-                        return $notifierConfiguration;
-                    }
-
-
-                    if ('wrong_json' == $args['alias']) {
-                        $notifierConfiguration->setConfiguration('{"bad_json": bad:(}');
-
-                        return $notifierConfiguration;
-                    }
-
-                    return null;
+                    return $notifierConfiguration;
                 }
+
+                if ('wrong_json' == $args['alias']) {
+                    $notifierConfiguration->setConfiguration('{"bad_json": bad:(}');
+
+                    return $notifierConfiguration;
+                }
+
+                return null;
+            }
             ))
         ;
 
@@ -127,8 +126,8 @@ private $notifier;
         $notification->setFrom('{"bad_json": bad:(}');
         try {
             $configuration = $this->notifier->getConfiguration($notification);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
+            $this->fail('Expected exception not thrown');
+        } catch (\Exception $e) {
             $this->assertInstanceOf('IDCI\Bundle\NotificationBundle\Exception\ConfigurationParseErrorException', $e);
         }
 
@@ -136,8 +135,8 @@ private $notifier;
         $notification->setNotifierAlias('dummy');
         try {
             $configuration = $this->notifier->getConfiguration($notification);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
+            $this->fail('Expected exception not thrown');
+        } catch (\Exception $e) {
             $this->assertInstanceOf('IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierConfigurationException', $e);
         }
 
@@ -145,8 +144,8 @@ private $notifier;
         $notification->setNotifierAlias('my_alias_test');
         try {
             $configuration = $this->notifier->getConfiguration($notification);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
+            $this->fail('Expected exception not thrown');
+        } catch (\Exception $e) {
             $this->assertInstanceOf('IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierConfigurationException', $e);
         }
 
@@ -161,8 +160,8 @@ private $notifier;
         $notification->setNotifierAlias('wrong_json');
         try {
             $configuration = $this->notifier->getConfiguration($notification);
-            $this->fail("Expected exception not thrown");
-        } catch(\Exception $e) {
+            $this->fail('Expected exception not thrown');
+        } catch (\Exception $e) {
             $this->assertInstanceOf('IDCI\Bundle\NotificationBundle\Exception\ConfigurationParseErrorException', $e);
         }
     }

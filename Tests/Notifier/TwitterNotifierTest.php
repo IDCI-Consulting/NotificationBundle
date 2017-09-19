@@ -11,7 +11,6 @@ namespace IDCI\Bundle\NotificationBundle\Tests\Notifier;
 use Doctrine\ORM\EntityManager;
 use Da\ApiClientBundle\Http\Rest\RestApiClientInterface;
 use IDCI\Bundle\NotificationBundle\Notifier\TwitterNotifier;
-use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class TwitterNotifierTest extends \PHPUnit_Framework_TestCase
 {
@@ -68,7 +67,7 @@ class TwitterNotifierTest extends \PHPUnit_Framework_TestCase
             'consumerKey',
             'consumerSecret',
             'oauthAccessToken',
-            'oauthAccessTokenSecret'
+            'oauthAccessTokenSecret',
         );
 
         $configureKeys = array_keys($this->notifier->getFromFields());
@@ -82,6 +81,7 @@ class TwitterNotifierTest extends \PHPUnit_Framework_TestCase
     public function testCleanData()
     {
     }
+
 /*
 /*
     public function testCleanDataWithValidData()

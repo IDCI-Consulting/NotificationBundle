@@ -11,7 +11,6 @@ namespace IDCI\Bundle\NotificationBundle\Tests\Notifier;
 use Doctrine\ORM\EntityManager;
 use Da\ApiClientBundle\Http\Rest\RestApiClientInterface;
 use IDCI\Bundle\NotificationBundle\Notifier\SmsOcitoNotifier;
-use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class SmsOcitoNotifierTest extends \PHPUnit_Framework_TestCase
 {
@@ -95,6 +94,7 @@ class SmsOcitoNotifierTest extends \PHPUnit_Framework_TestCase
     public function testCleanData()
     {
     }
+
 /*
     public function testCleanQueryString()
     {

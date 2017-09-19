@@ -10,7 +10,6 @@ namespace IDCI\Bundle\NotificationBundle\Tests\Notifier;
 
 use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\NotificationBundle\Notifier\PushIOSNotifier;
-use IDCI\Bundle\NotificationBundle\Entity\Notification;
 
 class PushIOSNotifierTest extends \PHPUnit_Framework_TestCase
 {
@@ -84,6 +83,7 @@ class PushIOSNotifierTest extends \PHPUnit_Framework_TestCase
     public function testCleanData()
     {
     }
+
 /*
     public function testCleanDataWithValidData()
     {
