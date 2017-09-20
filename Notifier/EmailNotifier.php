@@ -208,7 +208,7 @@ class EmailNotifier extends AbstractNotifier
             'open'
         );
 
-        $content = preg_replace(array('#</body>#'), $imgTracker.'</body>', $content, -1, $count);
+        $content = preg_replace(array('#</body>#'), $imgTracker.'</body>', $content, 1, $count);
 
         if (0 === $count) {
             $content .= $imgTracker;

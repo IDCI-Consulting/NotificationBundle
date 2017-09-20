@@ -398,6 +398,24 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('text/html', $children[0]->getContentType());
         $this->assertEquals($expectedBody, $children[0]->getBody());
 
+        // With bad HTML message and tracking enabled
+        $contentWithHtml['htmlMessage'] = '<html><body><h1>Test message</h1></body></body></html>';
+        $notification
+            ->setNotifierAlias('test_sendmail_tracking')
+            ->setContent(json_encode($contentWithHtml))
+        ;
+
+        $message = $this->notifier->buildMessage($notification);
+
+        $this->assertEquals('multipart/alternative', $message->getContentType());
+        $children = $message->getChildren();
+        $expectedBody = sprintf(
+            '<html><body><h1>Test message</h1><img alt="tracker" src="http://notification-manager.test/tracking/%s?action=open" width="1" height="1" border="0" /></body></body></html>',
+            $notification->getHash()
+        );
+        $this->assertEquals('text/html', $children[0]->getContentType());
+        $this->assertEquals($expectedBody, $children[0]->getBody());
+
         // With HTML message using token [[mirrorlink]] and mirror_link enabled
         $contentWithHtml['htmlMessage'] = '<html><body><a href="[[mirrorlink]]">MIRROR</a><h1>Test message</h1></body></html>';
         $notification
