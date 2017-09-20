@@ -42,5 +42,11 @@ class MirrorLinkControllerTest extends \PHPUnit_Framework_TestCase
             '<html><body><p>Someting to change</p></body></html>',
             MirrorLinkController::purgeMirrorLink($content)
         );
+
+        $content = '<html><body><a href="https://www.4chan.org">4 Chan</a><p>Someting to change</p><a class="dummy" href="[[mirrorlink]]" id="mirror">The mirror <strong>link</strong></a><a href="https://www.4chan.org">4 Chan</a></body></html>';
+        $this->assertEquals(
+            '<html><body><a href="https://www.4chan.org">4 Chan</a><p>Someting to change</p><a href="https://www.4chan.org">4 Chan</a></body></html>',
+            MirrorLinkController::purgeMirrorLink($content)
+        );
     }
 }
