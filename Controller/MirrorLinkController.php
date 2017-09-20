@@ -25,7 +25,7 @@ class MirrorLinkController extends Controller
         $content = json_decode($notification->getContent(), true);
 
         $response = new Response();
-        $response->setContent($content['htmlMessage']);
+        $response->setContent(self::purgeMirrorLink($content['htmlMessage']));
 
         $trackingHistory = new TrackingHistory();
 
@@ -46,5 +46,19 @@ class MirrorLinkController extends Controller
         ;
 
         return $response;
+    }
+
+    /**
+     * Purge the mirror link if present
+     *
+     * @param string $content
+     */
+    public static function purgeMirrorLink($content)
+    {
+        return preg_replace(
+            array('#<a[^>]*href=\"\[\[mirrorlink\]\]\".*<\/a>#U'),
+            '',
+            $content
+        );
     }
 }
