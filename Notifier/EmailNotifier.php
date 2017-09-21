@@ -162,6 +162,8 @@ class EmailNotifier extends AbstractNotifier
         $configuration = $this->getConfiguration($notification);
 
         if (!isset($configuration['mirror_link_enabled']) || !$configuration['mirror_link_enabled']) {
+            $content = self::purgeMirrorLink($content);
+
             return $this;
         }
 
@@ -198,8 +200,6 @@ class EmailNotifier extends AbstractNotifier
         $configuration = $this->getConfiguration($notification);
 
         if (!isset($configuration['tracking_enabled']) || !$configuration['tracking_enabled']) {
-            $content = self::purgeMirrorLink($content);
-
             return $this;
         }
 
