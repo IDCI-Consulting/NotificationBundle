@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Entity\TrackingHistory;
+use IDCI\Bundle\NotificationBundle\Entity\Notification\EmailNotifier;
 
 class MirrorLinkController extends Controller
 {
@@ -25,7 +26,7 @@ class MirrorLinkController extends Controller
         $content = json_decode($notification->getContent(), true);
 
         $response = new Response();
-        $response->setContent(self::purgeMirrorLink($content['htmlMessage']));
+        $response->setContent(EmailNotifier::purgeMirrorLink($content['htmlMessage']));
 
         $trackingHistory = new TrackingHistory();
 
@@ -48,17 +49,5 @@ class MirrorLinkController extends Controller
         return $response;
     }
 
-    /**
-     * Purge the mirror link if present
-     *
-     * @param string $content
-     */
-    public static function purgeMirrorLink($content)
-    {
-        return preg_replace(
-            array('#<a[^>]*href=\"\[\[mirrorlink\]\]\".*<\/a>#U'),
-            '',
-            $content
-        );
-    }
+
 }

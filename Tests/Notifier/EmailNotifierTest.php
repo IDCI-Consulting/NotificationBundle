@@ -433,6 +433,24 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals('text/html', $children[0]->getContentType());
         $this->assertEquals($expectedBody, $children[0]->getBody());
+
+        // With HTML message using token [[mirrorlink]] and mirror_link disabled
+        $contentWithHtml['htmlMessage'] = '<html><body><a href="[[mirrorlink]]">MIRROR</a><h1>Test message</h1></body></html>';
+        $notification
+            ->setNotifierAlias('test_sendmail')
+            ->setContent(json_encode($contentWithHtml))
+        ;
+
+        $message = $this->notifier->buildMessage($notification);
+
+        $this->assertEquals('multipart/alternative', $message->getContentType());
+        $children = $message->getChildren();
+        $expectedBody = sprintf(
+            '<html><body><h1>Test message</h1></body></html>',
+            $notification->getHash()
+        );
+        $this->assertEquals('text/html', $children[0]->getContentType());
+        $this->assertEquals($expectedBody, $children[0]->getBody());
     }
 
     public function testGetMailer()
@@ -455,5 +473,44 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             'encryption' => null,
         ));
         $this->assertInstanceOf('\Swift_SmtpTransport', $mailer->getTransport());
+    }
+
+    public function testPurgeMirrorLink()
+    {
+        $content = 'Nothing to change';
+        $this->assertEquals(
+            $content,
+            EmailNotifier::purgeMirrorLink($content)
+        );
+
+        $content = '<html><body><p>Nothing to change</p></body></html>';
+        $this->assertEquals(
+            $content,
+            EmailNotifier::purgeMirrorLink($content)
+        );
+
+        $content = '<html><body><p>Nothing to change</p><a href="https://www.4chan.org">4 Chan</a></body></html>';
+        $this->assertEquals(
+            $content,
+            EmailNotifier::purgeMirrorLink($content)
+        );
+
+        $content = '<html><body><p>Someting to change</p><a href="[[mirrorlink]]">mirror</a></body></html>';
+        $this->assertEquals(
+            '<html><body><p>Someting to change</p></body></html>',
+            EmailNotifier::purgeMirrorLink($content)
+        );
+
+        $content = '<html><body><p>Someting to change</p><a class="dummy" href="[[mirrorlink]]" id="mirror">The mirror <strong>link</strong></a></body></html>';
+        $this->assertEquals(
+            '<html><body><p>Someting to change</p></body></html>',
+            EmailNotifier::purgeMirrorLink($content)
+        );
+
+        $content = '<html><body><a href="https://www.4chan.org">4 Chan</a><p>Someting to change</p><a class="dummy" href="[[mirrorlink]]" id="mirror">The mirror <strong>link</strong></a><a href="https://www.4chan.org">4 Chan</a></body></html>';
+        $this->assertEquals(
+            '<html><body><a href="https://www.4chan.org">4 Chan</a><p>Someting to change</p><a href="https://www.4chan.org">4 Chan</a></body></html>',
+            EmailNotifier::purgeMirrorLink($content)
+        );
     }
 }
