@@ -74,13 +74,9 @@ abstract class AbstractNotifier implements NotifierInterface
             );
         }
 
-        if (null !== $notification->getFrom()) {
-            $from = json_decode($notification->getFrom(), true);
-            if (null === $from) {
-                throw new ConfigurationParseErrorException($notification->getFrom());
-            }
-
-            return $from;
+        $notificationConfiguration = $this->getNotificationConfiguration($notification);
+        if (false !== $notificationConfiguration) {
+            return $notificationConfiguration;
         }
 
         return $this->getFileConfiguration();
@@ -110,27 +106,6 @@ abstract class AbstractNotifier implements NotifierInterface
     protected function getEntityManager()
     {
         return $this->entityManager;
-    }
-
-    /**
-     * Get file configuration.
-     *
-     * @param string $alias
-     *
-     * @return array
-     * @throw  UndefinedNotifierConfigurationException
-     */
-    protected function getFileConfiguration($alias = null)
-    {
-        if (null === $alias) {
-            $alias = $this->defaultConfiguration['default_configuration'];
-        }
-
-        if (!isset($this->defaultConfiguration['configurations'][$alias])) {
-            throw new UndefinedNotifierConfigurationException($alias);
-        }
-
-        return $this->defaultConfiguration['configurations'][$alias];
     }
 
     /**
@@ -164,6 +139,39 @@ abstract class AbstractNotifier implements NotifierInterface
         }
 
         throw new ConfigurationParseErrorException($notifierConfiguration);
+    }
+
+    /**
+     * Get Notification configuration.
+     *
+     * @param Notification $notification
+     *
+     * @return false | array
+     */
+    protected function getNotificationConfiguration(Notification $notification)
+    {
+        return false;
+    }
+
+    /**
+     * Get file configuration.
+     *
+     * @param string $alias
+     *
+     * @return array
+     * @throw  UndefinedNotifierConfigurationException
+     */
+    protected function getFileConfiguration($alias = null)
+    {
+        if (null === $alias) {
+            $alias = $this->defaultConfiguration['default_configuration'];
+        }
+
+        if (!isset($this->defaultConfiguration['configurations'][$alias])) {
+            throw new UndefinedNotifierConfigurationException($alias);
+        }
+
+        return $this->defaultConfiguration['configurations'][$alias];
     }
 
     /**

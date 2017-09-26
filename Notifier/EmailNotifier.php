@@ -11,6 +11,7 @@
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
+use IDCI\Bundle\NotificationBundle\Exception\ConfigurationParseErrorException;
 
 class EmailNotifier extends AbstractNotifier
 {
@@ -80,6 +81,25 @@ class EmailNotifier extends AbstractNotifier
         $mailer = self::getMailer($this->getConfiguration($notification));
 
         return $mailer->send($this->buildMessage($notification)) > 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getNotificationConfiguration(Notification $notification)
+    {
+        if (null !== $notification->getFrom()) {
+            $from = json_decode($notification->getFrom(), true);
+            if (null === $from) {
+                throw new ConfigurationParseErrorException($notification->getFrom());
+            }
+
+            if (null !== $from['transport']) {
+                return $from;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -220,7 +240,7 @@ class EmailNotifier extends AbstractNotifier
     }
 
     /**
-     * Purge the mirror link if present
+     * Purge the mirror link if present.
      *
      * @param string $content
      */

@@ -290,6 +290,23 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testGetConfiguration()
+    {
+        $notification = new Notification();
+
+        // Notification from setted but transport null (EmailN)
+        $itemFrom = array(
+            'transport' => null,
+            'fromName' => 'from_test',
+            'from' => 'from_test',
+        );
+        $notification->setFrom(json_encode($itemFrom));
+        $this->assertEquals(
+            $this->defaultConfiguration['configurations']['default'],
+            $this->notifier->getConfiguration($notification)
+        );
+    }
+
     // Test specific methods:
 
     public function testBuildMessage()
