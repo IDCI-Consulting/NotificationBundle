@@ -48,6 +48,4 @@ class MirrorLinkController extends Controller
 
         return $response;
     }
-
-
 }
