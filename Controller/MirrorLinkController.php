@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Entity\TrackingHistory;
-use IDCI\Bundle\NotificationBundle\Entity\Notification\EmailNotifier;
+use IDCI\Bundle\NotificationBundle\Notifier\EmailNotifier;
 
 class MirrorLinkController extends Controller
 {
