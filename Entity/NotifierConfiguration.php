@@ -58,7 +58,6 @@ class NotifierConfiguration implements MetadatableInterface
      */
     private $tags;
 
-
     /**
      * toString.
      *
@@ -84,7 +83,7 @@ class NotifierConfiguration implements MetadatableInterface
     }
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -164,9 +163,10 @@ class NotifierConfiguration implements MetadatableInterface
     }
 
     /**
-     * Add tag
+     * Add tag.
      *
      * @param \IDCI\Bundle\SimpleMetadataBundle\Entity\Metadata $tag
+     *
      * @return Template
      */
     public function addTag(\IDCI\Bundle\SimpleMetadataBundle\Entity\Metadata $tag)
@@ -177,7 +177,7 @@ class NotifierConfiguration implements MetadatableInterface
     }
 
     /**
-     * Remove tag
+     * Remove tag.
      *
      * @param \IDCI\Bundle\SimpleMetadataBundle\Entity\Metadata $tag
      */
@@ -187,7 +187,7 @@ class NotifierConfiguration implements MetadatableInterface
     }
 
     /**
-     * Get tags
+     * Get tags.
      *
      * @return \Doctrine\Common\Collections\Collection
      */

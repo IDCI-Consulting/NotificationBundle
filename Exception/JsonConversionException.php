@@ -7,14 +7,12 @@
 namespace IDCI\Bundle\NotificationBundle\Exception;
 
 /**
- * Class JsonConversionException
- *
- * @package IDCI\Bundle\NotificationBundle\Exception
+ * Class JsonConversionException.
  */
 class JsonConversionException extends \InvalidArgumentException
 {
     /**
-     * constructor
+     * constructor.
      *
      * @param string $method
      * @param string $errorMessage

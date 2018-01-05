@@ -7,11 +7,8 @@
 
 namespace IDCI\Bundle\NotificationBundle\Entity\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use IDCI\Bundle\SimpleMetadataBundle\Entity\Metadata;
 use IDCI\Bundle\SimpleMetadataBundle\Entity\Repository\MetadataRepository;
-use Symfony\Component\Routing\Exception\InvalidParameterException;
 use IDCI\Bundle\NotificationBundle\Handler\JsonHandler;
 
 /**
@@ -20,7 +17,7 @@ use IDCI\Bundle\NotificationBundle\Handler\JsonHandler;
 class NotifierConfigurationRepository extends AbstractEntityRepository
 {
     /**
-     * Extract tags data
+     * Extract tags data.
      *
      * @param array $tags
      *
@@ -32,18 +29,20 @@ class NotifierConfigurationRepository extends AbstractEntityRepository
             return array();
         }
         $extractedTags = array();
+
         foreach ($tags as $tag) {
             $tag = JsonHandler::decode($tag, true);
             $extractedTags[] = $tag;
         }
+
         return $extractedTags;
     }
 
     /**
      * Find templates.
      *
-     * @param array   $tags
-     * @param string   $alias
+     * @param array  $tags
+     * @param string $alias
      *
      * @return QueryBuilder
      */
@@ -71,6 +70,7 @@ class NotifierConfigurationRepository extends AbstractEntityRepository
         }
         $tags = $this->extractTagsData($tags);
         MetadataRepository::findByMetadataQueryBuilder($qb, sprintf('%s.tags', $alias), $tags);
+
         return $qb;
     }
 }

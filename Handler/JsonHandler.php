@@ -9,16 +9,13 @@ namespace IDCI\Bundle\NotificationBundle\Handler;
 use IDCI\Bundle\NotificationBundle\Exception\JsonConversionException;
 
 /**
- * Class JsonHandler
- *
- * @package IDCI\Bundle\NotificationBundle\Handler
+ * Class JsonHandler.
  */
 class JsonHandler
 {
-
     /**
      * The error codes and error messages of the last json_encode() or json_decode() call
-     * which may be returned by json_last_error()
+     * which may be returned by json_last_error().
      *
      * @var array
      */
@@ -35,10 +32,10 @@ class JsonHandler
     );
 
     /**
-     * Returns the JSON representation of a value
+     * Returns the JSON representation of a value.
      *
-     * @param mixed $value   The value being encoded.
-     * @param int   $options Bitmask of JSON encode options.
+     * @param mixed $value   the value being encoded
+     * @param int   $options bitmask of JSON encode options
      * @param int   $depth   Set the maximum depth. Must be greater than zero.
      *
      * @return string
@@ -64,12 +61,12 @@ class JsonHandler
     }
 
     /**
-     * Decodes a JSON string
+     * Decodes a JSON string.
      *
-     * @param string $json    The json string being decoded.
-     * @param bool   $assoc   When TRUE, returned objects will be converted into associative arrays.
-     * @param int    $depth   User specified recursion depth.
-     * @param int    $options Bitmask of JSON decode options.
+     * @param string $json    the json string being decoded
+     * @param bool   $assoc   when TRUE, returned objects will be converted into associative arrays
+     * @param int    $depth   user specified recursion depth
+     * @param int    $options bitmask of JSON decode options
      *
      * @return mixed
      *
@@ -92,16 +89,16 @@ class JsonHandler
     }
 
     /**
-     * Is json
+     * Is json.
      *
-     * @param mixed $var         The variable being evaluated.
+     * @param mixed $var         the variable being evaluated
      * @param bool  $return_data When TRUE, returned result of json_decode
      * @param bool  $assoc       json_decode Parameter
      * @param int   $depth       json_decode Parameter
      * @param int   $options     json_decode Parameter
      *
      * @return mixed return array, when $var is json and $return_data is true,
-     *                      bool, otherwise.
+     *               bool, otherwise
      */
     public static function is_json($var, $return_data = false, $assoc = false, $depth = 512, $options = 0)
     {
@@ -118,7 +115,7 @@ class JsonHandler
     }
 
     /**
-     * Recursion do json_decode on a N-dimensional array
+     * Recursion do json_decode on a N-dimensional array.
      *
      * @param array $current N-dimensional array who contain json string as value
      * @param bool  $assoc   json_decode Parameter
