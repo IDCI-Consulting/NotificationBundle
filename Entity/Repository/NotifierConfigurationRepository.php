@@ -7,6 +7,13 @@
 
 namespace IDCI\Bundle\NotificationBundle\Entity\Repository;
 
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use IDCI\Bundle\SimpleMetadataBundle\Entity\Metadata;
+use IDCI\Bundle\SimpleMetadataBundle\Entity\Repository\MetadataRepository;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
+use IDCI\Bundle\NotificationBundle\Handler\JsonHandler;
+
 /**
  * NotifierConfigurationRepository.
  */
