@@ -17,3 +17,7 @@ IDCI\Bundle\NotificationBundle\Entity\NotifierConfiguration:
         configuration:
             expose: true
             groups: [details]
+
+        tags:
+            expose: true
+            groups: [list, details]
