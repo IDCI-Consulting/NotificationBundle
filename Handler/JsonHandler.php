@@ -6,7 +6,7 @@
 
 namespace IDCI\Bundle\NotificationBundle\Handler;
 
-use Tms\Bundle\DocumentBundle\Exception\JsonConversionException;
+use IDCI\Bundle\NotificationBundle\Exception\JsonConversionException;
 
 /**
  * Class JsonHandler
