@@ -9,7 +9,6 @@ namespace IDCI\Bundle\NotificationBundle\Entity\Repository;
 
 use Doctrine\ORM\QueryBuilder;
 use IDCI\Bundle\SimpleMetadataBundle\Entity\Repository\MetadataRepository;
-use IDCI\Bundle\NotificationBundle\Handler\JsonHandler;
 
 /**
  * NotifierConfigurationRepository.
@@ -31,8 +30,12 @@ class NotifierConfigurationRepository extends AbstractEntityRepository
         $extractedTags = array();
 
         foreach ($tags as $tag) {
-            $tag = JsonHandler::decode($tag, true);
-            $extractedTags[] = $tag;
+            try {
+                $tag = json_decode($tag, true);
+                $extractedTags[] = $tag;
+            } catch (\Exception $e) {
+                return $extractedTags;
+            }
         }
 
         return $extractedTags;
