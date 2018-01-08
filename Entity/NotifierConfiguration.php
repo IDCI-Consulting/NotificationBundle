@@ -3,6 +3,9 @@
 namespace IDCI\Bundle\NotificationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use IDCI\Bundle\SimpleMetadataBundle\Entity\Metadata;
+use IDCI\Bundle\SimpleMetadataBundle\Metadata\MetadatableInterface;
 
 /**
  * NotifierConfiguration.
@@ -12,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\UniqueConstraint(name="unique_configuration", columns={"alias", "type"})
  * })
  */
-class NotifierConfiguration
+class NotifierConfiguration implements MetadatableInterface
 {
     /**
      * @var int
@@ -45,6 +48,17 @@ class NotifierConfiguration
     private $configuration;
 
     /**
+     * @var array<Metadata>
+     *
+     * @ORM\ManyToMany(targetEntity="IDCI\Bundle\SimpleMetadataBundle\Entity\Metadata", cascade={"all"})
+     * @ORM\JoinTable(name="template_tag",
+     *     joinColumns={@ORM\JoinColumn(name="template_id", referencedColumnName="id", onDelete="cascade")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id", unique=true, onDelete="cascade")}
+     * )
+     */
+    private $tags;
+
+    /**
      * toString.
      *
      * @return string
@@ -66,6 +80,14 @@ class NotifierConfiguration
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
     }
 
     /**
@@ -138,5 +160,47 @@ class NotifierConfiguration
     public function getConfiguration()
     {
         return $this->configuration;
+    }
+
+    /**
+     * Add tag.
+     *
+     * @param \IDCI\Bundle\SimpleMetadataBundle\Entity\Metadata $tag
+     *
+     * @return Template
+     */
+    public function addTag(\IDCI\Bundle\SimpleMetadataBundle\Entity\Metadata $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag.
+     *
+     * @param \IDCI\Bundle\SimpleMetadataBundle\Entity\Metadata $tag
+     */
+    public function removeTag(\IDCI\Bundle\SimpleMetadataBundle\Entity\Metadata $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Get tags.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMetadatas()
+    {
+        return $this->getTags();
     }
 }

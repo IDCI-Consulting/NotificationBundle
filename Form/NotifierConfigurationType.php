@@ -22,7 +22,7 @@ class NotifierConfigurationType extends AbstractType
             ->add('alias', 'text')
             ->add('type', 'notifier_choice')
             ->add('configuration', 'textarea')
-        ;
+            ->add('tags', 'related_to_many_metadata_tags');
     }
 
     /**
