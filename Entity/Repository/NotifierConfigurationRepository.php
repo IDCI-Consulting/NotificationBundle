@@ -72,7 +72,15 @@ class NotifierConfigurationRepository extends AbstractEntityRepository
             $qb = $this->createQueryBuilder($alias);
         }
         $tags = $this->extractTagsData($tags);
-        MetadataRepository::findByMetadataQueryBuilder($qb, sprintf('%s.tags', $alias), $tags);
+
+        foreach ($tags as $key => $tag) {
+            MetadataRepository::findByMetadataQueryBuilder(
+                $qb,
+                sprintf('%s.tags', $alias),
+                array($tag),
+                sprintf('metadata_%d', $key)
+            );
+        }
 
         return $qb;
     }
