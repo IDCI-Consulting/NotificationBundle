@@ -76,6 +76,12 @@ class Notification
     protected $to;
 
     /**
+     * @var array
+     * @ORM\Column(name="attachments", type="text", nullable=true)
+     */
+    protected $attachments;
+
+    /**
      * @var string
      * @ORM\Column(type="text", nullable=true)
      */
@@ -383,6 +389,33 @@ class Notification
     public function getTo($key = null, $default = null)
     {
         return self::getData($this->to, $key, $default);
+    }
+
+    /**
+     * Set attachments.
+     *
+     * @param array $attachments
+     *
+     * @return Notification
+     */
+    public function setAttachments($attachments)
+    {
+        $this->attachments = $attachments;
+
+        return $this;
+    }
+
+    /**
+     * Get attachments.
+     *
+     * @param string|null $key
+     * @param mixed|null  $default
+     *
+     * @return array
+     */
+    public function getAttachments($key = null, $default = null)
+    {
+        return self::getData($this->attachments, $key, $default);
     }
 
     /**
