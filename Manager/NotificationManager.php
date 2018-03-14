@@ -20,6 +20,7 @@ use IDCI\Bundle\NotificationBundle\Exception\NotificationParametersParseErrorExc
 class NotificationManager extends AbstractManager
 {
     protected $notifiers;
+    protected $attachmentsDirectory;
 
     /**
      * Constructor.
@@ -27,10 +28,14 @@ class NotificationManager extends AbstractManager
      * @param ObjectManager            $objectManager
      * @param EventDispatcherInterface $entityManager
      */
-    public function __construct(ObjectManager $objectManager, EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        ObjectManager $objectManager,
+        EventDispatcherInterface $eventDispatcher,
+        $attachmentsDirectory
+    ) {
         parent::__construct($objectManager, $eventDispatcher);
         $this->notifiers = array();
+        $this->attachmentsDirectory = $attachmentsDirectory;
     }
 
     /**
@@ -151,10 +156,11 @@ class NotificationManager extends AbstractManager
      * Process data.
      *
      * @param string      $type
-     * @param string      $data       in json format
+     * @param string      $data        in json format
+     * @param array       $attachments
      * @param string|null $sourceName
      */
-    public function processData($type, $data, $sourceName = null)
+    public function processData($type, $data, $attachments = null, $sourceName = null)
     {
         if (!isset($this->notifiers[$type])) {
             throw new UndefinedNotifierException($type);
@@ -166,7 +172,7 @@ class NotificationManager extends AbstractManager
         }
 
         foreach ($notificationsData as $notificationData) {
-            $this->addNotification($type, $notificationData, $sourceName);
+            $this->addNotification($type, $notificationData, $attachments, $sourceName);
         }
     }
 
@@ -175,14 +181,29 @@ class NotificationManager extends AbstractManager
      *
      * @param string      $type
      * @param array       $data
+     * @param array       $attachments
      * @param string|null $sourceName
      */
-    public function addNotification($type, $data, $sourceName = null)
+    public function addNotification($type, $data, $attachments = null, $sourceName = null)
     {
+        $notification = new Notification();
+
+        if (null !== $attachments) {
+            foreach ($attachments as $key => $file) {
+                $fileName[$key] = md5($file->getClientOriginalName()).'.'.$file->getClientOriginalExtension();
+
+                $file->move(
+                    $this->attachmentsDirectory,
+                    $fileName[$key]
+                );
+            }
+
+            $notification->setAttachments(json_encode($fileName));
+        }
+
         $notifier = $this->getNotifier($type);
         $data = $notifier->cleanData($data);
 
-        $notification = new Notification();
         $notification
             ->setType($type)
             ->setNotifierAlias(isset($data['notifierAlias']) ? $data['notifierAlias'] : null)
