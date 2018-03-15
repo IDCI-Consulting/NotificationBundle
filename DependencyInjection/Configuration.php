@@ -28,7 +28,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('attachments_directory')->defaultValue(null)->end()
+                ->scalarNode('attachments_directory')->defaultValue('/tmp')->end()
             ->end()
         ;
 
