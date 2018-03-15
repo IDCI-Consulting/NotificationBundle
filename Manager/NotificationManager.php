@@ -27,6 +27,7 @@ class NotificationManager extends AbstractManager
      *
      * @param ObjectManager            $objectManager
      * @param EventDispatcherInterface $entityManager
+     * @param string                   $attachmentsDirectory
      */
     public function __construct(
         ObjectManager $objectManager,
@@ -157,7 +158,7 @@ class NotificationManager extends AbstractManager
      *
      * @param string      $type
      * @param string      $data        in json format
-     * @param array       $attachments
+     * @param string      $attachments
      * @param string|null $sourceName
      */
     public function processData($type, $data, $attachments = null, $sourceName = null)
@@ -181,27 +182,25 @@ class NotificationManager extends AbstractManager
      *
      * @param string      $type
      * @param array       $data
-     * @param array       $attachments
+     * @param string      $attachments
      * @param string|null $sourceName
      */
     public function addNotification($type, $data, $attachments = null, $sourceName = null)
     {
-        $notification = new Notification();
-
-        if (!isset($attachments)) {
-            foreach ($attachments as $key => $file) {
-                $fileName[$key] = md5($file->getClientOriginalName()).'.'.$file->getClientOriginalExtension();
-
-                $file->move(
-                    $this->attachmentsDirectory,
-                    $fileName[$key]
-                );
-            }
-            $notification->setAttachments(json_encode($fileName));
-        }
-
         $notifier = $this->getNotifier($type);
         $data = $notifier->cleanData($data);
+        $notification = new Notification();
+
+        if (!empty($attachments)) {
+            foreach ($attachments as $key => $file) {
+                $file->move(
+                    $this->attachmentsDirectory,
+                    md5($file->getClientOriginalName()).'.'.$file->getClientOriginalExtension()
+                );
+                $filesName[] = md5($file->getClientOriginalName()).'.'.$file->getClientOriginalExtension();
+            }
+            $notification->setAttachments(json_encode($filesName));
+        }
 
         $notification
             ->setType($type)
