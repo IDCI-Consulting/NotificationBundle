@@ -408,14 +408,11 @@ class Notification
     /**
      * Get attachments.
      *
-     * @param string|null $key
-     * @param mixed|null  $default
-     *
      * @return array
      */
-    public function getAttachments($key = null, $default = null)
+    public function getAttachments()
     {
-        return self::getData($this->attachments, $key, $default);
+        return $this->attachments;
     }
 
     /**
