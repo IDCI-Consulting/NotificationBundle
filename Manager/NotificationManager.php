@@ -188,7 +188,7 @@ class NotificationManager extends AbstractManager
     {
         $notification = new Notification();
 
-        if (null !== $attachments) {
+        if (!isset($attachments)) {
             foreach ($attachments as $key => $file) {
                 $fileName[$key] = md5($file->getClientOriginalName()).'.'.$file->getClientOriginalExtension();
 
@@ -197,7 +197,6 @@ class NotificationManager extends AbstractManager
                     $fileName[$key]
                 );
             }
-
             $notification->setAttachments(json_encode($fileName));
         }
 
