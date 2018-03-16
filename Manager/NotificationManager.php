@@ -189,7 +189,6 @@ class NotificationManager extends AbstractManager
     {
         $notifier = $this->getNotifier($type);
         $data = $notifier->cleanData($data);
-        $notification = new Notification();
 
         $attachmentData = array();
         foreach ($attachments as $key => $file) {
@@ -206,6 +205,7 @@ class NotificationManager extends AbstractManager
             );
         }
 
+        $notification = new Notification();
         $notification
             ->setType($type)
             ->setNotifierAlias(isset($data['notifierAlias']) ? $data['notifierAlias'] : null)
