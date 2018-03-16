@@ -213,7 +213,7 @@ class NotificationManager extends AbstractManager
             ->setFrom(isset($data['from']) ? json_encode($data['from']) : null)
             ->setTo(isset($data['to']) ? json_encode($data['to']) : null)
             ->setContent(json_encode($data['content']))
-            ->addAttachment(json_encode($attachmentData, true))
+            ->setAttachments(json_encode($attachmentData))
         ;
 
         $this->getObjectManager()->persist($notification);

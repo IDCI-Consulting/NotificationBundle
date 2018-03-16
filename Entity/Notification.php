@@ -416,20 +416,6 @@ class Notification
     }
 
     /**
-     * Add attachment
-     *
-     * @param string $attachment
-     *
-     * @return Notification
-     */
-    public function addAttachment($attachment)
-    {
-        $this->attachments = $attachment;
-
-        return $this;
-    }
-
-    /**
      * Get to json decoded.
      *
      * @return array
