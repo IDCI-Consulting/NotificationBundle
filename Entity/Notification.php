@@ -76,7 +76,7 @@ class Notification
     protected $to;
 
     /**
-     * @var array
+     * @var string
      * @ORM\Column(name="attachments", type="text", nullable=true)
      */
     protected $attachments;

@@ -158,10 +158,10 @@ class NotificationManager extends AbstractManager
      *
      * @param string      $type
      * @param string      $data        in json format
-     * @param string      $attachments
+     * @param array       $attachments
      * @param string|null $sourceName
      */
-    public function processData($type, $data, $attachments = null, $sourceName = null)
+    public function processData($type, $data, $attachments = array(), $sourceName = null)
     {
         if (!isset($this->notifiers[$type])) {
             throw new UndefinedNotifierException($type);
@@ -182,24 +182,27 @@ class NotificationManager extends AbstractManager
      *
      * @param string      $type
      * @param array       $data
-     * @param string      $attachments
+     * @param array       $attachments
      * @param string|null $sourceName
      */
-    public function addNotification($type, $data, $attachments = null, $sourceName = null)
+    public function addNotification($type, $data, $attachments = array(), $sourceName = null)
     {
         $notifier = $this->getNotifier($type);
         $data = $notifier->cleanData($data);
         $notification = new Notification();
 
-        if (!empty($attachments)) {
-            foreach ($attachments as $key => $file) {
-                $file->move(
-                    $this->attachmentsDirectory,
-                    md5($file->getClientOriginalName()).'.'.$file->getClientOriginalExtension()
-                );
-                $filesName[] = md5($file->getClientOriginalName()).'.'.$file->getClientOriginalExtension();
-            }
-            $notification->setAttachments(json_encode($filesName));
+        foreach ($attachments as $key => $file) {
+            $files = array(
+                'name' => md5($file->getClientOriginalName().$file->getFileName()).'.'.$file->getClientOriginalExtension(),
+                'originalName' => $file->getClientOriginalName(),
+                'originalExtension' => $file->getClientOriginalExtension(),
+                'size' => $file->getClientSize(),
+            );
+            $file->move(
+                $this->attachmentsDirectory,
+                $files['name']
+            );
+            $this->addAttachment($notification, $files);
         }
 
         $notification
@@ -232,5 +235,26 @@ class NotificationManager extends AbstractManager
         }
         $this->getObjectManager()->persist($notification);
         $this->getObjectManager()->flush();
+    }
+
+    /**
+     * Add attachment
+     *
+     * @param Notification $notification
+     * @param string       $attachment
+     */
+    public function addAttachment(Notification $notification, $attachment)
+    {
+        $attachments = json_decode($notification->getAttachments(), true);
+        if(!is_array($attachments)) {
+            $attachments = array();
+        }
+
+        $notification->setAttachments(json_encode(
+            array_merge(
+                $attachments,
+                array($attachment)
+            )
+        ));
     }
 }
