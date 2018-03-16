@@ -193,7 +193,7 @@ class NotificationManager extends AbstractManager
 
         $attachmentData = array();
         foreach ($attachments as $key => $file) {
-            $attachmentName = $now->format('Ymd').'_'.md5($now->format('Ymds').$file->getFileName());
+            $attachmentName = $now->format('Ymd').'_'.md5($now->format('YmdHis').$file->getFileName());
             $attachmentData[] = array(
                 'name' => $attachmentName,
                 'originalName' => $file->getClientOriginalName(),
