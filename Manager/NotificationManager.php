@@ -189,10 +189,11 @@ class NotificationManager extends AbstractManager
     {
         $notifier = $this->getNotifier($type);
         $data = $notifier->cleanData($data);
+        $now = new \Datetime;
 
         $attachmentData = array();
         foreach ($attachments as $key => $file) {
-            $attachmentName = md5($file->getClientOriginalName().$file->getFileName()).'.'.$file->getClientOriginalExtension();
+            $attachmentName = $now->format('Ymd').'_'.md5($now->format('Ymds').$file->getFileName());
             $attachmentData[] = array(
                 'name' => $attachmentName,
                 'originalName' => $file->getClientOriginalName(),
