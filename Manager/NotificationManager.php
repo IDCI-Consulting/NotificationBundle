@@ -191,18 +191,19 @@ class NotificationManager extends AbstractManager
         $data = $notifier->cleanData($data);
         $notification = new Notification();
 
+        $attachmentData = array();
         foreach ($attachments as $key => $file) {
-            $files = array(
-                'name' => md5($file->getClientOriginalName().$file->getFileName()).'.'.$file->getClientOriginalExtension(),
+            $attachmentName = md5($file->getClientOriginalName().$file->getFileName()).'.'.$file->getClientOriginalExtension();
+            $attachmentData[] = array(
+                'name' => $attachmentName,
                 'originalName' => $file->getClientOriginalName(),
                 'originalExtension' => $file->getClientOriginalExtension(),
                 'size' => $file->getClientSize(),
             );
             $file->move(
                 $this->attachmentsDirectory,
-                $files['name']
+                $attachmentName
             );
-            $this->addAttachment($notification, $files);
         }
 
         $notification
@@ -212,6 +213,7 @@ class NotificationManager extends AbstractManager
             ->setFrom(isset($data['from']) ? json_encode($data['from']) : null)
             ->setTo(isset($data['to']) ? json_encode($data['to']) : null)
             ->setContent(json_encode($data['content']))
+            ->addAttachment(json_encode($attachmentData, true))
         ;
 
         $this->getObjectManager()->persist($notification);
@@ -235,26 +237,5 @@ class NotificationManager extends AbstractManager
         }
         $this->getObjectManager()->persist($notification);
         $this->getObjectManager()->flush();
-    }
-
-    /**
-     * Add attachment
-     *
-     * @param Notification $notification
-     * @param string       $attachment
-     */
-    public function addAttachment(Notification $notification, $attachment)
-    {
-        $attachments = json_decode($notification->getAttachments(), true);
-        if(!is_array($attachments)) {
-            $attachments = array();
-        }
-
-        $notification->setAttachments(json_encode(
-            array_merge(
-                $attachments,
-                array($attachment)
-            )
-        ));
     }
 }
