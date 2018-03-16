@@ -238,7 +238,7 @@ class NotificationManager extends AbstractManager
     }
 
     /**
-     * Add attachment
+     * Add attachment.
      *
      * @param Notification $notification
      * @param string       $attachment
@@ -246,7 +246,7 @@ class NotificationManager extends AbstractManager
     public function addAttachment(Notification $notification, $attachment)
     {
         $attachments = json_decode($notification->getAttachments(), true);
-        if(!is_array($attachments)) {
+        if (!is_array($attachments)) {
             $attachments = array();
         }
 
