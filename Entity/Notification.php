@@ -416,7 +416,7 @@ class Notification
     }
 
     /**
-     * Add attachment
+     * Add attachment.
      *
      * @param string $attachment
      *
