@@ -12,7 +12,7 @@ services:
 
     idci_notification.manager.notification:
         class: IDCI\Bundle\NotificationBundle\Manager\NotificationManager
-        arguments: ["@doctrine.orm.entity_manager", "@event_dispatcher", "%attachments_directory%"]
+        arguments: ["@doctrine.orm.entity_manager", "@event_dispatcher"]
 
     idci_notification.manager.notifierconfiguration:
         class: IDCI\Bundle\NotificationBundle\Manager\NotifierConfigurationManager

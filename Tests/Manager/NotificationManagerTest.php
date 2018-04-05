@@ -29,9 +29,7 @@ class NotificationManagerTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
-        $attachmentsDirectory = '../Tests/attachements/directory';
-
-        $this->notificationManager = new NotificationManager($objectManager, $eventDispatcher, $attachmentsDirectory);
+        $this->notificationManager = new NotificationManager($objectManager, $eventDispatcher);
     }
 
     public function testGetNotifier()
