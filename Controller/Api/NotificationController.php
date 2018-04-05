@@ -36,8 +36,6 @@ class NotificationController extends FOSRestController
 
         $notifiers = $this->container->getParameter('idci_notification.notifiers');
         $data = $this->get('request')->request->all();
-        $attachments = $this->get('request')->files->all();
-
         if (isset($data['sourceName'])) {
             unset($data['sourceName']);
         }
@@ -59,7 +57,7 @@ class NotificationController extends FOSRestController
             foreach ($data as $notificationType => $notificationData) {
                 $this
                     ->get('idci_notification.manager.notification')
-                    ->processData($notificationType, $notificationData, $attachments, $sourceName)
+                    ->processData($notificationType, $notificationData, $sourceName)
                 ;
             }
         } catch (NotificationParametersParseErrorException $e) {
