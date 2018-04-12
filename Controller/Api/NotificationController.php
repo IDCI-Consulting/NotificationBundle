@@ -29,10 +29,10 @@ class NotificationController extends FOSRestController
         $rawData = $this->get('request')->request->all();
 
         // The default source name value is based on the request client IP
-        $sourceName = sprintf('%s %s',
-            sprintf('[%s]', $this->get('request')->getClientIp()),
+        $sourceName = trim(sprintf('[%s] %s',
+            $this->get('request')->getClientIp(),
             $this->get('request')->request->get('sourceName', '')
-        );
+        ));
 
         if (!isset($rawData['type'])) {
             return $this->handleView($this->view(
