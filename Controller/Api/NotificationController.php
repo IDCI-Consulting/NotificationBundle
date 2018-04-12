@@ -26,40 +26,40 @@ class NotificationController extends FOSRestController
      */
     public function postNotificationsAction()
     {
+        $rawData = $this->get('request')->request->all();
+
         // The default source name value is based on the request client IP
-        $defaultSourceName = sprintf('[%s]', $this->get('request')->getClientIp());
-
-        $sourceName = sprintf('%s %s',
-            $defaultSourceName,
+        $sourceName = trim(sprintf('[%s] %s',
+            $this->get('request')->getClientIp(),
             $this->get('request')->request->get('sourceName', '')
-        );
+        ));
 
-        $notifiers = $this->container->getParameter('idci_notification.notifiers');
-        $data = $this->get('request')->request->all();
-        if (isset($data['sourceName'])) {
-            unset($data['sourceName']);
+        if (!isset($rawData['type'])) {
+            return $this->handleView($this->view(
+                array('message' => 'The parameter \'type\' is missing'),
+                Codes::HTTP_BAD_REQUEST
+            ));
         }
+        $notificationType = $rawData['type'];
+
+        if (!isset($rawData['data'])) {
+            return $this->handleView($this->view(
+                array('message' => 'The parameter \'data\' is missing'),
+                Codes::HTTP_BAD_REQUEST
+            ));
+        }
+        $notificationData = $rawData['data'];
 
         try {
-            foreach ($data as $notificationType => $notificationData) {
-                if (!in_array($notificationType, array_keys($notifiers))) {
-                    throw new UndefinedNotifierException($notificationType);
-                }
-            }
+            $this
+                ->get('idci_notification.manager.notification')
+                ->processData($notificationType, $notificationData, $sourceName)
+            ;
         } catch (UndefinedNotifierException $e) {
             return $this->handleView($this->view(
                 array('message' => $e->getMessage()),
                 Codes::HTTP_NOT_IMPLEMENTED
             ));
-        }
-
-        try {
-            foreach ($data as $notificationType => $notificationData) {
-                $this
-                    ->get('idci_notification.manager.notification')
-                    ->processData($notificationType, $notificationData, $sourceName)
-                ;
-            }
         } catch (NotificationParametersParseErrorException $e) {
             return $this->handleView($this->view(
                 array('message' => $e->getMessage()),
