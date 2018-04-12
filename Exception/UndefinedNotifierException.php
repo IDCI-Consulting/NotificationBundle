@@ -17,13 +17,6 @@ class UndefinedNotifierException extends \Exception
      */
     public function __construct($notifierServiceName)
     {
-        parent::__construct(
-            sprintf(
-                'No notifier call %s defined',
-                $notifierServiceName
-            ),
-            0,
-            null
-        );
+        parent::__construct(sprintf("Undefined notifier '%s'", $notifierServiceName), 0, null);
     }
 }

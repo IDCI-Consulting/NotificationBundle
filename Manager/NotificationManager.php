@@ -160,14 +160,12 @@ class NotificationManager extends AbstractManager
             throw new UndefinedNotifierException($type);
         }
 
-        $notificationsData = json_decode($data, true);
-        if (!$notificationsData) {
+        $decodedData = json_decode($data, true);
+        if (!$decodedData) {
             throw new NotificationParametersParseErrorException($data);
         }
 
-        foreach ($notificationsData as $notificationData) {
-            $this->addNotification($type, $notificationData, $sourceName);
-        }
+        $this->addNotification($type, $decodedData, $sourceName);
     }
 
     /**
