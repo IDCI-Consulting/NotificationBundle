@@ -12,6 +12,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\NotificationBundle\Manager\NotificationManager;
 use IDCI\Bundle\NotificationBundle\Notifier\EmailNotifier;
+use IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierException;
+use IDCI\Bundle\NotificationBundle\Exception\NotificationParametersException;
 
 class NotificationManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +31,7 @@ class NotificationManagerTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
-        $this->notificationManager = new NotificationManager($objectManager, $eventDispatcher);
+        $this->notificationManager = new NotificationManager($objectManager, $eventDispatcher, null);
     }
 
     public function testGetNotifier()
@@ -65,5 +67,43 @@ class NotificationManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->expectException('IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierException');
         $this->notificationManager->getNotifier('dummy');
+    }
+
+    public function testAddNotification()
+    {
+        try {
+            $this->notificationManager->addNotification('dummy', '', array());
+            $this->fail("Expected exception not thrown");
+        } catch (UndefinedNotifierException $e) {
+            $this->assertEquals("Undefined notifier 'dummy'", $e->getMessage());
+        }
+
+        $entityManager = $this->getMockBuilder(EntityManager::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $emailNotifier = new EmailNotifier($entityManager);
+        $this->notificationManager->addNotifier($emailNotifier, 'email');
+
+        try {
+            $this->notificationManager->addNotification('email', '{wrong json}', array());
+            $this->fail("Expected exception not thrown");
+        } catch (NotificationParametersException $e) {
+            $this->assertEquals(
+                "Notification parameters error : Json decode failed with the given data: {wrong json}",
+                $e->getMessage()
+            );
+        }
+
+        try {
+            $this->notificationManager->addNotification('email', '{"a": "b"}', array(1));
+            $this->fail("Expected exception not thrown");
+        } catch (NotificationParametersException $e) {
+            $this->assertEquals(
+                "Notification parameters error : The parameters 'idci_notification.files_directory' is not configured",
+                $e->getMessage()
+            );
+        }
     }
 }

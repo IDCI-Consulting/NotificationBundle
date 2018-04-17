@@ -71,7 +71,6 @@ Example : /notificationparameters/email
         "subject":["text",{"required":true}],
         "message":["textarea",{"required":false}],
         "htmlMessage":["textarea",{"required":false}],
-        "attachments":["text",{"required":false}]
     }
 }
 ```

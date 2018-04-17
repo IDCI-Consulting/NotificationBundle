@@ -125,7 +125,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
                 'subject' => 'Test',
                 'message' => 'Test message',
                 'htmlMessage' => null,
-                'attachments' => null,
             )))
         ;
 
@@ -156,7 +155,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             'subject',
             'message',
             'htmlMessage',
-            'attachments',
         );
 
         $configureKeys = array_keys($this->notifier->getContentFields());
@@ -216,7 +214,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
                 'subject' => 'Test',
                 'message' => 'Test message',
                 'htmlMessage' => null,
-                'attachments' => null,
             ),
         );
 
@@ -246,7 +243,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             'content' => array(
                 'message' => 'Test message',
                 'htmlMessage' => null,
-                'attachments' => null,
             ),
         );
 
@@ -278,7 +274,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
                 'subject' => 'Test',
                 'message' => 'Test message',
                 'htmlMessage' => null,
-                'attachments' => null,
             ),
         );
 
@@ -322,7 +317,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             'subject' => 'Test',
             'message' => 'Test message',
             'htmlMessage' => null,
-            'attachments' => null,
         );
         $notification = new Notification();
         $notification
@@ -352,7 +346,6 @@ class EmailNotifierTest extends \PHPUnit_Framework_TestCase
             'subject' => 'Test',
             'message' => 'Test message',
             'htmlMessage' => '<h1>Test message</h1>',
-            'attachments' => null,
         );
         $notification->setContent(json_encode($contentWithHtml));
 

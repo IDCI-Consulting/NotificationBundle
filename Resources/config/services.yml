@@ -12,7 +12,7 @@ services:
 
     idci_notification.manager.notification:
         class: IDCI\Bundle\NotificationBundle\Manager\NotificationManager
-        arguments: ["@doctrine.orm.entity_manager", "@event_dispatcher"]
+        arguments: ["@doctrine.orm.entity_manager", "@event_dispatcher", "%idci_notification.files_directory%"]
 
     idci_notification.manager.notifierconfiguration:
         class: IDCI\Bundle\NotificationBundle\Manager\NotifierConfigurationManager
@@ -27,13 +27,13 @@ services:
 
     idci_notification.form.type.notifier_choice:
         class: IDCI\Bundle\NotificationBundle\Form\Type\NotifierChoiceType
-        arguments: [%idci_notification.notifiers%]
+        arguments: ["%idci_notification.notifiers%"]
         tags:
             - { name: form.type, alias: notifier_choice }
 
     idci_notification.form.type.certificate:
         class: IDCI\Bundle\NotificationBundle\Form\Type\CertificateType
-        arguments: [%idci_notification.notifiers.configuration%]
+        arguments: ["%idci_notification.notifiers.configuration%"]
         tags:
             - { name: form.type, alias: certificate }
 

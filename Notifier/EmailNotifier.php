@@ -36,7 +36,6 @@ class EmailNotifier extends AbstractNotifier
             'subject' => array('text', array('required' => true)),
             'message' => array('textarea', array('required' => false)),
             'htmlMessage' => array('textarea', array('required' => false)),
-            'attachments' => array('text', array('required' => false)),
         );
     }
 

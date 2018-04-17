@@ -12,7 +12,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Util\Codes;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierException;
-use IDCI\Bundle\NotificationBundle\Exception\NotificationParametersParseErrorException;
+use IDCI\Bundle\NotificationBundle\Exception\NotificationParametersException;
 
 /**
  * Notification API REST controller.
@@ -40,7 +40,7 @@ class NotificationController extends FOSRestController
                 Codes::HTTP_BAD_REQUEST
             ));
         }
-        $notificationType = $rawData['type'];
+        $notifierAlias = $rawData['type'];
 
         if (!isset($rawData['data'])) {
             return $this->handleView($this->view(
@@ -49,18 +49,19 @@ class NotificationController extends FOSRestController
             ));
         }
         $notificationData = $rawData['data'];
+        $notificationFiles = $this->get('request')->files->all();
 
         try {
             $this
                 ->get('idci_notification.manager.notification')
-                ->processData($notificationType, $notificationData, $sourceName)
+                ->addNotification($notifierAlias, $notificationData, $notificationFiles, $sourceName)
             ;
         } catch (UndefinedNotifierException $e) {
             return $this->handleView($this->view(
                 array('message' => $e->getMessage()),
                 Codes::HTTP_NOT_IMPLEMENTED
             ));
-        } catch (NotificationParametersParseErrorException $e) {
+        } catch (NotificationParametersException $e) {
             return $this->handleView($this->view(
                 array('message' => $e->getMessage()),
                 Codes::HTTP_BAD_REQUEST

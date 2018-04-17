@@ -15,22 +15,36 @@ use IDCI\Bundle\NotificationBundle\Notifier\NotifierInterface;
 use IDCI\Bundle\NotificationBundle\Event\NotificationEvent;
 use IDCI\Bundle\NotificationBundle\Event\NotificationEvents;
 use IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierException;
-use IDCI\Bundle\NotificationBundle\Exception\NotificationParametersParseErrorException;
+use IDCI\Bundle\NotificationBundle\Exception\NotificationParametersException;
 
 class NotificationManager extends AbstractManager
 {
+    /**
+     * @var array
+     */
     protected $notifiers;
+
+    /**
+     * @param string
+     */
+    protected $filesDirectory;
 
     /**
      * Constructor.
      *
      * @param ObjectManager            $objectManager
      * @param EventDispatcherInterface $entityManager
+     * @param string                   $filesDirectory
      */
-    public function __construct(ObjectManager $objectManager, EventDispatcherInterface $eventDispatcher)
+    public function __construct(
+        ObjectManager $objectManager,
+        EventDispatcherInterface $eventDispatcher,
+        $filesDirectory
+    )
     {
         parent::__construct($objectManager, $eventDispatcher);
         $this->notifiers = array();
+        $this->filesDirectory = $filesDirectory;
     }
 
     /**
@@ -148,50 +162,71 @@ class NotificationManager extends AbstractManager
     }
 
     /**
-     * Process data.
+     * Add Notification.
      *
-     * @param string      $type
-     * @param string      $data       in json format
-     * @param string|null $sourceName
+     * @param string      $alias      Notifier alias.
+     * @param string      $data       Notification data in json format.
+     * @param array       $files      Notification files.
+     * @param string|null $sourceName Notification source name.
      */
-    public function processData($type, $data, $sourceName = null)
+    public function addNotification($alias, $data, array $files, $sourceName = null)
     {
-        if (!isset($this->notifiers[$type])) {
-            throw new UndefinedNotifierException($type);
-        }
+        $notifier = $this->getNotifier($alias);
 
         $decodedData = json_decode($data, true);
         if (!$decodedData) {
-            throw new NotificationParametersParseErrorException($data);
+            throw new NotificationParametersException(sprintf('Json decode failed with the given data: %s', $data));
         }
 
-        $this->addNotification($type, $decodedData, $sourceName);
-    }
-
-    /**
-     * Add Notification.
-     *
-     * @param string      $type
-     * @param array       $data
-     * @param string|null $sourceName
-     */
-    public function addNotification($type, $data, $sourceName = null)
-    {
-        $notifier = $this->getNotifier($type);
-        $data = $notifier->cleanData($data);
+        if (!empty($files) && null === $this->filesDirectory) {
+            throw new NotificationParametersException('The parameters \'idci_notification.files_directory\' is not configured');
+        }
+        $data = $notifier->cleanData($decodedData);
+        $movedFiles = $this->moveFiles($alias, $files);
 
         $notification = new Notification();
         $notification
-            ->setType($type)
+            ->setType($alias)
             ->setNotifierAlias(isset($data['notifierAlias']) ? $data['notifierAlias'] : null)
             ->setSource(null === $sourceName ? $data['source'] : $sourceName)
             ->setFrom(isset($data['from']) ? json_encode($data['from']) : null)
             ->setTo(isset($data['to']) ? json_encode($data['to']) : null)
             ->setContent(json_encode($data['content']))
+            ->setFiles($movedFiles)
         ;
 
         $this->getObjectManager()->persist($notification);
         $this->getObjectManager()->flush();
+    }
+
+    /**
+     * Move files
+     *
+     * @param string $alias
+     * @param array  $files
+     *
+     * @return array The files data (path + mime info)
+     */
+    public function moveFiles($alias, array $files)
+    {
+        $info = array();
+        $now = new \Datetime();
+        $directory = $this->filesDirectory.DIRECTORY_SEPARATOR.$now->format('Ymd');
+
+        foreach ($files as $k => $uploadedFile) {
+            $filename = sprintf('%s_%s', $alias, uniqid(mt_rand(1, 9999), true));
+            $info[] = array(
+                'path' => $directory.DIRECTORY_SEPARATOR.$filename,
+                'name' => $uploadedFile->getClientOriginalName(),
+                'mimeType' => $uploadedFile->getMimeType(),
+                'extension' => $uploadedFile->guessExtension()
+            );
+            $uploadedFile->move($directory, $filename);
+            unset($uploadedFile);
+        }
+
+
+        return $info;
     }
 
     /**
