@@ -19,7 +19,7 @@ class NotificationTest extends \PHPUnit_Framework_TestCase
             ->setType('email')
             ->setFrom('{"transport":"smtp","from":"from_value","fromName":"from_name_value","replyTo":"reply_to_value","server":"server.smtp.fr","login":"id_value","password":"password","port":123,"encryption":"ssl"}')
             ->setTo('{"to":"test@mail.com","cc":null,"bcc":null}')
-            ->setContent('{"subject":"Test","message":"Test message","htmlMessage":null,"attachments":null}')
+            ->setContent('{"subject":"Test","message":"Test message","htmlMessage":null}')
         ;
 
         return array(

@@ -82,6 +82,13 @@ class Notification
     protected $content;
 
     /**
+     * @var array
+     * @var string
+     * @ORM\Column(name="files", type="json_array", nullable=true)
+     */
+    protected $files;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -468,6 +475,31 @@ class Notification
     public function getSource()
     {
         return $this->source;
+    }
+
+
+    /**
+     * Set files.
+     *
+     * @param array $files
+     *
+     * @return Notification
+     */
+    public function setFiles(array $files)
+    {
+        $this->files = $files;
+
+        return $this;
+    }
+
+    /**
+     * Get files.
+     *
+     * @return array
+     */
+    public function getFiles()
+    {
+        return $this->files;
     }
 
     /**

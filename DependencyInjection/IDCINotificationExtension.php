@@ -42,6 +42,11 @@ class IDCINotificationExtension extends Extension
         );
 
         $container->setParameter(
+            'idci_notification.files_directory',
+            $config['files_directory']
+        );
+
+        $container->setParameter(
             'idci_notification.mirror_link_url',
             $config['mirror_link_url']
         );

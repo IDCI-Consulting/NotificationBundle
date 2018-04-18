@@ -66,7 +66,6 @@ Automaticaly add the source IP: `"[ip] - source_name"`.
 | subject     | false    | string value | Subject data
 | message     | true     | string value | Email message
 | htmlMessage | true     | string value | Email message in html format
-| attachments | true     | string value | Attachments data
 
 #### Case 1 : notification with notifier parameters
 ```
@@ -92,7 +91,6 @@ email=[
             "subject": "A subject message",
             "message": "the message to be send",
             "htmlMessage": "<h1>Titre</h1><p>Message</p>",
-            "attachments": []
         }
     }
 ]
@@ -111,7 +109,6 @@ email=[
             "subject": "A subject message",
             "message": "the message to be send",
             "htmlMessage": "<h1>Titre</h1><p>Message</p>",
-            "attachments": []
         }
     }
 ]
@@ -488,7 +485,6 @@ email=[
             "subject": "A subject message",
             "message": "the message to be send",
             "htmlMessage": "<h1>Titre</h1><p>Message</p>",
-            "attachments": []
         }
     }
 ]
@@ -518,7 +514,6 @@ email=[
             "subject": "A subject message",
             "message": "the message to be send",
             "htmlMessage": "<h1>Titre</h1><p>Message</p>",
-            "attachments": []
         }
     },
     {
@@ -532,7 +527,6 @@ email=[
             "subject": "the subject of the seconde message",
             "message": "the message to be send",
             "htmlMessage": "<h1>Titre</h1><p>Message</p>",
-            "attachments": []
         }
     }
 ]
@@ -562,7 +556,6 @@ email=[
             "subject": "A subject message",
             "message": "the message to be send",
             "htmlMessage": "<h1>Titre</h1><p>Message</p>",
-            "attachments": []
         }
     },
     {
@@ -576,7 +569,6 @@ email=[
             "subject": "the subject of the seconde message",
             "message": "the message to be send",
             "htmlMessage": "<h1>Titre</h1><p>Message</p>",
-            "attachments": []
         }
     }
 ] &

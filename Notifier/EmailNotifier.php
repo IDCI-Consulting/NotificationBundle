@@ -36,7 +36,6 @@ class EmailNotifier extends AbstractNotifier
             'subject' => array('text', array('required' => true)),
             'message' => array('textarea', array('required' => false)),
             'htmlMessage' => array('textarea', array('required' => false)),
-            'attachments' => array('text', array('required' => false)),
         );
     }
 
@@ -134,7 +133,7 @@ class EmailNotifier extends AbstractNotifier
 
         $message = \Swift_Message::newInstance()
             ->setSubject(isset($content['subject']) ? $content['subject'] : null)
-            ->setFrom(array($configuration['from'] => $configuration['fromName']))
+            ->setFrom(array($configuration['from'] => isset($configuration['fromName']) ? $configuration['fromName'] : $configuration['from']))
             ->setReplyTo(isset($configuration['replyTo']) ? $configuration['replyTo'] : null)
             ->setTo($to['to'])
             ->setCc(isset($to['cc']) ? $to['cc'] : null)
@@ -144,6 +143,10 @@ class EmailNotifier extends AbstractNotifier
 
         if (isset($content['htmlMessage'])) {
             $message->addPart($this->buildHTMLContent($notification), 'text/html');
+        }
+
+        foreach ($notification->getFiles() as $file) {
+            $message->attach(\Swift_Attachment::fromPath($file['path'])->setFilename($file['name']));
         }
 
         return $message;
