@@ -33,8 +33,9 @@ class NotificationEventSubscriber implements EventSubscriber
 
         if ($entity instanceof Notification) {
             $entity->setHash(md5(sprintf(
-                '%s_%s',
+                '%s_%s_%s',
                 $entity->getCreatedAt()->getTimestamp(),
+                $entity->getTo(),
                 $entity->getContent()
             )));
         }
