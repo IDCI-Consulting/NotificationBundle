@@ -35,6 +35,8 @@ class NotificationController extends FOSRestController
         ));
 
         if (!isset($rawData['type'])) {
+            $this->get('logger')->error('The parameter \'type\' is missing');
+
             return $this->handleView($this->view(
                 array('message' => 'The parameter \'type\' is missing'),
                 Codes::HTTP_BAD_REQUEST
@@ -43,6 +45,8 @@ class NotificationController extends FOSRestController
         $notifierAlias = $rawData['type'];
 
         if (!isset($rawData['data'])) {
+            $this->get('logger')->error('The parameter \'data\' is missing');
+
             return $this->handleView($this->view(
                 array('message' => 'The parameter \'data\' is missing'),
                 Codes::HTTP_BAD_REQUEST
@@ -57,16 +61,22 @@ class NotificationController extends FOSRestController
                 ->addNotification($notifierAlias, $notificationData, $notificationFiles, $sourceName)
             ;
         } catch (UndefinedNotifierException $e) {
+            $this->get('logger')->error($e->getMessage());
+
             return $this->handleView($this->view(
                 array('message' => $e->getMessage()),
                 Codes::HTTP_NOT_IMPLEMENTED
             ));
         } catch (NotificationParametersException $e) {
+            $this->get('logger')->error($e->getMessage());
+
             return $this->handleView($this->view(
                 array('message' => $e->getMessage()),
                 Codes::HTTP_BAD_REQUEST
             ));
         } catch (\Exception $e) {
+            $this->get('logger')->error($e->getMessage());
+
             return $this->handleView($this->view(
                 array('message' => $e->getMessage()),
                 Codes::HTTP_INTERNAL_SERVER_ERROR
