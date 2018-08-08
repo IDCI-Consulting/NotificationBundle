@@ -555,6 +555,7 @@ class Notification
     public function addTrackingHistory(\IDCI\Bundle\NotificationBundle\Entity\TrackingHistory $trackingHistory)
     {
         $this->trackingHistories[] = $trackingHistory;
+        $this->onUpdate();
 
         return $this;
     }
