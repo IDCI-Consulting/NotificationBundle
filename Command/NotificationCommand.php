@@ -59,7 +59,10 @@ EOT
         $countErrors = 0;
         $notifications = $notificationManager->findBy(
             array('status' => Notification::STATUS_NEW),
-            array(),
+            array(
+                'priority' => 'DESC',
+                'id' => 'ASC',
+            ),
             $limit
         );
         $output->writeln(sprintf('<info>Send notifications (%d)</info>', count($notifications)));

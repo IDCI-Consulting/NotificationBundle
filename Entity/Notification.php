@@ -17,6 +17,8 @@ use IDCI\Bundle\NotificationBundle\Exception\NotificationFieldParseErrorExceptio
  * @ORM\Entity(repositoryClass="IDCI\Bundle\NotificationBundle\Entity\Repository\NotificationRepository")
  * @ORM\Table(name="notification", indexes={
  *    @ORM\Index(name="notification_status", columns={"status"}),
+ *    @ORM\Index(name="notification_priority", columns={"priority"}),
+ *    @ORM\Index(name="notification_status_priority", columns={"status", "priority"}),
  *    @ORM\Index(name="notification_source", columns={"source"}),
  *    @ORM\Index(name="notification_alias", columns={"notifier_alias"}),
  *    @ORM\Index(name="notification_created_at", columns={"created_at"}),
@@ -30,6 +32,10 @@ class Notification
     const STATUS_DONE = 'DONE';
     const STATUS_ERROR = 'ERROR';
     const STATUS_PENDING = 'PENDING';
+
+    const PRIORITY_LOW = -1;
+    const PRIORITY_NORMAL = 0;
+    const PRIORITY_HIGH = 1;
 
     /**
      * @var int
@@ -56,6 +62,12 @@ class Notification
      * @ORM\Column(type="string", length=64, nullable=false)
      */
     protected $status;
+
+    /**
+     * @var string
+     * @ORM\Column(type="integer", length=64, nullable=false)
+     */
+    protected $priority = self::PRIORITY_NORMAL;
 
     /**
      * @var string
@@ -129,6 +141,20 @@ class Notification
             self::STATUS_DONE => self::STATUS_DONE,
             self::STATUS_ERROR => self::STATUS_ERROR,
             self::STATUS_PENDING => self::STATUS_PENDING,
+        );
+    }
+
+    /**
+     * Get priority list.
+     *
+     * @return array
+     */
+    public static function getPriorityList()
+    {
+        return array(
+            self::PRIORITY_LOW => self::PRIORITY_LOW,
+            self::PRIORITY_NORMAL => self::PRIORITY_NORMAL,
+            self::PRIORITY_HIGH => self::PRIORITY_HIGH,
         );
     }
 
@@ -285,6 +311,30 @@ class Notification
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set priority.
+     *
+     * @param string $priority
+     *
+     * @return Notification
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    /**
+     * Get priority.
+     *
+     * @return string
+     */
+    public function getPriority()
+    {
+        return $this->priority;
     }
 
     /**
