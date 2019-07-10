@@ -46,6 +46,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('files_directory')->defaultNull()->end()
                 ->scalarNode('mirror_link_url')->defaultNull()->end()
                 ->scalarNode('tracking_url')->defaultNull()->end()
+                ->integerNode('batch_limit')->defaultNull()->end()
             ->end()
         ;
 

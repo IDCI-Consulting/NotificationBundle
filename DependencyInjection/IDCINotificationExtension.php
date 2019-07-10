@@ -55,5 +55,10 @@ class IDCINotificationExtension extends Extension
             'idci_notification.tracking_url',
             $config['tracking_url']
         );
+
+        $container->setParameter(
+            'idci_notification.batch.limit',
+            $config['batch_limit']
+        );
     }
 }
