@@ -55,7 +55,7 @@ class NotificationController extends FOSRestController
         $notificationData = $rawData['data'];
         $notificationFiles = $this->get('request')->files->all();
 
-        $priority = $priority = Notification::PRIORITY_NORMAL;
+        $priority = Notification::PRIORITY_NORMAL;
         if (isset($rawData['priority'])) {
             $priority = $rawData['priority'];
         }
