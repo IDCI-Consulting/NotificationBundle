@@ -168,9 +168,15 @@ class NotificationManager extends AbstractManager
      * @param string      $data       Notification data in json format.
      * @param array       $files      Notification files.
      * @param string|null $sourceName Notification source name.
+     * @param integer     $priority   The notification priority.
      */
-    public function addNotification($alias, $data, array $files, $sourceName = null)
-    {
+    public function addNotification(
+        $alias,
+        $data,
+        array $files,
+        $sourceName = null,
+        $priority = Notification::PRIORITY_NORMAL
+    ) {
         $notifier = $this->getNotifier($alias);
 
         $decodedData = json_decode($data, true);
@@ -193,6 +199,7 @@ class NotificationManager extends AbstractManager
             ->setTo(isset($data['to']) ? json_encode($data['to']) : null)
             ->setContent(json_encode($data['content']))
             ->setFiles($movedFiles)
+            ->setPriority($priority)
         ;
 
         $this->getObjectManager()->persist($notification);

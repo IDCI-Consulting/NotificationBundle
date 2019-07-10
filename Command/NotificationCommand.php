@@ -43,7 +43,13 @@ EOT
         $notificationManager = $this->getContainer()->get('idci_notification.manager.notification');
 
         $countErrors = 0;
-        $notifications = $notificationManager->findBy(array('status' => Notification::STATUS_NEW));
+        $notifications = $notificationManager->findBy(
+            array('status' => Notification::STATUS_NEW),
+            array(
+                'priority' => 'DESC',
+                'id' => 'ASC',
+            )
+        );
         $output->writeln(sprintf('<info>Send notifications (%d)</info>', count($notifications)));
         foreach ($notifications as $notification) {
             $notificationManager->notify($notification);
