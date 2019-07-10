@@ -195,8 +195,7 @@ class NotificationManager extends AbstractManager
             ->setFiles($movedFiles)
         ;
 
-        $this->getObjectManager()->persist($notification);
-        $this->getObjectManager()->flush();
+        $this->add($notification);
     }
 
     /**
@@ -244,7 +243,6 @@ class NotificationManager extends AbstractManager
             $notification->setStatus(Notification::STATUS_ERROR);
             $notification->addLog($e->getMessage());
         }
-        $this->getObjectManager()->persist($notification);
-        $this->getObjectManager()->flush();
+        $this->update($notification);
     }
 }
