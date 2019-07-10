@@ -49,11 +49,9 @@ EOT
         $notificationManager = $this->getContainer()->get('idci_notification.manager.notification');
         $options = $input->getOptions();
 
-        $limit = null;
+        $limit = $this->getContainer()->getParameter('idci_notification.batch.limit');
         if ($options['limit']) {
             $limit = $options['limit'];
-        } elseif ($this->getContainer()->hasParameter('idci_notification.batch.limit')) {
-            $limit = $this->getContainer()->getParameter('idci_notification.batch.limit');
         }
 
         $countErrors = 0;
