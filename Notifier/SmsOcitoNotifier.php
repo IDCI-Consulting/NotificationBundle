@@ -44,12 +44,14 @@ class SmsOcitoNotifier extends AbstractNotifier
      */
     public function sendNotification(Notification $notification)
     {
+        $configuration = $this->getConfiguration($notification);
+
         $response = $this->getApiClient()->get(
-            '/connecteur/mt/SendUtf8MTRequest.jsp',
+            $configuration['senderType'],
             $this->buildQueryStringParameters($notification)
         );
 
-        if (!ereg('Status=0', $response)) {
+        if (!preg_match('/Status=0/', $response)) {
             throw new SmsOcitoNotifierException(sprintf(
                 '[FAILED] : %s',
                 strip_tags($response)
@@ -158,6 +160,14 @@ class SmsOcitoNotifier extends AbstractNotifier
         return array(
             'userName' => array('text',    array('required' => false, 'max_length' => 30)),
             'password' => array('text',    array('required' => false, 'max_length' => 30)),
+            'senderType' => array('choice', array(
+                'choices' => array(
+                    'SendMTRequest.jsp' => 'Send mt request',
+                    'SendUtf8MTRequest.jsp' => 'Send utf8 mt request',
+                    'SendWapMTRequest.jsp' => 'Send wap mt request',
+                    'SendMailMTRequest.jsp' => 'Send mail mt request'
+                ),
+            )),
             'senderAppId' => array('text',    array('required' => false, 'max_length' => 10)),
             'senderId' => array('text',    array('required' => false, 'max_length' => 11)),
             'flag' => array('integer', array(
