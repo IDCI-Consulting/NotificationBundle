@@ -73,7 +73,7 @@ class NotificationManagerTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $this->notificationManager->addNotification('dummy', '', array());
-            $this->fail("Expected exception not thrown");
+            $this->fail('Expected exception not thrown');
         } catch (UndefinedNotifierException $e) {
             $this->assertEquals("Undefined notifier 'dummy'", $e->getMessage());
         }
@@ -88,17 +88,17 @@ class NotificationManagerTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->notificationManager->addNotification('email', '{wrong json}', array());
-            $this->fail("Expected exception not thrown");
+            $this->fail('Expected exception not thrown');
         } catch (NotificationParametersException $e) {
             $this->assertEquals(
-                "Notification parameters error : Json decode failed with the given data: {wrong json}",
+                'Notification parameters error : Json decode failed with the given data: {wrong json}',
                 $e->getMessage()
             );
         }
 
         try {
             $this->notificationManager->addNotification('email', '{"a": "b"}', array(1));
-            $this->fail("Expected exception not thrown");
+            $this->fail('Expected exception not thrown');
         } catch (NotificationParametersException $e) {
             $this->assertEquals(
                 "Notification parameters error : The parameters 'idci_notification.files_directory' is not configured",

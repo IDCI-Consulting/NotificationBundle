@@ -40,8 +40,7 @@ class NotificationManager extends AbstractManager
         ObjectManager $objectManager,
         EventDispatcherInterface $eventDispatcher,
         $filesDirectory
-    )
-    {
+    ) {
         parent::__construct($objectManager, $eventDispatcher);
         $this->notifiers = array();
         $this->filesDirectory = $filesDirectory;
@@ -164,11 +163,11 @@ class NotificationManager extends AbstractManager
     /**
      * Add Notification.
      *
-     * @param string      $alias      Notifier alias.
-     * @param string      $data       Notification data in json format.
-     * @param array       $files      Notification files.
-     * @param string|null $sourceName Notification source name.
-     * @param integer     $priority   The notification priority.
+     * @param string      $alias      notifier alias
+     * @param string      $data       notification data in json format
+     * @param array       $files      notification files
+     * @param string|null $sourceName notification source name
+     * @param int         $priority   the notification priority
      */
     public function addNotification(
         $alias,
@@ -206,7 +205,7 @@ class NotificationManager extends AbstractManager
     }
 
     /**
-     * Move files
+     * Move files.
      *
      * @param string $alias
      * @param array  $files
@@ -225,12 +224,11 @@ class NotificationManager extends AbstractManager
                 'path' => $directory.DIRECTORY_SEPARATOR.$filename,
                 'name' => $uploadedFile->getClientOriginalName(),
                 'mimeType' => $uploadedFile->getMimeType(),
-                'extension' => $uploadedFile->guessExtension()
+                'extension' => $uploadedFile->guessExtension(),
             );
             $uploadedFile->move($directory, $filename);
             unset($uploadedFile);
         }
-
 
         return $info;
     }

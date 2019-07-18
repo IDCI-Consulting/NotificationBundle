@@ -527,7 +527,6 @@ class Notification
         return $this->source;
     }
 
-
     /**
      * Set files.
      *
