@@ -24,7 +24,7 @@ class NotificationType extends AbstractType
                 'choices' => Notification::getStatusList(),
             ))
             ->add('priority', 'choice', array(
-                'choices' => Notification::getPriorityList()
+                'choices' => Notification::getPriorityList(),
             ))
             ->add('type', 'notifier_choice')
             ->add('notifierAlias')

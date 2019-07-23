@@ -4,5 +4,5 @@ da_api_client:
             endpoint_root: 'https://api.twitter.com/1.1'
             cache_enabled: false
         ocito:
-            endpoint_root: 'http://push.ocito.com'
+            endpoint_root: 'http://push.ocito.com/connecteur/mt'
             cache_enabled: false
