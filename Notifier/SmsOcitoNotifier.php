@@ -162,10 +162,10 @@ class SmsOcitoNotifier extends AbstractNotifier
             'password' => array('text',    array('required' => false, 'max_length' => 30)),
             'senderType' => array('choice', array(
                 'choices' => array(
-                    'SendMTRequest.jsp' => 'Send mt request',
-                    'SendUtf8MTRequest.jsp' => 'Send utf8 mt request',
-                    'SendWapMTRequest.jsp' => 'Send wap mt request',
-                    'SendMailMTRequest.jsp' => 'Send mail mt request',
+                    '/SendMTRequest.jsp' => 'Send mt request',
+                    '/SendUtf8MTRequest.jsp' => 'Send utf8 mt request',
+                    '/SendWapMTRequest.jsp' => 'Send wap mt request',
+                    '/SendMailMTRequest.jsp' => 'Send mail mt request',
                 ),
             )),
             'senderAppId' => array('text',    array('required' => false, 'max_length' => 10)),
