@@ -33,7 +33,8 @@ class NotifierConfigurationType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();
             $notifier = $event->getForm()->getConfig()->getOptions()['notifier'];
-            if ($notifier->getFromFields()) {
+
+            if (null !== $notifier && $notifier->getFromFields()) {
                 dump($notifier->getFromFields());
                 $form->add('configuration', MetadataType::class, array(
                     'fields' => $notifier->getFromFields(),
@@ -51,7 +52,7 @@ class NotifierConfigurationType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'IDCI\Bundle\NotificationBundle\Entity\NotifierConfiguration',
-            'notifier' => '',
+            'notifier' => null,
         ));
     }
 
