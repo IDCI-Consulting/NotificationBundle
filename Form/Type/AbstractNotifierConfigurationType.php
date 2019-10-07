@@ -9,9 +9,11 @@ namespace IDCI\Bundle\NotificationBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use IDCI\Bundle\NotificationBundle\Notifier\NotifierInterface;
-use IDCI\Bundle\NotificationBundle\Form\NotifierConfigurationType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use IDCI\Bundle\SimpleMetadataBundle\Form\Type\MetadataType;
+use Symfony\Component\Form\AbstractType;
 
-class AbstractNotifierConfigurationType extends NotifierConfigurationType
+class AbstractNotifierConfigurationType extends AbstractType
 {
     private $name;
     private $notifier;
@@ -33,13 +35,12 @@ class AbstractNotifierConfigurationType extends NotifierConfigurationType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
         $builder
-            ->add('type', 'hidden')
+            ->add('type', HiddenType::class)
         ;
 
         if ($this->notifier->getFromFields()) {
-            $builder->add('configuration', 'metadata', array(
+            $builder->add('configuration', MetadataType::class, array(
                 'fields' => $this->notifier->getFromFields(),
             ));
         }
@@ -49,6 +50,14 @@ class AbstractNotifierConfigurationType extends NotifierConfigurationType
      * {@inheritdoc}
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return sprintf('notifier_configuration_%s', $this->name);
     }

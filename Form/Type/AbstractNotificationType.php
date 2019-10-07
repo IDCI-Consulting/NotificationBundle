@@ -10,6 +10,8 @@ namespace IDCI\Bundle\NotificationBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use IDCI\Bundle\NotificationBundle\Notifier\NotifierInterface;
 use IDCI\Bundle\NotificationBundle\Form\NotificationType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use IDCI\Bundle\SimpleMetadataBundle\Form\Type\MetadataType;
 
 class AbstractNotificationType extends NotificationType
 {
@@ -35,14 +37,14 @@ class AbstractNotificationType extends NotificationType
     {
         parent::buildForm($builder, $options);
         $builder
-            ->add('type', 'hidden')
+            ->add('type', HiddenType::class)
             ->remove('log')
         ;
 
         if (!$this->notifier->getFromFields()) {
             $builder->remove('from');
         } else {
-            $builder->add('from', 'metadata', array(
+            $builder->add('from', MetadataType::class, array(
                 'fields' => $this->notifier->getFromFields(),
             ));
         }
@@ -50,7 +52,7 @@ class AbstractNotificationType extends NotificationType
         if (!$this->notifier->getToFields()) {
             $builder->remove('to');
         } else {
-            $builder->add('to', 'metadata', array(
+            $builder->add('to', MetadataType::class, array(
                 'fields' => $this->notifier->getToFields(),
             ));
         }
@@ -58,7 +60,7 @@ class AbstractNotificationType extends NotificationType
         if (!$this->notifier->getContentFields()) {
             $builder->remove('content');
         } else {
-            $builder->add('content', 'metadata', array(
+            $builder->add('content', MetadataType::class, array(
                 'fields' => $this->notifier->getContentFields(),
             ));
         }
@@ -68,6 +70,14 @@ class AbstractNotificationType extends NotificationType
      * {@inheritdoc}
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return sprintf('notification_%s', $this->name);
     }

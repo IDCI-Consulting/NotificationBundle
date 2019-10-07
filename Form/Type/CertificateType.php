@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type as Types;
 
 class CertificateType extends AbstractType
 {
@@ -42,8 +43,8 @@ class CertificateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('path', 'text', array('required' => false))
-            ->add('file', 'file', array('required' => false))
+            ->add('path', Types\TextType::class, array('required' => false))
+            ->add('file', Types\FileType::class, array('required' => false))
         ;
 
         $builder->addEventListener(FormEvents::PRE_BIND, array($this, 'onPreBindData'));
@@ -83,11 +84,15 @@ class CertificateType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'certificate';
     }
