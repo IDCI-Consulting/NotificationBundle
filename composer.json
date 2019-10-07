@@ -24,7 +24,7 @@
         "twig/twig":                    "~1.0",
         "jms/serializer-bundle":        "~1.0",
         "friendsofsymfony/rest-bundle": "~1.7",
-        "idci/simple-metadata-bundle":  "~1.2"
+        "idci/simple-metadata-bundle":  "dev-master"
     },
     "require-dev": {
       "phpunit/phpunit": "~5.7",
