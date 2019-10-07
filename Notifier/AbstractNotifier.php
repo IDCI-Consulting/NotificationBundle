@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\ConfigurationParseErrorException;
 use IDCI\Bundle\NotificationBundle\Exception\UndefinedNotifierConfigurationException;
+use Symfony\Component\Form\Extension\Core\Type as Types;
 
 abstract class AbstractNotifier implements NotifierInterface
 {
@@ -35,7 +36,7 @@ abstract class AbstractNotifier implements NotifierInterface
      */
     public function getToFields()
     {
-        return array('to' => array('textarea', array('required' => false)));
+        return array('to' => array(Types\TextareaType::class, array('required' => false)));
     }
 
     /**
@@ -43,7 +44,7 @@ abstract class AbstractNotifier implements NotifierInterface
      */
     public function getContentFields()
     {
-        return array('message' => array('textarea', array('required' => false)));
+        return array('message' => array(Types\TextareaType::class, array('required' => false)));
     }
 
     /**
@@ -51,7 +52,7 @@ abstract class AbstractNotifier implements NotifierInterface
      */
     public function getFromFields()
     {
-        return array('from' => array('text', array('required' => false)));
+        return array('from' => array(Types\TextType::class, array('required' => false)));
     }
 
     /**

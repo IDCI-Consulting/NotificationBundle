@@ -12,6 +12,7 @@ use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use Doctrine\ORM\EntityManager;
 use Da\ApiClientBundle\Http\Rest\RestApiClientInterface;
 use IDCI\Bundle\NotificationBundle\Exception\SmsOcitoNotifierException;
+use Symfony\Component\Form\Extension\Core\Type as Types;
 
 class SmsOcitoNotifier extends AbstractNotifier
 {
@@ -138,7 +139,7 @@ class SmsOcitoNotifier extends AbstractNotifier
     public function getToFields()
     {
         return array(
-            'phoneNumber' => array('text', array('required' => true, 'max_length' => 30)),
+            'phoneNumber' => array(Types\TextType::class, array('required' => true, 'max_length' => 30)),
         );
     }
 
@@ -148,7 +149,7 @@ class SmsOcitoNotifier extends AbstractNotifier
     public function getContentFields()
     {
         return array(
-            'message' => array('text', array('required' => true, 'max_length' => 70)),
+            'message' => array(Types\TextType::class, array('required' => true, 'max_length' => 70)),
         );
     }
 
@@ -158,9 +159,9 @@ class SmsOcitoNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'userName' => array('text',    array('required' => false, 'max_length' => 30)),
-            'password' => array('text',    array('required' => false, 'max_length' => 30)),
-            'senderType' => array('choice', array(
+            'userName' => array(Types\TextType::class,    array('required' => false, 'max_length' => 30)),
+            'password' => array(Types\TextType::class,    array('required' => false, 'max_length' => 30)),
+            'senderType' => array(Types\ChoiceType::class, array(
                 'choices' => array(
                     '/SendMTRequest.jsp' => 'Send mt request',
                     '/SendUtf8MTRequest.jsp' => 'Send utf8 mt request',
@@ -168,22 +169,22 @@ class SmsOcitoNotifier extends AbstractNotifier
                     '/SendMailMTRequest.jsp' => 'Send mail mt request',
                 ),
             )),
-            'senderAppId' => array('text',    array('required' => false, 'max_length' => 10)),
-            'senderId' => array('text',    array('required' => false, 'max_length' => 11)),
-            'flag' => array('integer', array(
+            'senderAppId' => array(Types\TextType::class,    array('required' => false, 'max_length' => 10)),
+            'senderId' => array(Types\TextType::class,    array('required' => false, 'max_length' => 11)),
+            'flag' => array(Types\IntegerType::class, array(
                 'required' => false,
                 'max_length' => 10,
                 'data' => 3,
             )),
-            'priority' => array('choice', array(
+            'priority' => array(Types\ChoiceType::class, array(
                 'required' => false,
                 'choices' => array(
                     'H' => 'high',
                     'L' => 'low',
                 ),
             )),
-            'timeToLiveDuration' => array('integer', array('required' => false)),
-            'timeToSendDuration' => array('integer', array('required' => false)),
+            'timeToLiveDuration' => array(Types\IntegerType::class, array('required' => false)),
+            'timeToSendDuration' => array(Types\IntegerType::class, array('required' => false)),
         );
     }
 }

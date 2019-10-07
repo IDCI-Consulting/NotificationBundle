@@ -47,7 +47,7 @@ class CertificateType extends AbstractType
             ->add('file', Types\FileType::class, array('required' => false))
         ;
 
-        $builder->addEventListener(FormEvents::PRE_BIND, array($this, 'onPreBindData'));
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreBindData'));
     }
 
     /**

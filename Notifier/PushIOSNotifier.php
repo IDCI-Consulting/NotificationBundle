@@ -10,6 +10,8 @@ namespace IDCI\Bundle\NotificationBundle\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\PushIOSNotifierException;
+use Symfony\Component\Form\Extension\Core\Type as Types;
+use IDCI\Bundle\NotificationBundle\Form\Type\CertificateType;
 
 class PushIOSNotifier extends AbstractNotifier
 {
@@ -125,7 +127,7 @@ class PushIOSNotifier extends AbstractNotifier
     public function getToFields()
     {
         return array(
-            'deviceToken' => array('text', array('required' => true)),
+            'deviceToken' => array(Types\TextType::class, array('required' => true)),
         );
     }
 
@@ -136,7 +138,7 @@ class PushIOSNotifier extends AbstractNotifier
     {
         //256 characters max (38 characters used for others fields)
         return array(
-            'message' => array('text', array('required' => true, 'max_length' => 218)),
+            'message' => array(Types\TextType::class, array('required' => true, 'max_length' => 218)),
         );
     }
 
@@ -146,9 +148,9 @@ class PushIOSNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'certificate' => array('certificate', array('required' => false)),
-            'passphrase' => array('text',        array('required' => false)),
-            'useSandbox' => array('checkbox',    array('required' => false)),
+            'certificate' => array(CertificateType::class, array('required' => false)),
+            'passphrase' => array(Types\TextType::class, array('required' => false)),
+            'useSandbox' => array(Types\CheckboxType::class, array('required' => false)),
         );
     }
 }

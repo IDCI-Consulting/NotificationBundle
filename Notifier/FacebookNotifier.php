@@ -10,6 +10,7 @@
 namespace IDCI\Bundle\NotificationBundle\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
+use Symfony\Component\Form\Extension\Core\Type as Types;
 
 class FacebookNotifier extends AbstractNotifier
 {
@@ -27,8 +28,8 @@ class FacebookNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'login' => array('text', array('required' => true)),
-            'password' => array('text', array('required' => true)),
+            'login' => array(Types\TextType::class, array('required' => true)),
+            'password' => array(Types\PasswordType::class, array('required' => true)),
         );
     }
 }

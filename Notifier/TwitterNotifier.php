@@ -12,6 +12,7 @@ namespace IDCI\Bundle\NotificationBundle\Notifier;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use Doctrine\ORM\EntityManager;
 use Da\ApiClientBundle\Http\Rest\RestApiClientInterface;
+use Symfony\Component\Form\Extension\Core\Type as Types;
 
 class TwitterNotifier extends AbstractNotifier
 {
@@ -177,7 +178,7 @@ class TwitterNotifier extends AbstractNotifier
     public function getContentFields()
     {
         return array(
-            'status' => array('textarea', array('required' => true)),
+            'status' => array(Types\TextareaType::class, array('required' => true)),
         );
     }
 
@@ -187,10 +188,10 @@ class TwitterNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'consumerKey' => array('text', array('required' => false)),
-            'consumerSecret' => array('text', array('required' => false)),
-            'oauthAccessToken' => array('text', array('required' => false)),
-            'oauthAccessTokenSecret' => array('text', array('required' => false)),
+            'consumerKey' => array(Types\TextType::class, array('required' => false)),
+            'consumerSecret' => array(Types\TextType::class, array('required' => false)),
+            'oauthAccessToken' => array(Types\TextType::class, array('required' => false)),
+            'oauthAccessTokenSecret' => array(Types\TextType::class, array('required' => false)),
         );
     }
 }
