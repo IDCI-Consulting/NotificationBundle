@@ -17,6 +17,7 @@ use IDCI\Bundle\SimpleMetadataBundle\Form\Type\RelatedToManyMetadataType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use IDCI\Bundle\SimpleMetadataBundle\Form\Type\MetadataType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class NotifierConfigurationType extends AbstractType
 {
@@ -27,7 +28,6 @@ class NotifierConfigurationType extends AbstractType
     {
         $builder
             ->add('alias', Types\TextType::class)
-            ->add('type', NotifierChoiceType::class)
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -35,14 +35,15 @@ class NotifierConfigurationType extends AbstractType
             $notifier = $event->getForm()->getConfig()->getOptions()['notifier'];
 
             if (null !== $notifier && $notifier->getFromFields()) {
-                dump($notifier->getFromFields());
-                $form->add('configuration', MetadataType::class, array(
-                    'fields' => $notifier->getFromFields(),
-                ));
+                $form
+                    ->add('type', HiddenType::class)
+                    ->add('configuration', MetadataType::class, array(
+                        'fields' => $notifier->getFromFields(),
+                    ))
+                    ->add('tags', RelatedToManyMetadataType::class)
+                ;
             }
         });
-
-        $builder->add('tags', RelatedToManyMetadataType::class);
     }
 
     /**
