@@ -10,7 +10,10 @@ namespace IDCI\Bundle\NotificationBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use IDCI\Bundle\NotificationBundle\Form\Type\NotifierChoiceType;
 
 class NotificationType extends AbstractType
 {
@@ -20,13 +23,13 @@ class NotificationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('status', 'choice', array(
+            ->add('status', ChoiceType::class, array(
                 'choices' => Notification::getStatusList(),
             ))
-            ->add('priority', 'choice', array(
+            ->add('priority', ChoiceType::class, array(
                 'choices' => Notification::getPriorityList(),
             ))
-            ->add('type', 'notifier_choice')
+            ->add('type', NotifierChoiceType::class)
             ->add('notifierAlias')
             ->add('from')
             ->add('to')
@@ -39,7 +42,7 @@ class NotificationType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
             ->setDefaults(array(
@@ -51,7 +54,23 @@ class NotificationType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $this->configureOptions($resolver);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'idci_bundle_notificationbundle_notificationtype';
     }
