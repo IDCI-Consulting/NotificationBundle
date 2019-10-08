@@ -12,7 +12,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type as Types;
-use IDCI\Bundle\NotificationBundle\Form\Type\NotifierChoiceType;
 use IDCI\Bundle\SimpleMetadataBundle\Form\Type\RelatedToManyMetadataType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;

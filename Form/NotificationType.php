@@ -13,7 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use Symfony\Component\Form\Extension\Core\Type as Types;
-use IDCI\Bundle\NotificationBundle\Form\Type\NotifierChoiceType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use IDCI\Bundle\SimpleMetadataBundle\Form\Type\MetadataType;
@@ -83,7 +82,7 @@ class NotificationType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'IDCI\Bundle\NotificationBundle\Entity\Notification',
-            'notifier' => null
+            'notifier' => null,
         ));
     }
 
