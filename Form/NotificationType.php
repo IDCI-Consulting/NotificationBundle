@@ -12,8 +12,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type as Types;
 use IDCI\Bundle\NotificationBundle\Form\Type\NotifierChoiceType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use IDCI\Bundle\SimpleMetadataBundle\Form\Type\MetadataType;
 
 class NotificationType extends AbstractType
 {
@@ -23,20 +26,54 @@ class NotificationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('status', ChoiceType::class, array(
+            ->add('status', Types\ChoiceType::class, array(
                 'choices' => Notification::getStatusList(),
             ))
-            ->add('priority', ChoiceType::class, array(
+            ->add('priority', Types\ChoiceType::class, array(
                 'choices' => Notification::getPriorityList(),
             ))
-            ->add('type', NotifierChoiceType::class)
             ->add('notifierAlias')
             ->add('from')
             ->add('to')
-            ->add('content', 'textarea')
+            ->add('content', Types\TextareaType::class)
             ->add('source')
             ->add('log')
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $form = $event->getForm();
+            $notifier = $event->getForm()->getConfig()->getOptions()['notifier'];
+
+            if (null !== $notifier) {
+                $form
+                    ->add('type', Types\HiddenType::class)
+                    ->remove('log');
+
+                if ($notifier->getFromFields()) {
+                    $form->add('from', MetadataType::class, array(
+                        'fields' => $notifier->getFromFields(),
+                    ));
+                } else {
+                    $form->remove('from');
+                }
+
+                if ($notifier->getToFields()) {
+                    $form->add('to', MetadataType::class, array(
+                        'fields' => $notifier->getToFields(),
+                    ));
+                } else {
+                    $form->remove('to');
+                }
+
+                if ($notifier->getContentFields()) {
+                    $form->add('content', MetadataType::class, array(
+                        'fields' => $notifier->getContentFields(),
+                    ));
+                } else {
+                    $form->remove('content');
+                }
+            }
+        });
     }
 
     /**
@@ -44,11 +81,10 @@ class NotificationType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefaults(array(
-                'data_class' => 'IDCI\Bundle\NotificationBundle\Entity\Notification',
-            ))
-        ;
+        $resolver->setDefaults(array(
+            'data_class' => 'IDCI\Bundle\NotificationBundle\Entity\Notification',
+            'notifier' => null
+        ));
     }
 
     /**
