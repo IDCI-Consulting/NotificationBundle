@@ -8,10 +8,10 @@
 
 namespace IDCI\Bundle\NotificationBundle\DependencyInjection\Compiler;
 
+use IDCI\Bundle\NotificationBundle\Exception\UndefindedDefinitionException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
-use IDCI\Bundle\NotificationBundle\Exception\UndefindedDefinitionException;
 
 class NotifierCompilerPass implements CompilerPassInterface
 {

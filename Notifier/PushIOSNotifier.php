@@ -10,8 +10,8 @@ namespace IDCI\Bundle\NotificationBundle\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\PushIOSNotifierException;
-use Symfony\Component\Form\Extension\Core\Type as Types;
 use IDCI\Bundle\NotificationBundle\Form\Type\CertificateType;
+use Symfony\Component\Form\Extension\Core\Type as Types;
 
 class PushIOSNotifier extends AbstractNotifier
 {

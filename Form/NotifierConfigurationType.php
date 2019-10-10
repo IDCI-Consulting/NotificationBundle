@@ -7,16 +7,15 @@
 
 namespace IDCI\Bundle\NotificationBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type as Types;
+use IDCI\Bundle\SimpleMetadataBundle\Form\Type\MetadataType;
 use IDCI\Bundle\SimpleMetadataBundle\Form\Type\RelatedToManyMetadataType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type as Types;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use IDCI\Bundle\SimpleMetadataBundle\Form\Type\MetadataType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class NotifierConfigurationType extends AbstractType
 {
@@ -35,7 +34,7 @@ class NotifierConfigurationType extends AbstractType
 
             if (null !== $notifier && $notifier->getFromFields()) {
                 $form
-                    ->add('type', HiddenType::class)
+                    ->add('type', Types\HiddenType::class)
                     ->add('configuration', MetadataType::class, array(
                         'fields' => $notifier->getFromFields(),
                     ))

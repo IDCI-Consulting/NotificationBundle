@@ -7,11 +7,11 @@
 
 namespace IDCI\Bundle\NotificationBundle\Form;
 
+use IDCI\Bundle\NotificationBundle\Form\Type\NotifierChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use IDCI\Bundle\NotificationBundle\Form\Type\NotifierChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class NotifierTypeSelectionType extends AbstractType
 {

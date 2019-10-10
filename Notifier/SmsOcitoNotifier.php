@@ -159,8 +159,8 @@ class SmsOcitoNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'userName' => array(Types\TextType::class,    array('required' => false, 'max_length' => 30)),
-            'password' => array(Types\TextType::class,    array('required' => false, 'max_length' => 30)),
+            'userName' => array(Types\TextType::class, array('required' => false, 'max_length' => 30)),
+            'password' => array(Types\TextType::class, array('required' => false, 'max_length' => 30)),
             'senderType' => array(Types\ChoiceType::class, array(
                 'choices' => array(
                     '/SendMTRequest.jsp' => 'Send mt request',
@@ -169,8 +169,8 @@ class SmsOcitoNotifier extends AbstractNotifier
                     '/SendMailMTRequest.jsp' => 'Send mail mt request',
                 ),
             )),
-            'senderAppId' => array(Types\TextType::class,    array('required' => false, 'max_length' => 10)),
-            'senderId' => array(Types\TextType::class,    array('required' => false, 'max_length' => 11)),
+            'senderAppId' => array(Types\TextType::class, array('required' => false, 'max_length' => 10)),
+            'senderId' => array(Types\TextType::class, array('required' => false, 'max_length' => 11)),
             'flag' => array(Types\IntegerType::class, array(
                 'required' => false,
                 'max_length' => 10,
