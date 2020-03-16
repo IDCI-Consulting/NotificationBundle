@@ -139,7 +139,10 @@ class SmsOcitoNotifier extends AbstractNotifier
     public function getToFields()
     {
         return array(
-            'phoneNumber' => array(Types\TextType::class, array('required' => true, 'max_length' => 30)),
+            'phoneNumber' => array(Types\TextType::class, array(
+                'required' => true,
+                'attr' => array('maxlength' => 30)
+            )),
         );
     }
 
@@ -149,7 +152,7 @@ class SmsOcitoNotifier extends AbstractNotifier
     public function getContentFields()
     {
         return array(
-            'message' => array(Types\TextType::class, array('required' => true, 'max_length' => 70)),
+            'message' => array(Types\TextType::class, array('required' => true, 'attr' => array('maxlength' => 70))),
         );
     }
 
@@ -159,8 +162,8 @@ class SmsOcitoNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'userName' => array(Types\TextType::class, array('required' => false, 'max_length' => 30)),
-            'password' => array(Types\TextType::class, array('required' => false, 'max_length' => 30)),
+            'userName' => array(Types\TextType::class, array('required' => false, 'attr' => array('maxlength' => 30))),
+            'password' => array(Types\TextType::class, array('required' => false, 'attr' => array('maxlength' => 30))),
             'senderType' => array(Types\ChoiceType::class, array(
                 'choices' => array(
                     '/SendMTRequest.jsp' => 'Send mt request',
@@ -169,11 +172,11 @@ class SmsOcitoNotifier extends AbstractNotifier
                     '/SendMailMTRequest.jsp' => 'Send mail mt request',
                 ),
             )),
-            'senderAppId' => array(Types\TextType::class, array('required' => false, 'max_length' => 10)),
-            'senderId' => array(Types\TextType::class, array('required' => false, 'max_length' => 11)),
+            'senderAppId' => array(Types\TextType::class, array('required' => false, 'attr' => array('maxlength' => 10))),
+            'senderId' => array(Types\TextType::class, array('required' => false, 'attr' => array('maxlength' => 11))),
             'flag' => array(Types\IntegerType::class, array(
                 'required' => false,
-                'max_length' => 10,
+                'attr' => array('maxlength' => 10),
                 'data' => 3,
             )),
             'priority' => array(Types\ChoiceType::class, array(

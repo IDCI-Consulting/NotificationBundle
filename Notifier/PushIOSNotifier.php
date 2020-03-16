@@ -138,7 +138,7 @@ class PushIOSNotifier extends AbstractNotifier
     {
         //256 characters max (38 characters used for others fields)
         return array(
-            'message' => array(Types\TextType::class, array('required' => true, 'max_length' => 218)),
+            'message' => array(Types\TextType::class, array('required' => true, 'attr' => array('maxlength' => 218))),
         );
     }
 
