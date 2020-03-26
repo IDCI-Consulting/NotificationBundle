@@ -24,14 +24,14 @@ class NotificationController extends FOSRestController
      *
      * Create a notification
      */
-    public function postNotificationsAction()
+    public function postNotificationsAction(Request $request)
     {
-        $rawData = $this->get('request')->request->all();
+        $rawData = $request->request->all();
 
         // The default source name value is based on the request client IP
         $sourceName = trim(sprintf('[%s] %s',
-            $this->get('request')->getClientIp(),
-            $this->get('request')->request->get('sourceName', '')
+            $request->getClientIp(),
+            $request->request->get('sourceName', '')
         ));
 
         if (!isset($rawData['type'])) {
@@ -53,7 +53,7 @@ class NotificationController extends FOSRestController
             ));
         }
         $notificationData = $rawData['data'];
-        $notificationFiles = $this->get('request')->files->all();
+        $notificationFiles = $request->files->all();
 
         $priority = Notification::PRIORITY_NORMAL;
         if (isset($rawData['priority'])) {
