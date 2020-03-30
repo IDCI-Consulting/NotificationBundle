@@ -8,11 +8,10 @@
 
 namespace IDCI\Bundle\NotificationBundle\DependencyInjection\Compiler;
 
+use IDCI\Bundle\NotificationBundle\Exception\UndefindedDefinitionException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
-use IDCI\Bundle\NotificationBundle\Exception\UndefindedDefinitionException;
 
 class NotifierCompilerPass implements CompilerPassInterface
 {
@@ -58,18 +57,10 @@ class NotifierCompilerPass implements CompilerPassInterface
                 // Define Notification form
                 $notificationFormAlias = sprintf('notification_%s', $alias);
                 $notificationFormServiceId = sprintf('idci_notification.form.type.%s', $notificationFormAlias);
-                $notificationFormDefinition = new DefinitionDecorator('idci_notification.form.type.abstract_notification');
-                $notificationFormDefinition->replaceArgument(0, $alias);
-                $notificationFormDefinition->replaceArgument(1, $notifierReference);
-                $container->setDefinition($notificationFormServiceId, $notificationFormDefinition);
 
                 // Define NotifierConfiguration form
                 $notifierConfigurationFormAlias = sprintf('notifier_configuration_%s', $alias);
                 $notifierConfigurationFormServiceId = sprintf('idci_notification.form.type.%s', $notifierConfigurationFormAlias);
-                $notifierConfigurationFormDefinition = new DefinitionDecorator('idci_notification.form.type.abstract_notifier_configuration');
-                $notifierConfigurationFormDefinition->replaceArgument(0, $alias);
-                $notifierConfigurationFormDefinition->replaceArgument(1, $notifierReference);
-                $container->setDefinition($notifierConfigurationFormServiceId, $notifierConfigurationFormDefinition);
 
                 // Declare untagged 'form.type' directly to the form.extension
                 $types = (null === $formExtensionDefinition->getArgument(1)) ?

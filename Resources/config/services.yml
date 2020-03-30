@@ -37,17 +37,6 @@ services:
         tags:
             - { name: form.type, alias: certificate }
 
-    idci_notification.form.type.abstract_notification:
-        class: IDCI\Bundle\NotificationBundle\Form\Type\AbstractNotificationType
-        arguments: [null, null]
-        abstract:  true
-
-    idci_notification.form.type.abstract_notifier_configuration:
-        class: IDCI\Bundle\NotificationBundle\Form\Type\AbstractNotifierConfigurationType
-        arguments: [null, null]
-        abstract:  true
-
-
     ## Notifiers
 
     idci_notification.notifier.email:

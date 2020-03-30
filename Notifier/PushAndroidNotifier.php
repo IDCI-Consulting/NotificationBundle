@@ -10,6 +10,7 @@ namespace IDCI\Bundle\NotificationBundle\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\PushAndroidNotifierException;
+use Symfony\Component\Form\Extension\Core\Type as Types;
 
 class PushAndroidNotifier extends AbstractNotifier
 {
@@ -99,7 +100,7 @@ class PushAndroidNotifier extends AbstractNotifier
      */
     public function getToFields()
     {
-        return array('deviceToken' => array('text', array('required' => true)));
+        return array('deviceToken' => array(Types\TextType::class, array('required' => true)));
     }
 
     /**
@@ -107,7 +108,7 @@ class PushAndroidNotifier extends AbstractNotifier
      */
     public function getContentFields()
     {
-        return array('message' => array('textarea', array('required' => true)));
+        return array('message' => array(Types\TextareaType::class, array('required' => true)));
     }
 
     /**
@@ -115,6 +116,6 @@ class PushAndroidNotifier extends AbstractNotifier
      */
     public function getFromFields()
     {
-        return array('apiKey' => array('text', array('required' => false)));
+        return array('apiKey' => array(Types\TextType::class, array('required' => false)));
     }
 }

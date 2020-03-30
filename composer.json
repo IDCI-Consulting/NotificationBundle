@@ -21,7 +21,7 @@
         "symfony/swiftmailer-bundle":   "~2.4",
         "doctrine/orm":                 "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle":     "~1.2",
-        "twig/twig":                    "~1.0",
+        "twig/twig":                    "^1.0||^2.0",
         "jms/serializer-bundle":        "~1.0",
         "friendsofsymfony/rest-bundle": "~1.7",
         "idci/simple-metadata-bundle":  "~1.2"

@@ -12,6 +12,7 @@ namespace IDCI\Bundle\NotificationBundle\Notifier;
 
 use IDCI\Bundle\NotificationBundle\Entity\Notification;
 use IDCI\Bundle\NotificationBundle\Exception\ConfigurationParseErrorException;
+use Symfony\Component\Form\Extension\Core\Type as Types;
 
 class EmailNotifier extends AbstractNotifier
 {
@@ -21,9 +22,9 @@ class EmailNotifier extends AbstractNotifier
     public function getToFields()
     {
         return array(
-            'to' => array('email', array('required' => true, 'trim' => true)),
-            'cc' => array('email', array('required' => false, 'trim' => true)),
-            'bcc' => array('email', array('required' => false, 'trim' => true)),
+            'to' => array(Types\EmailType::class, array('required' => true, 'trim' => true)),
+            'cc' => array(Types\EmailType::class, array('required' => false, 'trim' => true)),
+            'bcc' => array(Types\EmailType::class, array('required' => false, 'trim' => true)),
         );
     }
 
@@ -33,9 +34,9 @@ class EmailNotifier extends AbstractNotifier
     public function getContentFields()
     {
         return array(
-            'subject' => array('text', array('required' => true)),
-            'message' => array('textarea', array('required' => false)),
-            'htmlMessage' => array('textarea', array('required' => false)),
+            'subject' => array(Types\TextType::class, array('required' => true)),
+            'message' => array(Types\TextareaType::class, array('required' => false)),
+            'htmlMessage' => array(Types\TextareaType::class, array('required' => false)),
         );
     }
 
@@ -45,7 +46,7 @@ class EmailNotifier extends AbstractNotifier
     public function getFromFields()
     {
         return array(
-            'transport' => array('choice', array(
+            'transport' => array(Types\ChoiceType::class, array(
                 'required' => false,
                 'choices' => array(
                     'smtp' => 'smtp',
@@ -53,22 +54,22 @@ class EmailNotifier extends AbstractNotifier
                     'mail' => 'mail',
                 ),
             )),
-            'from' => array('email', array('required' => false, 'trim' => true)),
-            'fromName' => array('text', array('required' => false)),
-            'replyTo' => array('text', array('required' => false)),
-            'server' => array('text', array('required' => false)),
-            'login' => array('text', array('required' => false)),
-            'password' => array('password', array('required' => false)),
-            'port' => array('integer', array('required' => false)),
-            'encryption' => array('choice', array(
+            'from' => array(Types\EmailType::class, array('required' => false, 'trim' => true)),
+            'fromName' => array(Types\TextType::class, array('required' => false)),
+            'replyTo' => array(Types\TextType::class, array('required' => false)),
+            'server' => array(Types\TextType::class, array('required' => false)),
+            'login' => array(Types\TextType::class, array('required' => false)),
+            'password' => array(Types\PasswordType::class, array('required' => false)),
+            'port' => array(Types\IntegerType::class, array('required' => false)),
+            'encryption' => array(Types\ChoiceType::class, array(
                 'required' => false,
                 'choices' => array(
                     'ssl' => 'ssl',
                     'tls' => 'tls',
                 ),
             )),
-            'tracking_enabled' => array('checkbox', array('required' => false)),
-            'mirror_link_enabled' => array('checkbox', array('required' => false)),
+            'tracking_enabled' => array(Types\CheckboxType::class, array('required' => false)),
+            'mirror_link_enabled' => array(Types\CheckboxType::class, array('required' => false)),
         );
     }
 
