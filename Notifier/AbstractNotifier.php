@@ -216,7 +216,7 @@ abstract class AbstractNotifier implements NotifierInterface
             if (isset($options[1]) && isset($options[1]['required']) && $options[1]['required']) {
                 $resolver->setRequired(array($name));
             } else {
-                $resolver->setOptional(array($name));
+                $resolver->setDefined(array($name));
             }
 
             $hasChoices = isset($options[1]) && isset($options[1]['choices']) && count($options[1]['choices']) > 0 ? true : false;
