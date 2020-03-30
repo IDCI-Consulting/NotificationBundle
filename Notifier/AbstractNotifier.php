@@ -221,8 +221,7 @@ abstract class AbstractNotifier implements NotifierInterface
 
             $hasChoices = isset($options[1]) && isset($options[1]['choices']) && count($options[1]['choices']) > 0 ? true : false;
             if ($hasChoices) {
-                $resolver->setAllowedValues($name, array_keys($options[1]['choices'])),
-                ));
+                $resolver->setAllowedValues($name, array_keys($options[1]['choices']));
             }
         }
     }
